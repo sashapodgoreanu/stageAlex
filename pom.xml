@@ -42,7 +42,7 @@
                 <version>2.6</version>
                 <executions>
                     <execution>
-                         <phase>install</phase> 
+                        <phase>install</phase> 
                         <goals> 
                             <goal>copy-dependencies</goal> 
                         </goals> 
@@ -78,6 +78,5 @@
             <artifactId>javaee-api</artifactId>
             <version>7.0</version>
         </dependency>
-
     </dependencies>
 </project>

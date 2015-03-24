@@ -13,30 +13,38 @@
 
         <!-- Bootstrap -->
         <link href="${pageContext.request.getContextPath()}/css/bootstrap.min.css" rel="stylesheet">
-                <link href="css/bootstrap.min.css" rel="stylesheet">
-                        <link href="/css/bootstrap.min.css" rel="stylesheet">
+        <script src="${pageContext.request.getContextPath()}/js/functions.js" type="text/javascript"></script>
+        <script src="${pageContext.request.getContextPath()}/js/jquery-2.1.3.min.js" type="text/javascript"></script>
+        <script>
+            $(document).ready(function () {
+                $('p').click(function () {
+                    $.whatever();
+                });
+            });
+        </script>
 
     </head>
 
-    <body>
-        <div class="row">
-            <div class="col-md-4">.col-md-4</div>
-            <div class="col-md-4">
-                <form class="form-inline">
-            <div class="form-group">
-                <label for="exampleInputName2">Name</label>
-                <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputEmail2">Email</label>
-                <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
-            </div>
-            <button type="submit" class="btn btn-default">Send invitation</button>
-        </form>
-            </div>
-            <div class="col-md-4">.col-md-4</div>
-        </div>
 
-        
-    </body>
+    <p>HELLLO </p>
+    <div class="row">
+        <div class="col-md-4">.col-md-4</div>
+        <div class="col-md-4">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="exampleInputName2">Name</label>
+                    <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail2">Email</label>
+                    <input type="email" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
+                </div>
+                <button type="submit" class="btn btn-default">Send invitation</button>
+            </form>
+        </div>
+        <div class="col-md-4">.col-md-4</div>
+    </div>
+
+
+</body>
 </html>

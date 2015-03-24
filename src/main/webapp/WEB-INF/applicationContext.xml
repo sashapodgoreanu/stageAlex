@@ -32,11 +32,11 @@
     <context:component-scan base-package="com.unito.controller"/>
     
     <!-- RESOURCES -->
-    <mvc:resources mapping="/css/**" location="WEB-INF/web-resources/bootstrap/css/"/>
+    <mvc:resources mapping="/css/**" location="WEB-INF/web-resources/css/"/>
     <!--mvc:resources mapping="/css/**" location="WEB-INF\web-resources\bootstrap\css"/-->
     <!--mvc:resources mapping="/immagini/**" location="WEB-INF/web-resources/immagini/"/-->
-    <mvc:resources mapping="/js/**" location="WEB-INF/web-resources/bootstrap/js/"/>
-    <mvc:resources mapping="/fonts/**" location="WEB-INF/web-resources/bootstrap/fonts/"/>
+    <mvc:resources mapping="/js/**" location="WEB-INF/web-resources/js/"/>
+    <mvc:resources mapping="/fonts/**" location="WEB-INF/web-resources/fonts/"/>
     
     <!--bean id="propertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
