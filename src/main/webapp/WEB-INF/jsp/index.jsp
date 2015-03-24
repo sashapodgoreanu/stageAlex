@@ -17,16 +17,15 @@
         <script src="${pageContext.request.getContextPath()}/js/jquery-2.1.3.min.js" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
-                tile();
                 fillSelect();
-                
             });
 
-            $('#uno').on('change', function (e) {
-                var optionSelected = $("option:selected", this);
-                var valueSelected = this.value;
-                $('p').append(optionSelected+ "appended");
-                // findSelected();
+            $(function () {
+                $('#uno').change(function () {
+                    var val = this.value;
+                    $('p').append(val);
+                    // findSelected();
+                });
             });
 
         </script>

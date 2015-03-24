@@ -11,7 +11,7 @@ tile = function () {
     
 };*/
 
-var items = [[1, 'Sony'], [2, 'Samsung'], [3, 'LG']];
+var items = [['Sony', 'Sony'], ['Samsung', 'Samsung'], ['LG', 'LG']];
 
 
 fillSelect = function () {
