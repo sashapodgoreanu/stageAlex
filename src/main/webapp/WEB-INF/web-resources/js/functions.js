@@ -18,7 +18,7 @@ fillSelect = function () {
 
 
     $.each(items, function (i, item) {
-        $('#uno').append($('<option>', {
+        $('.tag').append($('<option>', {
             value: item[0],
             text: item[1]
         }
@@ -26,26 +26,73 @@ fillSelect = function () {
     }
     );
 };
+/*
+ onChange = function () {
+ $('.tag').change(function () {
+ var val = this.value;
+ var sel = $('<select>').addClass('form-control tag');
+ var opt1 =$('<option>');
+ opt1.append(val);
+ opt1.attr("value",val);
+ 
+ var opt2 =$('<option>');
+ opt2.append(val);
+ opt2.attr("value",val);
+ sel.append(opt1);
+ sel.append(opt2);
+ 
+ //$$('#due').append($('<option>'));
+ //var ensel = $('</input>');
+ $('#field').append(sel);
+ //$('#select2').append($('<option>')).attr("value", value);
+ // findSelected();
+ });
+ };*/
+var count = 0;
 
 onChange = function () {
-    $('#uno').change(function () {
+    $('#field').on("change", ".tag", function () {
+        $(this).nextAll().remove();
         var val = this.value;
-        var sel = $('<select id = "due">');
-        var opt =$('<option>');
-        opt.append(val);
-        opt.attr("value",val);
-        sel.append(opt);
-        //$$('#due').append($('<option>'));
-        //var ensel = $('</input>');
+        var sel = $('<select>').addClass('form-control tag');
+        var opt1 = $('<option>');
+        opt1.append(val);
+        opt1.attr("value", val);
+
+        var opt2 = $('<option>');
+        opt2.append(val);
+        opt2.attr("value", val);
+        sel.append(opt1);
+        sel.append(opt2);
         $('#field').append(sel);
-        //$('#select2').append($('<option>')).attr("value", value);
-        // findSelected();
+        //$(this).after("<p>Another paragraph! </p>");
     });
 };
-
-findSelected = function () {
-
-};
+/*
+ $('.tag').change(function () {
+ var val = this.value;
+ var sel = $('<select>').addClass('form-control tag');
+ var opt1 = $('<option>');
+ opt1.append(val);
+ opt1.attr("value", val);
+ 
+ var opt2 = $('<option>');
+ opt2.append(val);
+ opt2.attr("value", val);
+ sel.append(opt1);
+ sel.append(opt2);
+ 
+ //$$('#due').append($('<option>'));
+ //var ensel = $('</input>');
+ $('#field').append(sel);
+ //$('#select2').append($('<option>')).attr("value", value);
+ // findSelected();
+ });
+ };
+ 
+ findSelected = function () {
+ 
+ };*/
 
 
 

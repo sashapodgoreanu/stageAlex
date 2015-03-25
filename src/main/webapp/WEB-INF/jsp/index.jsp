@@ -30,7 +30,7 @@
         <div class="col-md-4">.col-md-4</div>
         <div class="col-md-4">
             <fieldset id ="field">
-                <select id="uno" class="form-control" name="speed">
+                <select class="form-control tag">
                 </select>
             </fieldset>
         </div>
