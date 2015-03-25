@@ -21,11 +21,7 @@
             });
 
             $(function () {
-                $('#uno').change(function () {
-                    var val = this.value;
-                    $('p').append(val);
-                    // findSelected();
-                });
+                onChange();
             });
 
         </script>
@@ -37,7 +33,7 @@
     <div class="row">
         <div class="col-md-4">.col-md-4</div>
         <div class="col-md-4">
-            <fieldset>
+            <fieldset id ="field">
                 <select id="uno" class="form-control" name="speed">
                 </select>
             </fieldset>

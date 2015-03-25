@@ -6,14 +6,14 @@
 
 
 /*
-tile = function () {
-    $("body").append('See? It works.');
-    
-};*/
+ tile = function () {
+ $("body").append('See? It works.');
+ 
+ };*/
+
+
 
 var items = [['Sony', 'Sony'], ['Samsung', 'Samsung'], ['LG', 'LG']];
-
-
 fillSelect = function () {
 
 
@@ -25,6 +25,22 @@ fillSelect = function () {
         ));
     }
     );
+};
+
+onChange = function () {
+    $('#uno').change(function () {
+        var val = this.value;
+        var sel = $('<select id = "due">');
+        var opt =$('<option>');
+        opt.append(val);
+        opt.attr("value",val);
+        sel.append(opt);
+        //$$('#due').append($('<option>'));
+        //var ensel = $('</input>');
+        $('#field').append(sel);
+        //$('#select2').append($('<option>')).attr("value", value);
+        // findSelected();
+    });
 };
 
 findSelected = function () {
@@ -55,4 +71,22 @@ findSelected = function () {
  text: "my text"
  }
  ));
+ */
+
+/*
+ FUNZIONE OGGETTO 
+ 
+ dentro il oggetto funzione le varie funzioni o oggetti sono separati da ->  ,  <-  virgola
+ var functionObject = {
+ doOne: function() {
+ console.log("ONE");
+ }, 
+ doTwo: function() {
+ console.log("TWO");
+ }
+ }
+ functionObject.doOne();
+ functionObject.doTwo();
+ 
+ 
  */
