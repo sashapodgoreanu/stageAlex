@@ -18,16 +18,12 @@
         <script>
             $(document).ready(function () {
                 fillSelect();
-            });
-
-            $(function () {
                 $('#uno').change(function () {
                     var val = this.value;
                     $('p').append(val);
                     // findSelected();
                 });
             });
-
         </script>
 
     </head>
