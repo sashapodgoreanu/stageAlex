@@ -18,9 +18,6 @@
         <script>
             $(document).ready(function () {
                 fillSelect();
-            });
-
-            $(function () {
                 onChange();
             });
         </script>
