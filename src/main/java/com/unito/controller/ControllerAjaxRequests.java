@@ -6,34 +6,53 @@
 package com.unito.controller;
 
 import com.google.gson.Gson;
-import com.unito.model.Persona;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import com.unito.model.Tag;
+import com.unito.model.TagRepository;
+import javax.ejb.EJB;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
- * @author SashaAlexandru
+ * @author Alexandru Podgoreanu
  */
-@Controller
+// è un Controller + ResponseBody
+@RestController
 
+/*@ResponseBody
+ @Controller*/
 public class ControllerAjaxRequests {
 
-    @RequestMapping(value = "url/{name}", method = RequestMethod.GET)
-    public @ResponseBody
-    String getShopInJSON(@PathVariable String name) {
-        Persona persona = new Persona(18, "Sasha");
-
+    @EJB TagRepository tagRep;
+    
+    @RequestMapping(value = "tag", method = RequestMethod.POST)
+    public String getShopInJSON(@RequestBody String data) {
+        
         Gson gson = new Gson();
-
-        // convert java object to JSON format,  
-        // and returned as JSON formatted string  
-        String json = gson.toJson(persona);
-        System.out.println(json);
+        Tag myTag = gson.fromJson(data, Tag.class);
+        
+        String json = gson.toJson(tagRep.getChilds(myTag));
+        System.out.println(tagRep.getChilds(myTag).toString() +"   "+ json);
         return json;
-
     }
+            
+            
+            
+            
 
+    @RequestMapping(value = "tagPost", method = RequestMethod.POST, consumes = "application/json")
+    public
+            String postShopInJSON(@RequestBody /*@Valid Persona*/ String data, BindingResult bindingResult) {
+                /*if(bindingResult.hasErrors()){
+                 System.out.println("HAS ERRORS"+bindingResult.getAllErrors());
+                 }*/
+                Gson gson = new Gson();
+
+        //Persona aPerson = gson.fromJson(data, Persona.class);
+                System.out.println(data);
+                return "";//json;
+            }
 }

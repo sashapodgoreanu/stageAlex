@@ -13,19 +13,19 @@
 
 
 
-var items = [['Sony', 'Sony'], ['Samsung', 'Samsung'], ['LG', 'LG']];
-fillSelect = function () {
 
+function fillSelect(items) {
 
     $.each(items, function (i, item) {
         $('.tag').append($('<option>', {
-            value: item[0],
-            text: item[1]
+            value: item.id,
+            text: item.value
         }
         ));
     }
     );
-};
+}
+;
 /*
  onChange = function () {
  $('.tag').change(function () {
@@ -50,24 +50,61 @@ fillSelect = function () {
  };*/
 var count = 0;
 
-onChange = function () {
+function onChange(urlI) {
+
     $('#field').on("change", ".tag", function () {
         $(this).nextAll().remove();
-        var val = this.value;
         var sel = $('<select>').addClass('form-control tag');
-        var opt1 = $('<option>');
-        opt1.append(val);
-        opt1.attr("value", val);
 
-        var opt2 = $('<option>');
-        opt2.append(val);
-        opt2.attr("value", val);
-        sel.append(opt1);
-        sel.append(opt2);
+        var id = this.value;
+        var ajaxTag = {'id': id, 'value': ' '};
+        $.ajax({
+            url: urlI,
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(ajaxTag),
+            dataType: 'json'
+        }).done(function (data) {
+            $.each(data, function (i, item) {
+                var opt = $('<option>');
+                opt.append(item.value);
+                opt.attr("value", item.id);
+                sel.append(opt);
+            });
+        });
         $('#field').append(sel);
         //$(this).after("<p>Another paragraph! </p>");
     });
-};
+
+}
+;
+
+
+
+function initializeField(urlI) {
+    var ajaxTag = {'id': 0, 'value': ' '};
+    $.ajax({
+        url: urlI,
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(ajaxTag),
+        dataType: 'json'
+    }).done(function (data) {
+        $.each(data, function (i, item) {
+            $('.tag').append($('<option>', {
+                value: item.id,
+                text: item.value
+            }));
+        });
+    });
+
+    /*$.get(url, function (tag, status) {
+     fillSelect(tag);
+     });*/
+
+}
+
+
 /*
  $('.tag').change(function () {
  var val = this.value;

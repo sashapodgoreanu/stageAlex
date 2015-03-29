@@ -1,4 +1,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+<s:url value ="/tag" var="tag" scope="application"/>
+<s:url value ="/tagPost" var="tagPost" scope="application"/>
+<s:url value = "/helloWorld" var ="helloWorld" scope="application"/>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -17,12 +22,24 @@
         <script src="${pageContext.request.getContextPath()}/js/jquery-2.1.3.min.js" type="text/javascript"></script>
         <script>
             $(document).ready(function () {
-                fillSelect();
-                onChange();
+                initializeField("${tag}");
+                onChange("${tag}");
+                $('#button').click(function () {
+                    var ajaxTag = {'id': 15, 'value': 'dog'};
+                    $.ajax({
+                        url: "${tagPost}",
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(ajaxTag),
+                        dataType: 'json'
+                    });
+                });
             });
+
         </script>
 
     </head>
+
 
 
     <p>HELLLO </p>
@@ -36,7 +53,11 @@
         </div>
         <div class="col-md-4">.col-md-4</div>
     </div>
+    <button id = "button">Send an HTTP GET request to a page and get the result back</button>
 
+
+    <a href="${tag}/Register">Register</a>
+    <a href="${helloWorld}">Hello</a>
 
 </body>
 </html>
