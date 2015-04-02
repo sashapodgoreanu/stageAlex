@@ -20,22 +20,49 @@
         <link href="${pageContext.request.getContextPath()}/css/bootstrap.min.css" rel="stylesheet">
         <script src="${pageContext.request.getContextPath()}/js/functions.js" type="text/javascript"></script>
         <script src="${pageContext.request.getContextPath()}/js/jquery-2.1.3.min.js" type="text/javascript"></script>
+
+        <!-- jQuery UI Autocomplete - Remote datasource -->
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <link rel="stylesheet" href="/resources/demos/style.css">
+        <style>
+            .ui-autocomplete-loading {
+                background: white url("${pageContext.request.getContextPath()}/jquery-ui/images/ui-anim_basic_16x16.gif") right center no-repeat;
+            }
+        </style>
         <script>
-            $(document).ready(function () {
-                initializeField("${tag}");
-                onChange("${tag}");
-                $('#button').click(function () {
-                    var ajaxTag = {'id': 15, 'value': 'dog'};
-                    $.ajax({
-                        url: "${tagPost}",
-                        type: 'POST',
-                        contentType: 'application/json',
-                        data: JSON.stringify(ajaxTag),
-                        dataType: 'json'
-                    });
+            $(function () {
+                function log(message) {
+                    $("<div>").text(message).prependTo("#log");
+                    $("#log").scrollTop(0);
+                }
+
+                $(".tag").autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "${tag}",
+                            type: 'POST',
+                            contentType: 'application/json',
+                            data: JSON.stringify({'id':request.term, 'value':request.term}),
+                            dataType: 'json',
+                                    success: function (data) {
+                                        response(data);
+                                    }
+                        });
+                    },
+                    minLength: 1,
+                    select: function (event, ui) {
+                        alert("selected"+this.value+" "+ui.item.label);
+                    },
+                    open: function () {
+                        $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+                    },
+                    close: function () {
+                        $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+                    }
                 });
             });
-
         </script>
 
     </head>
@@ -46,10 +73,16 @@
     <div class="row">
         <div class="col-md-4">.col-md-4</div>
         <div class="col-md-4">
-            <fieldset id ="field">
-                <select class="form-control tag">
-                </select>
-            </fieldset>
+            <div>
+                <label for="city">Your city: </label>
+                <input id="city" class="tag">
+                Powered by <a href="http://geonames.org">geonames.org</a>
+            </div>
+
+            <div style="margin-top:2em; font-family:Arial">
+                Result:
+                <div id="log" style="height: 200px; width: 300px; overflow: auto;" class="ui-widget-content"></div>
+            </div>
         </div>
         <div class="col-md-4">.col-md-4</div>
     </div>
