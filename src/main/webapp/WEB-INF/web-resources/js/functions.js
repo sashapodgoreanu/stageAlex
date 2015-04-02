@@ -18,8 +18,8 @@ function fillSelect(items) {
 
     $.each(items, function (i, item) {
         $('.tag').append($('<option>', {
-            value: item.id,
-            text: item.value
+            value: "value",
+            text: item
         }
         ));
     }
