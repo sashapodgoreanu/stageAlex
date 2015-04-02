@@ -8,7 +8,7 @@ package com.unito.controller;
 import com.google.gson.Gson;
 import com.unito.model.Tag;
 import com.unito.model.TagRepository;
-import javax.ejb.EJB;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,21 +26,19 @@ import org.springframework.web.bind.annotation.RestController;
  @Controller*/
 public class ControllerAjaxRequests {
 
-    @EJB TagRepository tagRep;
+    @Autowired TagRepository tagRep;
     
     @RequestMapping(value = "tag", method = RequestMethod.POST)
     public String getShopInJSON(@RequestBody String data) {
         
         Gson gson = new Gson();
+        System.out.println(data);
         Tag myTag = gson.fromJson(data, Tag.class);
         
         String json = gson.toJson(tagRep.getChilds(myTag));
         System.out.println(tagRep.getChilds(myTag).toString() +"   "+ json);
         return json;
     }
-            
-            
-            
             
 
     @RequestMapping(value = "tagPost", method = RequestMethod.POST, consumes = "application/json")
@@ -49,6 +47,7 @@ public class ControllerAjaxRequests {
                 /*if(bindingResult.hasErrors()){
                  System.out.println("HAS ERRORS"+bindingResult.getAllErrors());
                  }*/
+                System.out.println(data);
                 Gson gson = new Gson();
 
         //Persona aPerson = gson.fromJson(data, Persona.class);
