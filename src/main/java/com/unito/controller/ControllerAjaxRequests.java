@@ -31,12 +31,13 @@ public class ControllerAjaxRequests {
     @RequestMapping(value = "tag", method = RequestMethod.POST)
     public String getShopInJSON(@RequestBody String data) {
         
+        System.out.println("Ho ricevuto "+ data);
         Gson gson = new Gson();
         System.out.println(data);
         Tag myTag = gson.fromJson(data, Tag.class);
         
-        String json = gson.toJson(tagRep.getChilds(myTag));
-        System.out.println(tagRep.getChilds(myTag).toString() +"   "+ json);
+        String json = gson.toJson(tagRep.getChilds(myTag.getValue()));
+        System.out.println("JSON:  "+ json);
         return json;
     }
             
