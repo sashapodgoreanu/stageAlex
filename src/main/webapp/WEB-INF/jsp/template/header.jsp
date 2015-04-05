@@ -6,6 +6,6 @@
 
 <header class="container-fluid" >
     <div class="page-header">
-        <h1 align="right">Semantic Table <small>T++</small></h1>
+        <h1 align="right">Collaborative Semantic Tables <small>T++</small></h1>
     </div>
 </header>

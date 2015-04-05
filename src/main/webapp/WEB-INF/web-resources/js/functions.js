@@ -5,47 +5,52 @@
  */
 function performTagging(requestUrl) {
     //
-    $('.tag-container').on("keydown.autocomplete",/*input class*/".input-tag", function (event, ui) {
+    $('.tag-container').on("keydown.autocomplete", /*input class*/".input-tag", function (event, ui) {
+        var divThtaContainsInput = $(this).parent().parent();
         $(this).autocomplete({
             //The delay in milliseconds between when a keystroke occurs and when a search is performed.
             delay: 500,
-            //minimum number of characters that the request to be sent to server
+            //minimum number of characters that the source to be launched
             minLength: 2,
-            //if input.lenght()  >=  minLength,  execute
+            //if input.lenght()  >=  minLength
             source: function (request, response) {
+                //remove all next divThtaContainsInput if there is one and update .cloneable class
+                if (!divThtaContainsInput.hasClass("cloneable")) {
+                    divThtaContainsInput.addClass('cloneable');
+                }
+                divThtaContainsInput.nextAll().remove();
+
                 //ajax call
                 $.ajax({
                     url: requestUrl,
                     type: 'POST',
                     contentType: 'application/json',
+                    dataType: 'json',
                     //data to be sent
                     data: JSON.stringify({'value': request.term}),
-                    dataType: 'json',
                     success: function (data) {
                         //fill autocomplete suggestions box
                         response(data);
                     }
                 });
             },
-            //if select an item from autocomplete suggestions box
+            //at select an item from autocomplete suggestions box
             select: function (event, ui) {
+                //add to this input (value = selected tag from autocomplete suggestions box)
+                $(this).attr('value', ui.item.label);
+
                 //Add a new input after selecting a value from autocomplete suggestions box
-                
-                //remove all next inputs if there is one and update .cloneable class
-                var div = $(this).parent().parent();
-                if (!div.hasClass( "cloneable" ) ){
-                    div.addClass('cloneable');
-                }
-                div.nextAll().remove();
                 var clonedHtml = $('.cloneable').clone();
-                div.removeClass('cloneable');
-                
+                divThtaContainsInput.removeClass('cloneable');
+
                 //change label value with selected value 
                 clonedHtml.find('.label-tag').empty();
                 clonedHtml.find('.label-tag').append(ui.item.label);
-                
+
+                //clear data from clone
                 clonedHtml.find('.input-tag').val('');
-                div.after(clonedHtml);
+                clonedHtml.find('.input-tag').attr('value', "");
+                divThtaContainsInput.after(clonedHtml);
             },
             //open autocomplete suggestion
             open: function () {

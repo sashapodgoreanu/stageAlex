@@ -3,7 +3,7 @@
     Created on : 5-apr-2015, 21.45.22
     Author     : Alexandru Podgoreanu 
 --%>
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default no-margin-bottom">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">WebSiteName</a>

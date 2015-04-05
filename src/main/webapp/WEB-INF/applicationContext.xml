@@ -33,8 +33,7 @@
     
     <!-- RESOURCES -->
     <mvc:resources mapping="/css/**" location="WEB-INF/web-resources/css/"/>
-    <!--mvc:resources mapping="/css/**" location="WEB-INF\web-resources\bootstrap\css"/-->
-    <!--mvc:resources mapping="/immagini/**" location="WEB-INF/web-resources/immagini/"/-->
+    <mvc:resources mapping="/images/**" location="WEB-INF/web-resources/images/"/>
     <mvc:resources mapping="/js/**" location="WEB-INF/web-resources/js/"/>
     <mvc:resources mapping="/fonts/**" location="WEB-INF/web-resources/fonts/"/>
     <mvc:resources mapping="/jquery-ui/**" location="WEB-INF/web-resources/jquery-ui/"/>
