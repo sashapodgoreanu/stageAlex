@@ -2,23 +2,26 @@
     Created on : 5-apr-2015, 22.11.10
     Author     : Alexandru Podgoreanu 
 */
+
+
+//to do
+
+#hidden {
+    z-index: 1000;
+    background-color: #CCC;
+    position: fixed;
+    top: 100px;
+    left: 100px;
+    width: 100%;
+    height: 100%;
+}
 main{
     min-height: 500px;
 }
 
-//TO DO
-.custom-menu {
-    display: none;
-    z-index: 1000;
+#contextMenu {
     position: absolute;
-    overflow: hidden;
-    border: 1px solid #CCC;
-    white-space: nowrap;
-    font-family: sans-serif;
-    background: #FFF;
-    color: #333;
-    border-radius: 5px;
-    padding: 0;
+    display:none;
 }
 
 .applybackground-grey{

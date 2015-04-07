@@ -3,6 +3,10 @@
  * @param {String} requestUrl - URL of Rest Controller
  * @returns Jquery
  */
+//Globals
+$.rightCliked = new Object();
+
+//Functions
 function performTagging(requestUrl) {
     //
     $('.tag-container').on("keydown.autocomplete", /*input class*/".input-tag", function (event, ui) {
@@ -61,5 +65,28 @@ function performTagging(requestUrl) {
                 $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
             }
         });
+    });
+}
+
+function enableMenu() {
+    
+    alert("succ");
+    var $contextMenu = $('#context-menu');
+    //if right cliked on a button show html element with id = "context-menu"
+    $("body").on("contextmenu", ".btn", function (e) {
+        $contextMenu.css({
+            display: "block",
+            left: e.pageX,
+            top: e.pageY
+        });
+        return false;
+    });
+
+    //disableRightClick('button');
+}
+
+function disableRightClick(elem) {
+    $(elem).bind('contextmenu', function (e) {
+        e.preventDefault();
     });
 }

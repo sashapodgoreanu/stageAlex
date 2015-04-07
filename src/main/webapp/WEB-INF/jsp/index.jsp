@@ -52,7 +52,8 @@
                             <span class="glyphicon glyphicon glyphicon-envelope" aria-hidden="true"></span> New Mail
                         </button>
                     </div>
-                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                    </div>
                 </div>
 
             </section>
@@ -67,6 +68,28 @@
                     <a href="#" class="list-group-item">Vestibulum at eros</a>
                 </div>
             </aside>
+            <!-- Single button -->
+            <button id="idButton" type="button" class="btn btn-default">
+                Action
+            </button>
+            <div id="contextMenu" class="dropdown clearfix">
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
+                    <li><a tabindex="-1" href="#">Action</a></li>
+                    <li><a tabindex="-1" href="#">Another action</a></li>
+                    <li><a tabindex="-1" href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li id="propertiesMenu"><a tabindex="-1" href="#">Properties</a></li>
+                </ul>
+            </div>
+            <div id="hidden">
+                <ul>
+                    <li>aaaaaaaa</li>
+                    <li>aaaaaaaaaaaaaa</li>
+                    <li>aaaaaaaaaaaaaaaaaaaa</li>
+                    <li class="divider"></li>
+                    <li>aaaaaaaaaaaaa</li>
+                </ul>
+            </div>
         </main>
         <c:import url="template/footer.jsp"/>
     </body>
