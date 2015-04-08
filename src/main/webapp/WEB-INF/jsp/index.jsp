@@ -72,7 +72,7 @@
             <button id="idButton" type="button" class="btn btn-default">
                 Action
             </button>
-            <div id="contextMenu" class="dropdown clearfix">
+            <div id="contextMenu" class="dropdown clearfix" style="z-index: 50;">
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
                     <li><a tabindex="-1" href="#">Action</a></li>
                     <li><a tabindex="-1" href="#">Another action</a></li>
@@ -81,14 +81,31 @@
                     <li id="propertiesMenu"><a tabindex="-1" href="#">Properties</a></li>
                 </ul>
             </div>
-            <div id="cpanel" class="dropdown clearfix">
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
-                    <li><a tabindex="-1" href="#">Action</a></li>
-                    <li><a tabindex="-1" href="#">Another action</a></li>
-                    <li><a tabindex="-1" href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li id="propertiesMenu"><a tabindex="-1" href="#">Properties</a></li>
-                </ul>
+            <div id="hiddenMenu" style="z-index: 40;">
+                <div class="container no-padding-right no-padding-left">
+                    <div class="header"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
+                    </div>
+                    <div class="content">
+                        <ul>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="container no-padding-right no-padding-left">
+                    <div class="header"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
+                    </div>
+                    <div class="content">
+                        <ul>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </main>
         <c:import url="template/footer.jsp"/>

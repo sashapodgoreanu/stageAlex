@@ -34,36 +34,69 @@
     </style>
     <script>
         $(function () {
-            $("#hidden").hide();
             performTagging("${tag}");
             //enableMenu();
             //$('.dropdown-toggle').dropdown();
-            $(function () {
-
-                var $contextMenu = $("#contextMenu");
-
-
-                $("body").on("contextmenu", ".btn", function (e) {
-                    //prevent default menu on right click
-                    e.preventDefault();
-                    $.rightCliked = this;
-                    $contextMenu.css({
-                        display: "block",
-                        left: e.pageX,
-                        top: e.pageY
-                    });
-                    return false;
-                });
-            });
-
-            var cpmenu = $("#cpmenu");
-            $("#propertiesMenu").on("click", function (e) {
-                cpmenu.css({
+            var $contextMenu = $("#contextMenu");
+            $("body").on("contextmenu", ".btn", function (e) {
+                //prevent default menu on right click
+                e.preventDefault();
+                $.rightCliked = this;
+                $contextMenu.css({
                     display: "block",
                     left: e.pageX,
                     top: e.pageY
                 });
+                return false;
+            });
 
+            $("body").on("click", function (e) {
+                //prevent default menu on right click
+                $contextMenu.hide();
+            });
+
+            $(".header").click(function () {
+
+                $header = $(this);
+                //getting the next element
+                $content = $header.next();
+                //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
+                $content.slideToggle(500, function () {
+                    //execute this after slideToggle is done
+                    //change text of header based on visibility of content div
+                    var spanArrow = $header.find("span");
+                    if ($content.is(":visible")) {
+                        spanArrow.attr("class", "glyphicon glyphicon-triangle-bottom");
+                        spanArrow.text("P");
+                    } else {
+                        spanArrow.attr("class", "glyphicon glyphicon-triangle-right");
+                        spanArrow.text("V");
+                    }
+                });
+
+            });
+
+            var position;
+            $(window).scroll(function () {
+                var top = $(window).scrollTop();
+                console.log("top "+top);
+                console.log("div top "+position);
+                cpanel.css({
+                    top: position-top
+                });
+            });
+
+
+            var cpanel = $("#hiddenMenu");
+            cpanel.hide();
+            $("#propertiesMenu").on("click", function (e) {
+                cpanel.show();
+                cpanel.css({
+                    display: "block",
+                    left: e.pageX,
+                    top: e.pageY
+                });
+                position = cpanel.position().top;
             });
         });
 
