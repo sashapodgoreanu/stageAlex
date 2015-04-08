@@ -81,13 +81,13 @@
                     <li id="propertiesMenu"><a tabindex="-1" href="#">Properties</a></li>
                 </ul>
             </div>
-            <div id="hidden">
-                <ul>
-                    <li>aaaaaaaa</li>
-                    <li>aaaaaaaaaaaaaa</li>
-                    <li>aaaaaaaaaaaaaaaaaaaa</li>
+            <div id="cpanel" class="dropdown clearfix">
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
+                    <li><a tabindex="-1" href="#">Action</a></li>
+                    <li><a tabindex="-1" href="#">Another action</a></li>
+                    <li><a tabindex="-1" href="#">Something else here</a></li>
                     <li class="divider"></li>
-                    <li>aaaaaaaaaaaaa</li>
+                    <li id="propertiesMenu"><a tabindex="-1" href="#">Properties</a></li>
                 </ul>
             </div>
         </main>

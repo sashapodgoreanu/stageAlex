@@ -54,17 +54,16 @@
                     });
                     return false;
                 });
-
-
-                $("body").click(function () {
-                    $contextMenu.hide();
-                });
-
             });
 
-            var hidden = $("#hidden");
+            var cpmenu = $("#cpmenu");
             $("#propertiesMenu").on("click", function (e) {
-                hidden.show();
+                cpmenu.css({
+                    display: "block",
+                    left: e.pageX,
+                    top: e.pageY
+                });
+
             });
         });
 
