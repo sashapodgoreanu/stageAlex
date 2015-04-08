@@ -1,63 +1,96 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="s" %>
+<%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <s:url value ="/tag" var="tag" scope="application"/>
 <s:url value ="/tagPost" var="tagPost" scope="application"/>
 <s:url value = "/helloWorld" var ="helloWorld" scope="application"/>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-    "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--Bootstrap: The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<html lang="en">
+    <c:import url="template/head.jsp"/>
+    <body>
+        <c:import url="template/header.jsp"/>
+        <c:import url="template/nav.jsp"/>
 
-        <title>Welcome to Spring Web MVC project</title>
+        <main class="container-fluid applybackground-grey row padding-top-20">
+            <aside class="col-md-2">
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        Cras justo odio
+                    </a>
+                    <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                    <a href="#" class="list-group-item">Morbi leo risus</a>
+                    <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                    <a href="#" class="list-group-item">Vestibulum at eros</a>
+                </div>
+            </aside>
+            <section class="col-md-8">
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <form class="form-horizontal tag-container">
+                            <div class="form-group cloneable">
+                                <label for="tag-1" class="col-sm-3 control-label label-tag">First Tag</label>
+                                <div class="col-sm-9">
+                                    <input id="tag-1" class="input-tag form-control" value="">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
 
-        <!-- Bootstrap -->
-        <link href="${pageContext.request.getContextPath()}/css/bootstrap.min.css" rel="stylesheet">
-        <script src="${pageContext.request.getContextPath()}/js/functions.js" type="text/javascript"></script>
-        <script src="${pageContext.request.getContextPath()}/js/jquery-2.1.3.min.js" type="text/javascript"></script>
-        <script>
-            $(document).ready(function () {
-                initializeField("${tag}");
-                onChange("${tag}");
-                $('#button').click(function () {
-                    var ajaxTag = {'id': 15, 'value': 'dog'};
-                    $.ajax({
-                        url: "${tagPost}",
-                        type: 'POST',
-                        contentType: 'application/json',
-                        data: JSON.stringify(ajaxTag),
-                        dataType: 'json'
-                    });
-                });
-            });
+                <div class="row">
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-default" aria-label="Left Align">
+                            <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-default" aria-label="Left Align">
+                            <span class="glyphicon glyphicon glyphicon-envelope" aria-hidden="true"></span> New Mail
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
 
-        </script>
-
-    </head>
-
-
-
-    <p>HELLLO </p>
-    <div class="row">
-        <div class="col-md-4">.col-md-4</div>
-        <div class="col-md-4">
-            <fieldset id ="field">
-                <select class="form-control tag">
-                </select>
-            </fieldset>
-        </div>
-        <div class="col-md-4">.col-md-4</div>
-    </div>
-    <button id = "button">Send an HTTP GET request to a page and get the result back</button>
-
-
-    <a href="${tag}/Register">Register</a>
-    <a href="${helloWorld}">Hello</a>
-
-</body>
+            </section>
+            <aside class="col-md-2">
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        Cras justo odio
+                    </a>
+                    <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+                    <a href="#" class="list-group-item">Morbi leo risus</a>
+                    <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+                    <a href="#" class="list-group-item">Vestibulum at eros</a>
+                </div>
+            </aside>
+            <!-- Single button -->
+            <button id="idButton" type="button" class="btn btn-default">
+                Action
+            </button>
+            <div id="contextMenu" class="dropdown clearfix">
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
+                    <li><a tabindex="-1" href="#">Action</a></li>
+                    <li><a tabindex="-1" href="#">Another action</a></li>
+                    <li><a tabindex="-1" href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li id="propertiesMenu"><a tabindex="-1" href="#">Properties</a></li>
+                </ul>
+            </div>
+            <div id="hidden">
+                <ul>
+                    <li>aaaaaaaa</li>
+                    <li>aaaaaaaaaaaaaa</li>
+                    <li>aaaaaaaaaaaaaaaaaaaa</li>
+                    <li class="divider"></li>
+                    <li>aaaaaaaaaaaaa</li>
+                </ul>
+            </div>
+        </main>
+        <c:import url="template/footer.jsp"/>
+    </body>
 </html>

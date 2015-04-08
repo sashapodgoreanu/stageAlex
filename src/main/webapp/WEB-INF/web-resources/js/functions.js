@@ -1,176 +1,92 @@
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-/*
- tile = function () {
- $("body").append('See? It works.');
- 
- };*/
-
-
-
-
-function fillSelect(items) {
-
-    $.each(items, function (i, item) {
-        $('.tag').append($('<option>', {
-            value: "value",
-            text: item
-        }
-        ));
-    }
-    );
-}
-;
-/*
- onChange = function () {
- $('.tag').change(function () {
- var val = this.value;
- var sel = $('<select>').addClass('form-control tag');
- var opt1 =$('<option>');
- opt1.append(val);
- opt1.attr("value",val);
- 
- var opt2 =$('<option>');
- opt2.append(val);
- opt2.attr("value",val);
- sel.append(opt1);
- sel.append(opt2);
- 
- //$$('#due').append($('<option>'));
- //var ensel = $('</input>');
- $('#field').append(sel);
- //$('#select2').append($('<option>')).attr("value", value);
- // findSelected();
- });
- };*/
-var count = 0;
-
-function onChange(urlI) {
-
-    $('#field').on("change", ".tag", function () {
-        $(this).nextAll().remove();
-        var sel = $('<select>').addClass('form-control tag');
-
-        var id = this.value;
-        var ajaxTag = {'id': id, 'value': ' '};
-        $.ajax({
-            url: urlI,
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(ajaxTag),
-            dataType: 'json'
-        }).done(function (data) {
-            $.each(data, function (i, item) {
-                var opt = $('<option>');
-                opt.append(item.value);
-                opt.attr("value", item.id);
-                sel.append(opt);
-            });
-        });
-        $('#field').append(sel);
-        //$(this).after("<p>Another paragraph! </p>");
-    });
-
-}
-;
-
-
-
-function initializeField(urlI) {
-    var ajaxTag = {'id': 0, 'value': ' '};
-    $.ajax({
-        url: urlI,
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(ajaxTag),
-        dataType: 'json'
-    }).done(function (data) {
-        $.each(data, function (i, item) {
-            $('.tag').append($('<option>', {
-                value: item.id,
-                text: item.value
-            }));
-        });
-    });
-
-    /*$.get(url, function (tag, status) {
-     fillSelect(tag);
-     });*/
-
-}
-
-
-/*
- $('.tag').change(function () {
- var val = this.value;
- var sel = $('<select>').addClass('form-control tag');
- var opt1 = $('<option>');
- opt1.append(val);
- opt1.attr("value", val);
- 
- var opt2 = $('<option>');
- opt2.append(val);
- opt2.attr("value", val);
- sel.append(opt1);
- sel.append(opt2);
- 
- //$$('#due').append($('<option>'));
- //var ensel = $('</input>');
- $('#field').append(sel);
- //$('#select2').append($('<option>')).attr("value", value);
- // findSelected();
- });
- };
- 
- findSelected = function () {
- 
- };*/
-
-
-
-
 /**
- * Addinfg options to <select>
- * $('#mySelect').append($('<option>', {
- value: 1,
- text: 'My option'
- }));
- If you're adding options from a collection of items, you can do the following:
- 
- $.each(items, function (i, item) {
- $('#mySelect').append($('<option>', { 
- value: item.value,
- text : item.text 
- }));
- });
- 
- 
- $('#uno').append($('<option>', {
- value: 1,
- text: "my text"
- }
- ));
+ * This funcion get from server suggestions with tags. 
+ * @param {String} requestUrl - URL of Rest Controller
+ * @returns Jquery
  */
+//Globals
+$.rightCliked = new Object();
 
-/*
- FUNZIONE OGGETTO 
- 
- dentro il oggetto funzione le varie funzioni o oggetti sono separati da ->  ,  <-  virgola
- var functionObject = {
- doOne: function() {
- console.log("ONE");
- }, 
- doTwo: function() {
- console.log("TWO");
- }
- }
- functionObject.doOne();
- functionObject.doTwo();
- 
- 
- */
+//Functions
+function performTagging(requestUrl) {
+    //
+    $('.tag-container').on("keydown.autocomplete", /*input class*/".input-tag", function (event, ui) {
+        var divThtaContainsInput = $(this).parent().parent();
+        $(this).autocomplete({
+            //The delay in milliseconds between when a keystroke occurs and when a search is performed.
+            delay: 500,
+            //minimum number of characters that the source to be launched
+            minLength: 2,
+            //if input.lenght()  >=  minLength
+            source: function (request, response) {
+                //remove all next divThtaContainsInput if there is one and update .cloneable class
+                if (!divThtaContainsInput.hasClass("cloneable")) {
+                    divThtaContainsInput.addClass('cloneable');
+                }
+                divThtaContainsInput.nextAll().remove();
+
+                //ajax call
+                $.ajax({
+                    url: requestUrl,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    //data to be sent
+                    data: JSON.stringify({'value': request.term}),
+                    success: function (data) {
+                        //fill autocomplete suggestions box
+                        response(data);
+                    }
+                });
+            },
+            //at select an item from autocomplete suggestions box
+            select: function (event, ui) {
+                //add to this input (value = selected tag from autocomplete suggestions box)
+                $(this).attr('value', ui.item.label);
+
+                //Add a new input after selecting a value from autocomplete suggestions box
+                var clonedHtml = $('.cloneable').clone();
+                divThtaContainsInput.removeClass('cloneable');
+
+                //change label value with selected value 
+                clonedHtml.find('.label-tag').empty();
+                clonedHtml.find('.label-tag').append(ui.item.label);
+
+                //clear data from clone
+                clonedHtml.find('.input-tag').val('');
+                clonedHtml.find('.input-tag').attr('value', "");
+                divThtaContainsInput.after(clonedHtml);
+            },
+            //open autocomplete suggestion
+            open: function () {
+                $(this).removeClass("ui-corner-all").addClass("ui-corner-top");
+            },
+            //close autocomplete suggestion
+            close: function () {
+                $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
+            }
+        });
+    });
+}
+
+function enableMenu() {
+    
+    alert("succ");
+    var $contextMenu = $('#context-menu');
+    //if right cliked on a button show html element with id = "context-menu"
+    $("body").on("contextmenu", ".btn", function (e) {
+        $contextMenu.css({
+            display: "block",
+            left: e.pageX,
+            top: e.pageY
+        });
+        return false;
+    });
+
+    //disableRightClick('button');
+}
+
+function disableRightClick(elem) {
+    $(elem).bind('contextmenu', function (e) {
+        e.preventDefault();
+    });
+}

@@ -32,10 +32,10 @@ public class ControllerAjaxRequests {
     public String getShopInJSON(@RequestBody String data) {
         
         Gson gson = new Gson();
-        String myTag = gson.fromJson(data, String.class);
+        Tag myTag = gson.fromJson(data, Tag.class);
         
-        String json = gson.toJson(tagRep.getChilds(myTag));
-        System.out.println(tagRep.getChilds(myTag).toString() +"   "+ json);
+        String json = gson.toJson(tagRep.getChilds(myTag.getValue()));
+        System.out.println(tagRep.getChilds(myTag.getValue()).toString() +"   "+ json);
         return json;
     }
             
