@@ -55,7 +55,7 @@
                 $contextMenu.hide();
             });
 
-            $(".header").click(function () {
+            $(".panel-heading").click(function () {
 
                 $header = $(this);
                 //getting the next element

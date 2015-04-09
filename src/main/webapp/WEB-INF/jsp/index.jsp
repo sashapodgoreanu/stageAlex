@@ -72,6 +72,9 @@
             <button id="idButton" type="button" class="btn btn-default">
                 Action
             </button>
+
+            <!----------------- hidden context -------------------------------->
+
             <div id="contextMenu" class="dropdown clearfix" style="z-index: 50;">
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
                     <li><a tabindex="-1" href="#">Action</a></li>
@@ -81,11 +84,15 @@
                     <li id="propertiesMenu"><a tabindex="-1" href="#">Properties</a></li>
                 </ul>
             </div>
-            <div id="hiddenMenu" style="z-index: 40;">
-                <div class="container no-padding-right no-padding-left">
-                    <div class="header"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
+
+            <div id="hiddenMenu" class="panel panel-primary" style="z-index: 40;">
+                <div id="propBar" class="bg-primary"><p>Properties</p>
+                </div>
+                
+                <div class="panel panel-primary no-padding-right no-padding-left">
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
                     </div>
-                    <div class="content">
+                    <div class="panel-body">
                         <ul>
                             <li>This is just some random content.</li>
                             <li>This is just some random content.</li>
@@ -94,10 +101,34 @@
                         </ul>
                     </div>
                 </div>
-                <div class="container no-padding-right no-padding-left">
-                    <div class="header"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
+                <div class="panel panel-primary no-padding-right no-padding-left">
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
                     </div>
-                    <div class="content">
+                    <div class="panel-body">
+                        <ul>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-primary no-padding-right no-padding-left">
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-primary no-padding-right no-padding-left">
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
+                    </div>
+                    <div class="panel-body">
                         <ul>
                             <li>This is just some random content.</li>
                             <li>This is just some random content.</li>
