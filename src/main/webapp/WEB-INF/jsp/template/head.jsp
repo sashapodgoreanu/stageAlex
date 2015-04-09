@@ -93,8 +93,8 @@
                 cpanel.show();
                 cpanel.css({
                     display: "block",
-                    left: e.pageX,
-                    top: e.pageY
+                    left: e.pageX-50,
+                    top: e.pageY-130
                 });
                 position = cpanel.position().top;
             });

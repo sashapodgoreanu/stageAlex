@@ -4,19 +4,19 @@
 */
 
 
-@media (min-width:768px){#hiddenMenu .panel{
+@media (min-width:768px){#hiddenMenu{
                              width:350px !important;
                              min-width:350px !important;
                              max-width:350px !important;
                          }
 }
-@media (min-width:992px){#hiddenMenu .panel{
+@media (min-width:992px){#hiddenMenu{
                              width:550px !important;
                              min-width:550px !important;
                              max-width:550px !important;
                          }
 }
-@media (min-width:1200px){#hiddenMenu .panel{
+@media (min-width:1200px){#hiddenMenu {
                               width:550px !important;
                               min-width:550px !important;
                               max-width:550px !important;
@@ -34,28 +34,45 @@ main{
 
 #hiddenMenu{
     position:fixed !important;
-    border:1px solid #d3d3d3;
 
 }
+/*
+#hiddenMenu #propBar{
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #000;
+}*/
 
 #hiddenMenu .panel .panel-heading {
-    padding: 2px;
+    padding: 5px;
     cursor: pointer;
     font-weight: bold;
+    border-top-left-radius: 0px !important; 
+    border-top-right-radius: 0px !important;
 }
 
 #hiddenMenu .panel {
     margin:0px !important; 
     border-radius: 0px !important;
 }
+
+.glyphicon-remove-circle{
+    cursor: pointer;
+    color: #ddd;
+    
+}
+
+#hiddenMenu #propBar{
+    font-size: 20px;
+    padding: 6px;
+    color: #333;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    border-bottom: .5px solid ;
+}
 .panel .panel-body {
     display: none;
     padding : 5px;
-}
-
-#hiddenMenu .panel-heading{
-    border-top-left-radius: 0px !important; 
-    border-top-right-radius: 0px !important; 
 }
 
 .applybackground-grey{

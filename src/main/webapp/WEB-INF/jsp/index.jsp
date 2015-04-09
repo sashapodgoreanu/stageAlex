@@ -81,15 +81,15 @@
                     <li><a tabindex="-1" href="#">Another action</a></li>
                     <li><a tabindex="-1" href="#">Something else here</a></li>
                     <li class="divider"></li>
-                    <li id="propertiesMenu"><a tabindex="-1" href="#">Properties</a></li>
+                    <li id="propertiesMenu"><a tabindex="-1" href="#hiddenMenu">Properties</a></li>
                 </ul>
             </div>
 
-            <div id="hiddenMenu" class="panel panel-primary" style="z-index: 40;">
-                <div id="propBar" class="bg-primary"><p>Properties</p>
+            <div id="hiddenMenu" class="panel panel-default" style="z-index: 40;">
+                <div id="propBar"><span>Properties</span> <span style="float: right;" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
                 </div>
                 
-                <div class="panel panel-primary no-padding-right no-padding-left">
+                <div class="panel panel-default no-padding-right no-padding-left">
                     <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
                     </div>
                     <div class="panel-body">
@@ -101,7 +101,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="panel panel-primary no-padding-right no-padding-left">
+                <div class="panel panel-default no-padding-right no-padding-left">
                     <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
                     </div>
                     <div class="panel-body">
@@ -113,7 +113,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="panel panel-primary no-padding-right no-padding-left">
+                <div class="panel panel-default no-padding-right no-padding-left">
                     <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
                     </div>
                     <div class="panel-body">
@@ -125,7 +125,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="panel panel-primary no-padding-right no-padding-left">
+                <div class="panel panel-default no-padding-right no-padding-left">
                     <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
                     </div>
                     <div class="panel-body">
