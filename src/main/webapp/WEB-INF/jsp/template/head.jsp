@@ -58,22 +58,31 @@
                 rightclickMenu.hide();
             });
 
+            $thisSlide = null;
+            $lastSlide = null;
             //listener that slide up and down panels from Properties-rightclikMenu
             $(".panel-heading").click(function () {
-                $header = $(this);
+                $lastSlide = $thisSlide;
+                $thisSlide = $(this);
+                
+                
+                
                 //getting the next element
-                $content = $header.next();
+                $content1 = $thisSlide.next();
+                if($lastSlide !== null){
+                    $content2 = $lastSlide.next();
+                    $content2.slideToggle(500);
+                }
+                
                 //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
-                $content.slideToggle(500, function () {
+                $content1.slideToggle(500, function () {
                     //execute this after slideToggle is done
                     //change text of header based on visibility of content div
-                    var spanArrow = $header.find("span");
-                    if ($content.is(":visible")) {
+                    var spanArrow = $thisSlide.find("span");
+                    if ($content1.is(":visible")) {
                         spanArrow.attr("class", "glyphicon glyphicon-triangle-bottom");
-                        spanArrow.text("P");
                     } else {
                         spanArrow.attr("class", "glyphicon glyphicon-triangle-right");
-                        spanArrow.text("V");
                     }
                 });
             });
