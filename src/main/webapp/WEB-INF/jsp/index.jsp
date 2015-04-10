@@ -29,14 +29,7 @@
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
-                        <form class="form-horizontal tag-container">
-                            <div class="form-group cloneable">
-                                <label for="tag-1" class="col-sm-3 control-label label-tag">First Tag</label>
-                                <div class="col-sm-9">
-                                    <input id="tag-1" class="input-tag form-control" value="">
-                                </div>
-                            </div>
-                        </form>
+
                     </div>
                     <div class="col-md-4"></div>
                 </div>
@@ -88,7 +81,7 @@
             <div id="hiddenMenu" class="panel panel-default" style="z-index: 40;">
                 <div id="propBar"><span>Properties</span> <span style="float: right;" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
                 </div>
-                
+
                 <div class="panel panel-default no-padding-right no-padding-left">
                     <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Main topic</span>
                     </div>
@@ -117,12 +110,14 @@
                     <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Objects of discourse</span>
                     </div>
                     <div class="panel-body">
-                        <ul>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                        </ul>
+                        <form class="form-horizontal tag-container">
+                            <div class="form-group cloneable">
+                                <label for="tag-1" class="col-sm-3 control-label label-tag">First Tag</label>
+                                <div class="col-sm-9">
+                                    <input id="tag-1" class="input-tag form-control" value="">
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">

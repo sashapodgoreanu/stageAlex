@@ -35,10 +35,10 @@
     <script>
         $(function () {
             performTagging("${tag}");
-            
+
             //Menu for right click
             var rightclickMenu = $("#contextMenu");
-            
+
             //listener for right click for elements
             $("body").on("contextmenu", ".btn", function (e) {
                 //prevent default menu on right click
@@ -58,33 +58,72 @@
                 rightclickMenu.hide();
             });
 
+            //Adds id to section of Properties-rightclikMenu
+            $(function () {
+                var elem = $("#hiddenMenu").find(".panel-heading");
+                var sections = elem.parent().siblings();
+                var L = 0;
+                $.each(sections, function (i, elem) {
+                    if (L !== 0)
+                        $(this).addClass('closed');
+                    L++;
+                });
+                console.log(L);
+            });
+
+            //title bar for sliding elements
             $thisSlide = null;
             $lastSlide = null;
+
             //listener that slide up and down panels from Properties-rightclikMenu
             $(".panel-heading").click(function () {
-                $lastSlide = $thisSlide;
-                $thisSlide = $(this);
-                
-                
-                
-                //getting the next element
-                $content1 = $thisSlide.next();
-                if($lastSlide !== null){
-                    $content2 = $lastSlide.next();
-                    $content2.slideToggle(500);
-                }
-                
-                //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
-                $content1.slideToggle(500, function () {
+
+                $thisSlide = $(this).parent();
+                if ($thisSlide.hasClass("open")) {
+                    $content1 = $thisSlide.children().next();
+
+                    $thisSlide.removeClass("open");
+                    $thisSlide.addClass("closed");
+                    $content1.slideToggle(300, function () {
                     //execute this after slideToggle is done
-                    //change text of header based on visibility of content div
-                    var spanArrow = $thisSlide.find("span");
-                    if ($content1.is(":visible")) {
-                        spanArrow.attr("class", "glyphicon glyphicon-triangle-bottom");
-                    } else {
-                        spanArrow.attr("class", "glyphicon glyphicon-triangle-right");
+
+                        var spanArrow = $thisSlide.find("span");
+
+                        if ($content1.is(":visible")) {
+                            spanArrow.attr("class", "glyphicon glyphicon-triangle-bottom");
+                        } else {
+                            spanArrow.attr("class", "glyphicon glyphicon-triangle-right");
+                        }
+                    });
+                } else {
+                    //close the one that are open
+                    $openSlide = $("#hiddenMenu").find(".open");
+                    if ($openSlide !== null) {
+                        $openSlide.removeClass("open");
+                        $openSlide.addClass("closed");
+                        $content1 = $openSlide.children().next();
+                        $content1.slideUp(300, function () {
+                            //execute this after slideToggle is done
+                            var spanArrow = $openSlide.find("span");
+                            spanArrow.attr("class", "glyphicon glyphicon-triangle-right");
+                        });
                     }
-                });
+                    //open the clicked one
+                    $content1 = $thisSlide.children().next();
+                    $thisSlide.removeClass("closed");
+                    $thisSlide.addClass("open");
+                    $content1.slideDown(300, function () {
+                        //execute this after slideToggle is done
+                        var spanArrow = $thisSlide.find("span");
+                        spanArrow.attr("class", "glyphicon glyphicon-triangle-bottom");
+
+
+                    });
+                }
+
+
+
+
             });
 
             //Position of Properties-rightclickMenu
@@ -92,7 +131,7 @@
             //Propertie-rightclickeMenu 
             var cpanel = $("#hiddenMenu");
             cpanel.hide();
-            
+
             //Listener that shows Properties-rightclickMenu
             $("#propertiesMenu").on("click", function (e) {
                 cpanel.show();
@@ -104,8 +143,9 @@
                 //set the position of the Properties-rightclickMenu
                 position = cpanel.position().top;
             });
-            
-            //listener of scrolling bar
+
+
+            //listener of scrolling bar - Updates position for Properties-rightclickMenu
             $(window).scroll(function () {
                 var top = $(window).scrollTop();
                 //
@@ -116,16 +156,19 @@
 
             //Draggable
             $('body').on('mousedown', '#propBar', function () {
-                
+
                 $(this).parent().addClass('draggable').parents().on('mousemove', function (e) {
                     $('.draggable').offset({
                         top: e.pageY - $('#propBar').outerHeight() / 2,
                         left: e.pageX - $('#propBar').outerWidth() / 2
                     }).on('mouseup', function () {
                         $(this).removeClass('draggable');
+
+                        //Update position of Properties-rightclickMenu for window scroll
+                        position = cpanel.position().top;
                     });
+                    e.preventDefault();
                 });
-                e.preventDefault();
             }).on('mouseup', function () {
                 $('.draggable').removeClass('draggable');
             });
