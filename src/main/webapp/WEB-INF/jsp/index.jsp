@@ -90,7 +90,7 @@
                 </div>
                 
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Main topic</span>
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -102,7 +102,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Type</span>
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Objects of discourse</span>
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -126,7 +126,43 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Expand</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Language</span>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default no-padding-right no-padding-left">
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Formats</span>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default no-padding-right no-padding-left">
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Authors</span>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                            <li>This is just some random content.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default no-padding-right no-padding-left">
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Contains</span>
                     </div>
                     <div class="panel-body">
                         <ul>
