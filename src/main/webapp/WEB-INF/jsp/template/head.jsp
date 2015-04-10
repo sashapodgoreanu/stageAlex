@@ -35,28 +35,31 @@
     <script>
         $(function () {
             performTagging("${tag}");
-            //enableMenu();
-            //$('.dropdown-toggle').dropdown();
-            var $contextMenu = $("#contextMenu");
+            
+            //Menu for right click
+            var rightclickMenu = $("#contextMenu");
+            
+            //listener for right click for elements
             $("body").on("contextmenu", ".btn", function (e) {
                 //prevent default menu on right click
                 e.preventDefault();
+                //Variable that contains all insormation about right clicked element
                 $.rightCliked = this;
-                $contextMenu.css({
+                //show rightclickMenu
+                rightclickMenu.css({
                     display: "block",
                     left: e.pageX,
                     top: e.pageY
                 });
-                return false;
             });
 
+            //listener that hides rightclikMenu
             $("body").on("click", function (e) {
-                //prevent default menu on right click
-                $contextMenu.hide();
+                rightclickMenu.hide();
             });
 
+            //listener that slide up and down panels from Properties-rightclikMenu
             $(".panel-heading").click(function () {
-
                 $header = $(this);
                 //getting the next element
                 $content = $header.next();
@@ -73,30 +76,49 @@
                         spanArrow.text("V");
                     }
                 });
-
             });
 
+            //Position of Properties-rightclickMenu
             var position;
-            $(window).scroll(function () {
-                var top = $(window).scrollTop();
-                console.log("top "+top);
-                console.log("div top "+position);
-                cpanel.css({
-                    top: position-top
-                });
-            });
-
-
+            //Propertie-rightclickeMenu 
             var cpanel = $("#hiddenMenu");
             cpanel.hide();
+            
+            //Listener that shows Properties-rightclickMenu
             $("#propertiesMenu").on("click", function (e) {
                 cpanel.show();
                 cpanel.css({
                     display: "block",
-                    left: e.pageX-50,
-                    top: e.pageY-130
+                    left: e.pageX - 50,
+                    top: e.pageY - 130
                 });
+                //set the position of the Properties-rightclickMenu
                 position = cpanel.position().top;
+            });
+            
+            //listener of scrolling bar
+            $(window).scroll(function () {
+                var top = $(window).scrollTop();
+                //
+                cpanel.css({
+                    top: position - top
+                });
+            });
+
+            //Draggable
+            $('body').on('mousedown', '#propBar', function () {
+                
+                $(this).parent().addClass('draggable').parents().on('mousemove', function (e) {
+                    $('.draggable').offset({
+                        top: e.pageY - $('#propBar').outerHeight() / 2,
+                        left: e.pageX - $('#propBar').outerWidth() / 2
+                    }).on('mouseup', function () {
+                        $(this).removeClass('draggable');
+                    });
+                });
+                e.preventDefault();
+            }).on('mouseup', function () {
+                $('.draggable').removeClass('draggable');
             });
         });
 
