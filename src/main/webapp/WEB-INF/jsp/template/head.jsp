@@ -103,8 +103,8 @@
                         $openSlide.addClass("closed");
                         $content1 = $openSlide.children().next();
                         $content1.slideUp(300, function () {
-                            //execute this after slideToggle is done
-                            var spanArrow = $openSlide.find("span");
+                            //execute this after slideUp is done
+                            var spanArrow = $openSlide.find(".glyphicon");
                             spanArrow.attr("class", "glyphicon glyphicon-triangle-right");
                         });
                     }
@@ -114,16 +114,10 @@
                     $thisSlide.addClass("open");
                     $content1.slideDown(300, function () {
                         //execute this after slideToggle is done
-                        var spanArrow = $thisSlide.find("span");
+                        var spanArrow = $thisSlide.find(".glyphicon");
                         spanArrow.attr("class", "glyphicon glyphicon-triangle-bottom");
-
-
                     });
                 }
-
-
-
-
             });
 
             //Position of Properties-rightclickMenu
@@ -142,6 +136,11 @@
                 });
                 //set the position of the Properties-rightclickMenu
                 position = cpanel.position().top;
+            });
+            
+            //Listener that shows Properties-rightclickMenu
+            $("#hiddenMenu").on("click",".glyphicon-remove-circle", function (e) {
+                cpanel.hide();
             });
 
 

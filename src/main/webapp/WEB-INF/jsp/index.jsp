@@ -50,6 +50,37 @@
                 </div>
 
             </section>
+            <section class="col-md-8">
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <!-- Single button -->
+                        <button id="idButton" type="button" class="btn btn-default">
+                            Action
+                        </button>
+
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- Single button -->
+                        <button id="idButton" type="button" class="btn btn-default">
+                            Action
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <!-- Single button -->
+                        <button id="idButton" type="button" class="btn btn-default">
+                            Action
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+
+            </section>
             <aside class="col-md-2">
                 <div class="list-group">
                     <a href="#" class="list-group-item active">
@@ -61,10 +92,6 @@
                     <a href="#" class="list-group-item">Vestibulum at eros</a>
                 </div>
             </aside>
-            <!-- Single button -->
-            <button id="idButton" type="button" class="btn btn-default">
-                Action
-            </button>
 
             <!----------------- hidden context -------------------------------->
 
@@ -83,7 +110,7 @@
                 </div>
 
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Main topic</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Main topic
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -95,7 +122,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Type</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Type
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -107,7 +134,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Objects of discourse</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Objects of discourse
                     </div>
                     <div class="panel-body">
                         <form class="form-horizontal tag-container">
@@ -121,7 +148,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Language</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Language
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -133,7 +160,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Formats</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Formats
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -145,7 +172,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Authors</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Authors
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -157,7 +184,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Contains</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Contains
                     </div>
                     <div class="panel-body">
                         <ul>
