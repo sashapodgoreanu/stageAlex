@@ -64,10 +64,11 @@
             $(".panel-heading").click(function () {
                 $lastSlide = $thisSlide;
                 $thisSlide = $(this);
+                console.log($lastSlide);
+                console.log($thisSlide);
                 
                 
-                
-                //getting the next element
+                //getting the next element, that need to be slided
                 $content1 = $thisSlide.next();
                 if($lastSlide !== null){
                     $content2 = $lastSlide.next();
