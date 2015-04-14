@@ -29,14 +29,7 @@
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
-                        <form class="form-horizontal tag-container">
-                            <div class="form-group cloneable">
-                                <label for="tag-1" class="col-sm-3 control-label label-tag">First Tag</label>
-                                <div class="col-sm-9">
-                                    <input id="tag-1" class="input-tag form-control" value="">
-                                </div>
-                            </div>
-                        </form>
+
                     </div>
                     <div class="col-md-4"></div>
                 </div>
@@ -57,6 +50,37 @@
                 </div>
 
             </section>
+            <section class="col-md-8">
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <!-- Single button -->
+                        <button id="idButton" type="button" class="btn btn-default">
+                            Action
+                        </button>
+
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- Single button -->
+                        <button id="idButton" type="button" class="btn btn-default">
+                            Action
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <!-- Single button -->
+                        <button id="idButton" type="button" class="btn btn-default">
+                            Action
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+
+            </section>
             <aside class="col-md-2">
                 <div class="list-group">
                     <a href="#" class="list-group-item active">
@@ -68,10 +92,6 @@
                     <a href="#" class="list-group-item">Vestibulum at eros</a>
                 </div>
             </aside>
-            <!-- Single button -->
-            <button id="idButton" type="button" class="btn btn-default">
-                Action
-            </button>
 
             <!----------------- hidden context -------------------------------->
 
@@ -88,9 +108,9 @@
             <div id="hiddenMenu" class="panel panel-default" style="z-index: 40;">
                 <div id="propBar"><span>Properties</span> <span style="float: right;" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
                 </div>
-                
+
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Main topic</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Main topic
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -102,7 +122,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Type</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Type
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -114,7 +134,21 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Objects of discourse</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Objects of discourse
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal tag-container">
+                            <div class="form-group cloneable">
+                                <label for="tag-1" class="col-sm-3 control-label label-tag">First Tag</label>
+                                <div class="col-sm-9">
+                                    <input id="tag-1" class="input-tag form-control" value="">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel panel-default no-padding-right no-padding-left">
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Language
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -126,7 +160,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Language</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Formats
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -138,7 +172,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Formats</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Authors
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -150,19 +184,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Authors</span>
-                    </div>
-                    <div class="panel-body">
-                        <ul>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" >Contains</span>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Contains
                     </div>
                     <div class="panel-body">
                         <ul>
