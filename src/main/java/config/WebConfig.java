@@ -44,11 +44,16 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     //<-- RESOURCES -->
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/css/**").addResourceLocations("WEB-INF/web-resources/css/").setCachePeriod(0);
-        registry.addResourceHandler("/images/**").addResourceLocations("WEB-INF/web-resources/images/").setCachePeriod(0);
-        registry.addResourceHandler("/js/**").addResourceLocations("WEB-INF/web-resources/js/").setCachePeriod(0);
-        registry.addResourceHandler("/fonts/**").addResourceLocations("WEB-INF/web-resources/fonts/").setCachePeriod(0);
-        registry.addResourceHandler("/jquery-ui/**").addResourceLocations("WEB-INF/web-resources/jquery-ui/").setCachePeriod(0);
+        registry.addResourceHandler("/css/**").addResourceLocations("WEB-INF/web-resources/css/")
+                .setCachePeriod(debug.getValue()? 0 : 600000);
+        registry.addResourceHandler("/images/**").addResourceLocations("WEB-INF/web-resources/images/")
+                .setCachePeriod(debug.getValue()? 0 : 600000);
+        registry.addResourceHandler("/js/**").addResourceLocations("WEB-INF/web-resources/js/")
+                .setCachePeriod(debug.getValue()? 0 : 600000);
+        registry.addResourceHandler("/fonts/**").addResourceLocations("WEB-INF/web-resources/fonts/")
+                .setCachePeriod(debug.getValue()? 0 : 600000);
+        registry.addResourceHandler("/jquery-ui/**").addResourceLocations("WEB-INF/web-resources/jquery-ui/")
+                .setCachePeriod(debug.getValue()? 0 : 600000);
     }
 
     @Override
