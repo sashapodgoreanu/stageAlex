@@ -30,6 +30,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Autowired
     Debug debug;
     @Bean
+    
+    /**
+     * jsp location (prefix and sufix) file Resolver
+     */
     public ViewResolver viewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/jsp/");
@@ -56,9 +60,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 .setCachePeriod(debug.getValue()? 0 : 600000);
     }
 
+    /**
+     * Static content handling
+     * Forward requests for static resources to the servlet container’s defaultservlet
+     */
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
-
 }

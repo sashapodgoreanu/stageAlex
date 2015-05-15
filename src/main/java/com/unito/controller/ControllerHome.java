@@ -28,4 +28,9 @@ public class ControllerHome {
     public String index(){
         return "index";
     }
+    
+    @RequestMapping(value = "/workingarea", method = RequestMethod.GET)
+    public String working_area(){
+        return "working_area";
+    }
 }
