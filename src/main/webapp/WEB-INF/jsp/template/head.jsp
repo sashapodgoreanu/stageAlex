@@ -53,14 +53,14 @@
                 });
             });
 
-            //listener that hides rightclikMenu
+            //listener that hides #contextMenu
             $("body").on("click", function (e) {
                 rightclickMenu.hide();
             });
 
             //Adds id to section of Properties-rightclikMenu
             $(function () {
-                var elem = $("#hiddenMenu").find(".panel-heading");
+                var elem = $("#hiddenMenu").find(".panel-collapse");
                 var sections = elem.parent().siblings();
                 var L = 0;
                 $.each(sections, function (i, elem) {
@@ -76,7 +76,7 @@
             $lastSlide = null;
 
             //listener that slide up and down panels from Properties-rightclikMenu
-            $(".panel-heading").click(function () {
+            $(".panel-collapse").click(function () {
 
                 $thisSlide = $(this).parent();
                 if ($thisSlide.hasClass("open")) {

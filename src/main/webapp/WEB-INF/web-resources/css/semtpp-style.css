@@ -72,7 +72,7 @@ main{
     border-color: #337ab7;
     border-bottom: .5px solid ;
 }
-.panel .panel-body {
+#hiddenMenu .panel .panel-body {
     display: none;
     padding : 5px;
 }

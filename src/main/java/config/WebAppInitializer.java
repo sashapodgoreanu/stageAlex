@@ -5,6 +5,7 @@
  */
 package config;
 
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import org.springframework.web.WebApplicationInitializer;
@@ -14,28 +15,27 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  *
  * @author Alexandru Podgoreanu
  */
-public class WebAppInitializer  extends AbstractAnnotationConfigDispatcherServletInitializer implements WebApplicationInitializer  {
- 
+public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer implements WebApplicationInitializer {
+
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {RootConfig.class};
+        return new Class<?>[]{RootConfig.class, SecurityConfig.class};
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] {WebConfig.class};
+        return new Class<?>[]{WebConfig.class};
     }
 
     @Override
     protected String[] getServletMappings() {
-        return new String[] {"/"};
+        return new String[]{"/"};
     }
-    
+
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
         super.onStartup(servletContext);
         servletContext.addListener(new SessionConfig());
     }
-   
 
 }

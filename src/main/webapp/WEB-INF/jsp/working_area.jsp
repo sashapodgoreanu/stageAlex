@@ -110,7 +110,7 @@
                 </div>
 
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Main topic
+                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Main topic
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -122,7 +122,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Type
+                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Type
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -134,7 +134,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Objects of discourse
+                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Objects of discourse
                     </div>
                     <div class="panel-body">
                         <form class="form-horizontal tag-container">
@@ -148,7 +148,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Language
+                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Language
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -160,7 +160,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Formats
+                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Formats
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -172,7 +172,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Authors
+                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Authors
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -184,7 +184,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Contains
+                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Contains
                     </div>
                     <div class="panel-body">
                         <ul>
