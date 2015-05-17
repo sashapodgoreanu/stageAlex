@@ -30,22 +30,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .inMemoryAuthentication()
                 .withUser("user").password("password").roles("USER")
                 .and()
-                .withUser("admin").password("password")
-                .roles("ADMIN", "USER");
+                .withUser("admin").password("password").roles("ADMIN", "USER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/").permitAll() // #4
-                .antMatchers("/admin/**").hasRole("ADMIN") // #6
-                .anyRequest().authenticated();
+                .antMatchers("/workingarea/**").hasRole("ADMIN").anyRequest().authenticated()
+                .anyRequest().authenticated()
+                    .and()
+                .formLogin().loginPage("/login").permitAll()
+                    .and()
+                .logout().logoutSuccessUrl("/login")
+                .logoutUrl("/signout");
+
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        super.configure(web); //To change body of generated methods, choose Tools | Templates.
+        web
+                .ignoring()
+                .antMatchers("/css/**", "/images/**", "/js/**", "/jquery-ui/**");
     }
 
 }

@@ -8,8 +8,8 @@
 <%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <s:url value ="/tag" var="tag" scope="application"/>
+<s:url value ="/login" var="login" scope="application"/>
 <s:url value ="/tagPost" var="tagPost" scope="application"/>
-<s:url value = "/helloWorld" var ="helloWorld" scope="application"/>
 
 <!DOCTYPE html>
 
@@ -28,7 +28,7 @@
             <section class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" action='${login}'>
                             <div class="form-group">
                                 <label for="inputUsername" class="col-sm-2 control-label">Username</label>
                                 <div class="col-sm-10">

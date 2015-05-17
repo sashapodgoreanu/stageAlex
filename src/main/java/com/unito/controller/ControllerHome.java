@@ -24,7 +24,12 @@ public class ControllerHome {
         return mv;
     }
     
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    /*@RequestMapping(value = {"/login","/"}, method = RequestMethod.GET)
+    public String indexR(){
+        return "redirect: index";
+    }*/
+    
+    @RequestMapping(value = {"/index","/login"}, method = RequestMethod.GET)
     public String index(){
         return "index";
     }
