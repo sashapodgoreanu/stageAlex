@@ -43,7 +43,7 @@ public class ControllerHome {
      }*/
     @RequestMapping(value = {"/index", "/login"}, method = RequestMethod.GET)
     public String index(HttpServletRequest request, @AuthenticationPrincipal Object customUser) {
-        System.out.println(customUser.toString());
+        System.out.println("::::: ");
         return "index";
     }
 
