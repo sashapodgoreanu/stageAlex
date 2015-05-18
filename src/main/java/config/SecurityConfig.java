@@ -17,9 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
- * AbstractSecurityWebApplicationInitializer implements
- * WebApplication-Initializer, It will be discovered by Spring and be used to
- * register Delegating-FilterProxy with the web container
  *
  * @author Alexandru Podgoreanu
  */
@@ -31,24 +28,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER")
-                .and()
-                .withUser("admin").password("password").roles("ADMIN", "USER");
+                .withUser("user").password("password").roles("USER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/workingarea/**").hasRole("ADMIN").anyRequest().authenticated()
-                .anyRequest().authenticated()
+                .antMatchers("/workingarea/**")
+                    .hasRole("USER")
+                    .anyRequest()
+                    .authenticated()
+                .anyRequest()
+                    .authenticated()
                     .and()
                 .formLogin().loginPage("/login").permitAll()
-                    .and()
-                .logout().logoutSuccessUrl("/login")
-                .logoutUrl("/signout")
-                    .and()
-                .httpBasic();
+                    .failureUrl("/login?error")
+                    .usernameParameter("username").passwordParameter("password")
+                   .and()
+                .logout()
+                    /*.logoutUrl("/login")*/
+                    .logoutSuccessUrl("/login?logout");
+                   /* .and()
+                .httpBasic();*/
 
     }
 

@@ -16,7 +16,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -30,7 +30,7 @@ public class ControllerHome {
     public AuthenticationProvider authenticationManager;
 
 
-    @RequestMapping(value = "helloWorld", method = RequestMethod.GET)
+    @RequestMapping(value = "helloWorld", method = GET)
     public ModelAndView thiWillNotBeHello() {
         ModelAndView mv = new ModelAndView("displayName");
         mv.addObject("hello", "Hello");
@@ -41,7 +41,7 @@ public class ControllerHome {
      public String indexR(){
      return "redirect: index";
      }*/
-    @RequestMapping(value = {"/index", "/login"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/index", "/login"}, method = GET)
     public String index(HttpServletRequest request, @AuthenticationPrincipal Object customUser) {
         System.out.println("::::: ");
         return "index";
@@ -61,7 +61,7 @@ public class ControllerHome {
         session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
     }
 
-    @RequestMapping(value = "/workingarea", method = RequestMethod.GET)
+    @RequestMapping(value = "/workingarea", method = GET)
     public String working_area() {
         return "working_area";
     }
