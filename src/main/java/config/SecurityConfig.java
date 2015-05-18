@@ -6,7 +6,10 @@
 package config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.TestingAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -43,7 +46,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().loginPage("/login").permitAll()
                     .and()
                 .logout().logoutSuccessUrl("/login")
-                .logoutUrl("/signout");
+                .logoutUrl("/signout")
+                    .and()
+                .httpBasic();
 
     }
 
@@ -51,7 +56,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/css/**", "/images/**", "/js/**", "/jquery-ui/**");
+                .antMatchers("/css/**", "/images/**", "/js/**", "/jquery-ui/**","/index");
+    }
+    
+    @Bean
+    public AuthenticationProvider authenticator() {
+        return new TestingAuthenticationProvider();
     }
 
 }
