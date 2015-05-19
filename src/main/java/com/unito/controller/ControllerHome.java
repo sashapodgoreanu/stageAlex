@@ -5,11 +5,10 @@
  */
 package com.unito.controller;
 
+import com.unito.data.JDBCAccountDetailsRep;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControllerHome {
 
     @Autowired
-    private AuthenticationProvider authenticationManager;
+    private JDBCAccountDetailsRep jDBCAccountDetailsRep;
     
 
 
@@ -45,22 +44,9 @@ public class ControllerHome {
      }*/
     @RequestMapping(value = {"/index", "/login"}, method = GET)
     public String index(HttpServletRequest request, @AuthenticationPrincipal Object customUser) {
-        System.out.println("::::: ");
+        System.out.println("::::: "+jDBCAccountDetailsRep.toString());
+        jDBCAccountDetailsRep.createTable();
         return "index";
-    }
-
-    public void login(HttpServletRequest request, String userName, String password) {
-
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(userName, password);
-
-        // Authenticate the user
-        Authentication authentication = authenticationManager.authenticate(authRequest);
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(authentication);
-
-        // Create a new session and add the security context.
-        HttpSession session = request.getSession(true);
-        session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
     }
 
     @RequestMapping(value = "/workingarea", method = GET)

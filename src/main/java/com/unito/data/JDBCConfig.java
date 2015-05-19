@@ -5,6 +5,7 @@
  */
 package com.unito.data;
 
+import com.unito.AccountDetailsRep;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,5 +32,10 @@ public class JDBCConfig {
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
+    }
+    
+    @Bean 
+    public AccountDetailsRep accountDetailsRep(JdbcTemplate jdbcTemplate) {
+        return new JDBCAccountDetailsRep(jdbcTemplate);
     }
 }
