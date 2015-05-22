@@ -45,7 +45,7 @@ public class ControllerHome {
     @RequestMapping(value = {"/index", "/login"}, method = GET)
     public String index(HttpServletRequest request, @AuthenticationPrincipal Object customUser) {
         System.out.println("::::: "+jDBCAccountDetailsRep.toString());
-        jDBCAccountDetailsRep.createTable();
+        //jDBCAccountDetailsRep.createTable();
         return "index";
     }
 
