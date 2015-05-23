@@ -5,6 +5,7 @@
  */
 package com.unito.controller;
 
+import com.google.api.services.plus.model.Person;
 import com.google.gson.Gson;
 import com.unito.model.Tag;
 import com.unito.model.TagRepository;
@@ -26,33 +27,42 @@ import org.springframework.web.bind.annotation.RestController;
  @Controller*/
 public class ControllerAjaxRequests {
 
-    @EJB TagRepository tagRep;
-    
+    @EJB
+    TagRepository tagRep;
+
     @RequestMapping(value = "tag", method = RequestMethod.POST)
     public String getShopInJSON(@RequestBody String data) {
-        
+
         Gson gson = new Gson();
         Tag myTag = gson.fromJson(data, Tag.class);
-        
+
         String json = gson.toJson(tagRep.getChilds(myTag.getValue()));
-        System.out.println(tagRep.getChilds(myTag.getValue()).toString() +"   "+ json);
+        System.out.println(tagRep.getChilds(myTag.getValue()).toString() + "   " + json);
         return json;
     }
-            
-            
-            
-            
 
     @RequestMapping(value = "tagPost", method = RequestMethod.POST, consumes = "application/json")
-    public
-            String postShopInJSON(@RequestBody /*@Valid Persona*/ String data, BindingResult bindingResult) {
-                /*if(bindingResult.hasErrors()){
-                 System.out.println("HAS ERRORS"+bindingResult.getAllErrors());
-                 }*/
-                Gson gson = new Gson();
+    public String postShopInJSON(@RequestBody /*@Valid Persona*/ String data, BindingResult bindingResult) {
+        /*if(bindingResult.hasErrors()){
+         System.out.println("HAS ERRORS"+bindingResult.getAllErrors());
+         }*/
+        Gson gson = new Gson();
 
         //Persona aPerson = gson.fromJson(data, Persona.class);
-                System.out.println(data);
-                return "";//json;
-            }
+        System.out.println(data);
+        return "";//json;
+    }
+    
+    @RequestMapping(value = "/verifyLogin", method = RequestMethod.POST, consumes = "application/json")
+    public String verifyLogin(@RequestBody /*@Valid Persona*/ String data) {
+        /*if(bindingResult.hasErrors()){
+         System.out.println("HAS ERRORS"+bindingResult.getAllErrors());
+         }*/
+        System.out.println("sssssssssssssssss ");
+        Gson gson = new Gson();
+        Person userLoging = gson.fromJson(data, Person.class); 
+        //Persona aPerson = gson.fromJson(data, Persona.class);
+        System.out.println(userLoging);
+        return "";//json;
+    }
 }
