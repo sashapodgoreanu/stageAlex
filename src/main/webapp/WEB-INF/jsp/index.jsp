@@ -19,12 +19,14 @@
 
     <script type="text/javascript">
         var access_token;
+        var id_token;
         function signinCallback(authResult) {
             if (authResult['access_token']) {
                 // Autorizzazione riuscita
                 // Nascondi il pulsante di accesso ora che l'utente è autorizzato. Ad esempio: 
                 document.getElementById('signinButton').setAttribute('style', 'display: none');
                 access_token = authResult['access_token'];
+                id_token = authResult['id_token'];
 
                 //get userDetails from Google
                 var userDetails;
@@ -36,6 +38,7 @@
                     success: function (response) {
                         console.log("Received user info", response);
                         userDetails = response;
+                        userDetails.idtoken = id_token;
                         alert("recived" + userDetails);
                         //userDetails = response;
                         $.ajax({

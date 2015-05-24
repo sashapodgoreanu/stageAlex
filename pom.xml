@@ -112,7 +112,14 @@
             <artifactId>google-api-services-plus</artifactId>
             <version>v1-rev219-1.20.0</version>
         </dependency>
-       
+        
+        <!-- Google Api Client - used to verify the token id after user login with google -->
+        <dependency>
+            <groupId>com.google.api.client</groupId>
+            <artifactId>google-api-client</artifactId>
+            <version>1.4.1-beta</version>
+        </dependency>
+
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>

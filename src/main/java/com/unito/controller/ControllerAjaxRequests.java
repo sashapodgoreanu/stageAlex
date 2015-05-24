@@ -5,16 +5,26 @@
  */
 package com.unito.controller;
 
-import com.google.api.services.plus.model.Person;
 import com.google.gson.Gson;
 import com.unito.model.Tag;
 import com.unito.model.TagRepository;
+import com.unito.model.TokenValidateResponse;
+import com.unito.model.UserDetails.UserDetails;
 import javax.ejb.EJB;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -27,8 +37,12 @@ import org.springframework.web.bind.annotation.RestController;
  @Controller*/
 public class ControllerAjaxRequests {
 
+    private static final String VALIDATE_HTTPS = "https://www.googleapis.com/oauth2/v1/tokeninfo?id_token=";
     @EJB
     TagRepository tagRep;
+
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     @RequestMapping(value = "tag", method = RequestMethod.POST)
     public String getShopInJSON(@RequestBody String data) {
@@ -52,17 +66,39 @@ public class ControllerAjaxRequests {
         System.out.println(data);
         return "";//json;
     }
-    
+
+    /*@RequestMapping(value = "/verifyLogin", method = RequestMethod.POST, consumes = "application/json")
+     public String verifyLogin(@RequestBody String data) {
+     System.out.println("sssssssssssssssss ");
+     Gson gson = new Gson();
+     UserDetails userLoging = gson.fromJson(data, UserDetails.class);
+     //Persona aPerson = gson.fromJson(data, Persona.class);
+     System.out.println(userLoging);
+     return "";//json;
+     }*/
     @RequestMapping(value = "/verifyLogin", method = RequestMethod.POST, consumes = "application/json")
-    public String verifyLogin(@RequestBody /*@Valid Persona*/ String data) {
-        /*if(bindingResult.hasErrors()){
-         System.out.println("HAS ERRORS"+bindingResult.getAllErrors());
-         }*/
-        System.out.println("sssssssssssssssss ");
+    public String verifyLogin(@RequestBody String data, HttpServletRequest request) {
+        System.out.println(data);
+
         Gson gson = new Gson();
-        Person userLoging = gson.fromJson(data, Person.class); 
-        //Persona aPerson = gson.fromJson(data, Persona.class);
-        System.out.println(userLoging);
+        UserDetails userLogin = gson.fromJson(data, UserDetails.class);
+        
+        String idToken = userLogin.getIdtoken();
+        
+         RestTemplate restTemplate = new RestTemplate();
+         TokenValidateResponse tokenValidateResponse = restTemplate.getForObject(VALIDATE_HTTPS+idToken, TokenValidateResponse.class);
+         
+         System.out.println(tokenValidateResponse.toString());
+
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken("user", "password");
+        // Authenticate the user
+        Authentication authentication = authenticationManager.authenticate(authRequest);
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(authentication);
+
+        // Create a new session and add the security context.
+        HttpSession session = request.getSession(true);
+        session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
         return "";//json;
     }
 }

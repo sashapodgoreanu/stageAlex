@@ -5,9 +5,11 @@
  */
 package config;
 
+import com.unito.data.GoogleAuthenticationManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.TestingAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -29,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth
                 .inMemoryAuthentication()
                 .withUser("user").password("password").roles("USER");
+        
     }
 
     @Override
@@ -43,9 +46,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticated()
                     .and()
                 .formLogin().loginPage("/login").permitAll()
-                    .failureUrl("/login?error")
                     .usernameParameter("username").passwordParameter("password")
-                   .and()
+                    .failureUrl("/login?error")
+                    .and()
                 .logout()
                     /*.logoutUrl("/login")*/
                     .logoutSuccessUrl("/login?logout")
@@ -59,12 +62,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/css/**", "/images/**", "/js/**", "/jquery-ui/**","/index");
+                .antMatchers("/css/**", "/images/**", "/js/**", "/jquery-ui/**","/index","/verifyLogin");
     }
     
     @Bean
     public AuthenticationProvider authenticator() {
         return new TestingAuthenticationProvider();
     }
-
 }

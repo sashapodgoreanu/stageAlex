@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.authentication.AuthenticationManager;
 
 /**
  *
@@ -38,4 +39,11 @@ public class JDBCConfig {
     public AccountDetailsRep accountDetailsRep(JdbcTemplate jdbcTemplate) {
         return new JDBCAccountDetailsRep(jdbcTemplate);
     }
+    
+    @Bean 
+    public AuthenticationManager authenticationManager() {
+        System.out.println("im inside AuthenticationManager");
+        return new GoogleAuthenticationManager();
+    }
+
 }
