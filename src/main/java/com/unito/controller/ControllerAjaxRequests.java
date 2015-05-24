@@ -78,27 +78,32 @@ public class ControllerAjaxRequests {
      }*/
     @RequestMapping(value = "/verifyLogin", method = RequestMethod.POST, consumes = "application/json")
     public String verifyLogin(@RequestBody String data, HttpServletRequest request) {
-        System.out.println(data);
 
         Gson gson = new Gson();
         UserDetails userLogin = gson.fromJson(data, UserDetails.class);
-        
+
         String idToken = userLogin.getIdtoken();
-        
-         RestTemplate restTemplate = new RestTemplate();
-         TokenValidateResponse tokenValidateResponse = restTemplate.getForObject(VALIDATE_HTTPS+idToken, TokenValidateResponse.class);
-         
-         System.out.println(tokenValidateResponse.toString());
 
-        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken("user", "password");
-        // Authenticate the user
-        Authentication authentication = authenticationManager.authenticate(authRequest);
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(authentication);
+        RestTemplate restTemplate = new RestTemplate();
+        TokenValidateResponse tokenValidateResponse = restTemplate.getForObject(VALIDATE_HTTPS + userLogin.getIdtoken(), TokenValidateResponse.class);
+        if (tokenValidateResponse.getUser_id().equals(userLogin.getId())) {
+            //do login
+            // if userLogin.id doesn't exist in DB, register the user
+            // else get info from db
+            // authenticate user
+            UsernamePasswordAuthenticationToken authRequest
+                    = new UsernamePasswordAuthenticationToken("user", "password");
+            // Authenticate the user
+            Authentication authentication = authenticationManager.authenticate(authRequest);
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            securityContext.setAuthentication(authentication);
 
-        // Create a new session and add the security context.
-        HttpSession session = request.getSession(true);
-        session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+            // Create a new session and add the security context.
+            HttpSession session = request.getSession(true);
+            session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+        } else {
+            //error login
+        }
         return "";//json;
     }
 }
