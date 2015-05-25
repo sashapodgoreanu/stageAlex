@@ -85,7 +85,7 @@
                     $thisSlide.removeClass("open");
                     $thisSlide.addClass("closed");
                     $content1.slideToggle(300, function () {
-                    //execute this after slideToggle is done
+                        //execute this after slideToggle is done
 
                         var spanArrow = $thisSlide.find("span");
 
@@ -137,9 +137,9 @@
                 //set the position of the Properties-rightclickMenu
                 position = cpanel.position().top;
             });
-            
+
             //Listener that shows Properties-rightclickMenu
-            $("#hiddenMenu").on("click",".glyphicon-remove-circle", function (e) {
+            $("#hiddenMenu").on("click", ".glyphicon-remove-circle", function (e) {
                 cpanel.hide();
             });
 
@@ -172,6 +172,83 @@
                 $('.draggable').removeClass('draggable');
             });
         });
+
+        var access_token;
+        var id_token;
+        function signinCallback(authResult) {
+            if (authResult['access_token']) {
+                // Autorizzazione riuscita
+                // Nascondi il pulsante di accesso ora che l'utente è autorizzato. Ad esempio: 
+                document.getElementById('signinButton').setAttribute('style', 'display: none');
+                access_token = authResult['access_token'];
+                id_token = authResult['id_token'];
+
+                //get userDetails from Google
+                var userDetails;
+                $.ajax({
+                    url: 'https://www.googleapis.com/plus/v1/people/me',
+                    headers: {
+                        'Authorization': 'Bearer ' + access_token
+                    },
+                    success: function (response) {
+                        userDetails = response;
+                        userDetails.idtoken = id_token;
+                        console.log("from google: " + userDetails);
+                        //userDetails = response;
+                        $.ajax({
+                            url: "${verifyLogin}",
+                            type: 'POST',
+                            contentType: 'application/json',
+                            dataType: 'json',
+                            //data to be sent
+                            data: JSON.stringify(userDetails),
+                            success: function (data) {
+                                console.log("success: POST /verifyLogin " + userDetails);
+                                //fill autocomplete suggestions box
+                                response(data);
+                            },
+                            error: function (error) {
+                                console.error(error);
+                            }
+                        });
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            } else if (authResult['error']) {
+                // Si è verificato un errore.
+                // Possibili codici di errore:
+                //   "access_denied" - L'utente ha negato l'accesso alla tua app
+                //   "immediate_failed" - Impossibile eseguire l'accesso automatico dell'utente
+                console.log('There was an error: ' + authResult['error']);
+                //alert("ERROR sign in google");
+            }
+        }
+        function disconnectUser() {
+            console.log("access token logout: " + access_token);
+            var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' +
+                    access_token;
+
+            // Esecuzione di una richiesta GET asincrona.
+            $.ajax({
+                type: 'GET',
+                url: revokeUrl,
+                async: false,
+                contentType: "application/json",
+                dataType: 'jsonp',
+                success: function (nullResponse) {
+                    // Esegui un'azione, l'utente è disconnesso
+                    // La risposta è sempre indefinita.
+                },
+                error: function (e) {
+                    // Gestione dell'errore
+                    // console.log(e);
+                    // Puoi indirizzare gli utenti alla disconnessione manuale in caso di esito negativo
+                    // https://plus.google.com/apps
+                }
+            });
+        }
 
     </script>
 

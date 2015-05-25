@@ -17,109 +17,6 @@
 <html lang="en">
     <c:import url="template/head.jsp"/>
 
-    <script type="text/javascript">
-        var access_token;
-        var id_token;
-        function signinCallback(authResult) {
-            if (authResult['access_token']) {
-                // Autorizzazione riuscita
-                // Nascondi il pulsante di accesso ora che l'utente è autorizzato. Ad esempio: 
-                document.getElementById('signinButton').setAttribute('style', 'display: none');
-                access_token = authResult['access_token'];
-                id_token = authResult['id_token'];
-
-                //get userDetails from Google
-                var userDetails;
-                $.ajax({
-                    url: 'https://www.googleapis.com/plus/v1/people/me',
-                    headers: {
-                        'Authorization': 'Bearer ' + access_token
-                    },
-                    success: function (response) {
-                        console.log("Received user info", response);
-                        userDetails = response;
-                        userDetails.idtoken = id_token;
-                        alert("recived" + userDetails);
-                        //userDetails = response;
-                        $.ajax({
-                            url: "${verifyLogin}",
-                            type: 'POST',
-                            contentType: 'application/json',
-                            dataType: 'json',
-                            //data to be sent
-                            data: JSON.stringify(userDetails),
-                            success: function (data) {
-                                alert("sending" + userDetails);
-                                //fill autocomplete suggestions box
-                                response(data);
-                            },
-                            error: function (error) {
-                                alert("error" + error + " userdetails " + userDetails);
-                            }
-                        });
-                    },
-                    error: function (error) {
-                        console.error(error);
-                    }
-                });
-/*
-                //Send userDetails to ower server
-                $.ajax({
-                    url: "${verifyLogin}",
-                    type: 'POST',
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    //data to be sent
-                    data: userDetails,
-                    success: function (data) {
-                        alert("sending" + userDetails);
-                        //fill autocomplete suggestions box
-                        response(data);
-                    },
-                    error: function (error) {
-                        alert("error" + error + " userdetails " + userDetails);
-                    }
-                });*/
-
-
-            } else if (authResult['error']) {
-                // Si è verificato un errore.
-                // Possibili codici di errore:
-                //   "access_denied" - L'utente ha negato l'accesso alla tua app
-                //   "immediate_failed" - Impossibile eseguire l'accesso automatico dell'utente
-                alert('There was an error: ' + authResult['error']);
-                //alert("ERROR sign in google");
-            }
-        }
-        function disconnectUser(/*access_token*/) {
-            alert(access_token);
-            var revokeUrl = 'https://accounts.google.com/o/oauth2/revoke?token=' +
-                    access_token;
-
-            // Esecuzione di una richiesta GET asincrona.
-            $.ajax({
-                type: 'GET',
-                url: revokeUrl,
-                async: false,
-                contentType: "application/json",
-                dataType: 'jsonp',
-                success: function (nullResponse) {
-                    // Esegui un'azione, l'utente è disconnesso
-                    // La risposta è sempre indefinita.
-                },
-                error: function (e) {
-                    // Gestione dell'errore
-                    // console.log(e);
-                    // Puoi indirizzare gli utenti alla disconnessione manuale in caso di esito negativo
-                    // https://plus.google.com/apps
-                }
-            });
-        }
-        // È possibile attivare la disconnessione con un clic del pulsante
-        $('#revokeButton').click(disconnectUser);
-    </script>
-</script>
-
 <!-- Posiziona questo JavaScript asincrono appena prima del tag </body> -->
 <script type="text/javascript">
     (function () {
@@ -131,7 +28,6 @@
         s.parentNode.insertBefore(po, s);
     })();
 </script>
-
 <body>
     <c:import url="template/header.jsp"/>
     <c:import url="template/nav.jsp"/>
@@ -177,6 +73,8 @@
                         <div class="form-group row">
                             <span id="signinButton">
                                 <span
+                                    approval_prompt="auto"
+                                    access_type="online "
                                     class="g-signin"
                                     data-callback="signinCallback"
                                     data-clientid="630129138206-mpttf2fj47g6milr9hlf6sfm8gijitue.apps.googleusercontent.com"
@@ -186,7 +84,6 @@
                                 </span>
                             </span>
                         </div>
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                     </form>
                 </div>
             </div>

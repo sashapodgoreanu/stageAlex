@@ -69,7 +69,7 @@ function performTagging(requestUrl) {
 }
 
 function enableMenu() {
-    
+
     alert("succ");
     var $contextMenu = $('#context-menu');
     //if right cliked on a button show html element with id = "context-menu"

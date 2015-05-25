@@ -81,6 +81,8 @@ public class ControllerAjaxRequests {
 
         Gson gson = new Gson();
         UserDetails userLogin = gson.fromJson(data, UserDetails.class);
+        
+        System.out.println(userLogin.toString());
 
         String idToken = userLogin.getIdtoken();
 

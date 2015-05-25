@@ -5,15 +5,10 @@
  */
 package com.unito.controller;
 
-import com.unito.data.JDBCAccountDetailsRep;
+import com.unito.UserDetailsRepository;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -27,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ControllerHome {
 
     @Autowired
-    private JDBCAccountDetailsRep jDBCAccountDetailsRep;
+    private UserDetailsRepository userDetailsRepository;
     
 
 
@@ -45,7 +40,7 @@ public class ControllerHome {
     @RequestMapping(value = {"/index", "/login"}, method = GET)
     public String index(HttpServletRequest request, @AuthenticationPrincipal Object customUser) {
         //System.out.println("::::: "+jDBCAccountDetailsRep.toString());
-        //jDBCAccountDetailsRep.createTable();
+        userDetailsRepository.find(5);
         return "index";
     }
 

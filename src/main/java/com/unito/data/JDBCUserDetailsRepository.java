@@ -5,8 +5,8 @@
  */
 package com.unito.data;
 
-import com.unito.AccountDetailsRep;
-import com.unito.model.AccountDetails;
+import com.unito.UserDetailsRepository;
+import com.unito.model.UserDetails.UserDetails;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -17,49 +17,45 @@ import org.springframework.stereotype.Repository;
  * @author Alexandru Podgoreanu
  */
 @Repository
-public class JDBCAccountDetailsRep implements AccountDetailsRep  {
+public class JDBCUserDetailsRepository implements UserDetailsRepository {
+    
+    
+    
+    
     
     private JdbcTemplate jdbcTemplate;
-
     @Autowired
-    public JDBCAccountDetailsRep(JdbcTemplate jdbcTemplate) {
+    public JDBCUserDetailsRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-    
-    
-    public void createTable(){
-        jdbcTemplate.execute("insert into curentuser(id) values(556)");
-    }
-    
+
     @Override
     public long count() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public AccountDetails save(AccountDetails spitter) {
+    public UserDetails save(UserDetails userDetails) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public AccountDetails find(long id) {
+    public UserDetails find(long id) {
+        System.out.println("founded");
+        return null;
+    }
+
+    @Override
+    public UserDetails findByUsername(String username) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public AccountDetails findByUsername(String username) {
+    public List<UserDetails> findAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<AccountDetails> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String toString() {
-        return "JDBCAccountDetailsRep{" + "jdbcTemplate=" + jdbcTemplate + '}';
     }
     
+    
+
     
 }

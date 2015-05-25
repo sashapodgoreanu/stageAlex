@@ -5,22 +5,22 @@
  */
 package com.unito;
 
-import com.unito.model.AccountDetails;
+import com.unito.model.UserDetails.UserDetails;
 import java.util.List;
 
 /**
  *
  * @author Alexandru Podgoreanu
  */
-public interface AccountDetailsRep {
+public interface UserDetailsRepository {
 
     long count();
 
-    AccountDetails save(AccountDetails spitter);
+    UserDetails save(UserDetails spitter);
 
-    AccountDetails find(long id);
+    UserDetails find(long id);
 
-    AccountDetails findByUsername(String username);
+    UserDetails findByUsername(String username);
 
-    List<AccountDetails> findAll();
+    List<UserDetails> findAll();
 }

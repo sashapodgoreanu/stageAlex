@@ -11,8 +11,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  *
  * @author SashaAlexandru
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDetails {
 
     private String etag;
@@ -25,11 +25,7 @@ public class UserDetails {
 
     private String url;
 
-    private AgeRange ageRange;
-
     private String id;
-
-    private Cover cover;
 
     private String verified;
 
@@ -87,13 +83,6 @@ public class UserDetails {
         this.url = url;
     }
 
-    public AgeRange getAgeRange() {
-        return ageRange;
-    }
-
-    public void setAgeRange(AgeRange ageRange) {
-        this.ageRange = ageRange;
-    }
 
     public String getId() {
         return id;
@@ -101,14 +90,6 @@ public class UserDetails {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Cover getCover() {
-        return cover;
-    }
-
-    public void setCover(Cover cover) {
-        this.cover = cover;
     }
 
     public String getVerified() {
@@ -177,6 +158,8 @@ public class UserDetails {
 
     @Override
     public String toString() {
-        return "UserDetails{" + "etag=" + etag + ", image=" + image + ", isPlusUser=" + isPlusUser + ", kind=" + kind + ", url=" + url + ", ageRange=" + ageRange + ", id=" + id + ", cover=" + cover + ", verified=" + verified + ", name=" + name + ", circledByCount=" + circledByCount + ", gender=" + gender + ", language=" + language + ", displayName=" + displayName + ", objectType=" + objectType + ", idtoken=" + idtoken + '}';
+        return "UserDetails{" + "etag=" + etag + ", image=" + image + ", isPlusUser=" + isPlusUser + ", kind=" + kind + ", url=" + url + ", id=" + id + ", verified=" + verified + ", name=" + name + ", circledByCount=" + circledByCount + ", gender=" + gender + ", language=" + language + ", displayName=" + displayName + ", objectType=" + objectType + ", idtoken=" + idtoken + '}';
     }
+    
+    
 }

@@ -5,7 +5,7 @@
  */
 package com.unito.data;
 
-import com.unito.AccountDetailsRep;
+import com.unito.UserDetailsRepository;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,14 +36,10 @@ public class JDBCConfig {
     }
     
     @Bean 
-    public AccountDetailsRep accountDetailsRep(JdbcTemplate jdbcTemplate) {
-        return new JDBCAccountDetailsRep(jdbcTemplate);
+    public UserDetailsRepository userDetailsRepository(JdbcTemplate jdbcTemplate) {
+        return new JDBCUserDetailsRepository(jdbcTemplate);
     }
     
-    @Bean 
-    public AuthenticationManager authenticationManager() {
-        System.out.println("im inside AuthenticationManager");
-        return new GoogleAuthenticationManager();
-    }
+   
 
 }
