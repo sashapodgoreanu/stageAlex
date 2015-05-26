@@ -39,7 +39,5 @@ public class JDBCConfig {
     public UserDetailsRepository userDetailsRepository(JdbcTemplate jdbcTemplate) {
         return new JDBCUserDetailsRepository(jdbcTemplate);
     }
-    
-   
 
 }

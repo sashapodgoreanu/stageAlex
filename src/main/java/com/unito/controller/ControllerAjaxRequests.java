@@ -91,6 +91,7 @@ public class ControllerAjaxRequests {
         if (tokenValidateResponse.getUser_id().equals(userLogin.getId())) {
             //do login
             // if userLogin.id doesn't exist in DB, register the user
+            
             // else get info from db
             // authenticate user
             UsernamePasswordAuthenticationToken authRequest
