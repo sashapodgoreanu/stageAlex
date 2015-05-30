@@ -12,6 +12,7 @@ import com.unito.model.Tag;
 import com.unito.model.TagRepository;
 import com.unito.model.TokenValidateResponse;
 import com.unito.model.UserDetails.UserDetails;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,8 @@ import org.springframework.web.client.RestTemplate;
 /*@ResponseBody
  @Controller*/
 public class ControllerAjaxRequests {
+
+    private static final Logger LOG = Logger.getLogger(ControllerAjaxRequests.class.getName());
 
     private static final String VALIDATE_HTTPS = "https://www.googleapis.com/oauth2/v1/tokeninfo?id_token=";
     @EJB
@@ -80,39 +83,46 @@ public class ControllerAjaxRequests {
 
         Gson gson = new Gson();
         UserDetails userLogin = null;
+        UserDetails dbUser = null;
+        String idToken;
+        String json;
+        boolean ok = false;
         try {
             userLogin = gson.fromJson(data, UserDetails.class);
         } catch (JsonSyntaxException e) {
         }
-
-        userDetailsRepository.save(userLogin);
-        
-        System.out.println(userLogin.toString());
-        String idToken = userLogin.getIdtoken();
-
+        //validate the user
         RestTemplate restTemplate = new RestTemplate();
         TokenValidateResponse tokenValidateResponse = restTemplate.getForObject(VALIDATE_HTTPS + userLogin.getIdtoken(), TokenValidateResponse.class);
         if (tokenValidateResponse.getUser_id().equals(userLogin.getId())) {
+            //  recover the user form db
+            dbUser = userDetailsRepository.find(userLogin.getId());
+            if (dbUser != null){
+                LOG.info("result update: "+userDetailsRepository.update(userLogin));
+            }
             
+            ok = true;
+            
+            //idToken = userLogin.getIdtoken();
 
             //do login
             // if userLogin.id doesn't exist in DB, register the user
-            
             // else get info from db
             // authenticate user
             /*UsernamePasswordAuthenticationToken authRequest
-                    = new UsernamePasswordAuthenticationToken("user", "password");
-            // Authenticate the user
-            Authentication authentication = authenticationManager.authenticate(authRequest);
-            SecurityContext securityContext = SecurityContextHolder.getContext();
-            securityContext.setAuthentication(authentication);
+             = new UsernamePasswordAuthenticationToken("user", "password");
+             // Authenticate the user
+             Authentication authentication = authenticationManager.authenticate(authRequest);
+             SecurityContext securityContext = SecurityContextHolder.getContext();
+             securityContext.setAuthentication(authentication);
 
-            // Create a new session and add the security context.
-            HttpSession session = request.getSession(true);
-            session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);*/
+             // Create a new session and add the security context.
+             HttpSession session = request.getSession(true);
+             session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);*/
         } else {
             //error login
+            ok = false;
         }
-        return "";//json;
+        return json = gson.toJson(ok);//json;
     }
 }
