@@ -193,6 +193,7 @@
                     success: function (response) {
                         userDetails = response;
                         userDetails.idtoken = id_token;
+                        userDetails.access_token = access_token;
                         console.log("from google: " + userDetails);
                         //userDetails = response;
                         $.ajax({
@@ -204,8 +205,7 @@
                             data: JSON.stringify(userDetails),
                             success: function (data) {
                                 console.log("success: POST /verifyLogin " + userDetails);
-                                //fill autocomplete suggestions box
-                                response(data);
+                                submit_login(data, userDetails);
                             },
                             error: function (error) {
                                 console.error(error);
@@ -223,6 +223,13 @@
                 //   "immediate_failed" - Impossibile eseguire l'accesso automatico dell'utente
                 console.log('There was an error: ' + authResult['error']);
                 //alert("ERROR sign in google");
+            }
+        }
+        function submit_login(data, userDetails){
+            if (data){
+                $("#username").val(userDetails.id);
+                $("#password").val(userDetails.idtoken);
+                $("#login-form").submit();
             }
         }
         function disconnectUser() {

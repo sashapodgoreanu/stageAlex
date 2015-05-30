@@ -42,11 +42,11 @@
             <section class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <form class="form-horizontal" action='${login}' method="POST">
+                        <form id="login-form" class="form-horizontal" action='${login}' method="POST">
                             <div class="form-group">
                                 <label for="inputUsername" class="col-sm-2 control-label">Username</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name = "username" class="form-control" id="inputUsername" placeholder="Pick a username">
+                                    <input id = "username" type="text" name = "username" class="form-control" id="inputUsername" placeholder="Pick a username">
                                 </div>
                             </div>
                             <!--div class="form-group">
@@ -58,7 +58,7 @@
                             <div class="form-group">
                                 <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
                                 <div class="col-sm-10">
-                                    <input type="password" name ="password" class="form-control" id="inputPassword3" placeholder="Password">
+                                    <input id="password" type="password" name ="password" class="form-control" id="inputPassword3" placeholder="Password">
                                 </div>
                             </div>
                             <div class="form-group row">

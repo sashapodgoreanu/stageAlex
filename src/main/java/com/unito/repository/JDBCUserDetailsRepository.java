@@ -25,9 +25,9 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
     
     private JdbcTemplate jdbcTemplate;
     
-    private String INSERT_USERDETAILS = "insert into USERDETAILS (ID, ID_TOKEN) values (?, ?)";
+    private String INSERT_USERDETAILS = "insert into USERDETAILS (ID, ID_TOKEN, ACCESS_TOKEN) values (?, ?, ?)";
     private String SELECT_USERDETAILS = "select * from USERDETAILS where ID =?";
-    private String UPDATE_USERDETAILS = "update USERDETAILS set ID_TOKEN = ? where ID = ?";
+    private String UPDATE_USERDETAILS = "update USERDETAILS set ID_TOKEN = ?, ACCESS_TOKEN = ? where ID = ?";
 
     @Autowired
     public JDBCUserDetailsRepository(JdbcTemplate jdbcTemplate) {
@@ -45,7 +45,7 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
         LOG.info(INSERT_USERDETAILS);
         if (userDetails== null) 
             throw new NullPointerException();
-        jdbcTemplate.update(INSERT_USERDETAILS,userDetails.getId(),userDetails.getIdtoken());
+        jdbcTemplate.update(INSERT_USERDETAILS,userDetails.getId(),userDetails.getIdtoken(), userDetails.getAccesstoken());
         return null;
     }
 
@@ -81,7 +81,7 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
         LOG.info("update user");
         if (user == null)
             throw new NullPointerException("user is null");
-        return jdbcTemplate.update(this.UPDATE_USERDETAILS,user.getIdtoken(),user.getId()) != 0;
+        return jdbcTemplate.update(this.UPDATE_USERDETAILS,user.getIdtoken(),user.getAccesstoken(),user.getId()) != 0;
     }
     
     class UserDetailsMapper implements RowMapper{

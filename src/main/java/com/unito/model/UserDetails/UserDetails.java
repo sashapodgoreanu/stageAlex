@@ -42,6 +42,16 @@ public class UserDetails {
     private String objectType;
     
     private String idtoken;
+    
+    private String accesstoken;
+
+    public String getAccesstoken() {
+        return accesstoken;
+    }
+
+    public void setAccesstoken(String accesstoken) {
+        this.accesstoken = accesstoken;
+    }
 
     public String getEtag() {
         return etag;

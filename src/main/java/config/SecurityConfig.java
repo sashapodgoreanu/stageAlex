@@ -5,6 +5,7 @@
  */
 package config;
 
+import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,11 +23,19 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    DataSource dataSource;
+
+    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+       System.out.println();
         auth
-                .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
-        
+                .jdbcAuthentication()
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select id as username, id_token as password, true from USERDETAILS where id = ?")
+                .authoritiesByUsernameQuery("select id as username, 'ROLE_USER' from USERDETAILS where id= ?");
+        /*.inMemoryAuthentication()
+         .withUser("user").password("pass").roles("USER");*/
+
     }
 
     @Override
@@ -34,23 +43,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/workingarea/**")
-                    .hasRole("USER")
-                    .anyRequest()
-                    .authenticated()
+                .hasRole("USER")
                 .anyRequest()
-                    .authenticated()
-                    .and()
+                .authenticated()
+                .anyRequest()
+                .authenticated()
+                .and()
                 .formLogin().loginPage("/login").permitAll()
-                    .usernameParameter("username").passwordParameter("password")
-                    .defaultSuccessUrl("/workingarea")
-                    .failureUrl("/login?error")
+                .usernameParameter("username").passwordParameter("password")
+                .defaultSuccessUrl("/workingarea")
+                .failureUrl("/login?error")
                 .and()
                 .logout()
-                    .logoutUrl("/logout").permitAll()
-                    .logoutSuccessUrl("/login?logout")
+                .logoutUrl("/logout").permitAll()
+                .logoutSuccessUrl("/login?logout")
                 .and().csrf().disable();
-                   /* .and()
-                .httpBasic();*/
+        /* .and()
+         .httpBasic();*/
+        /*
+         http.csrf().disable()
+         .antMatcher("/login")
+         .authorizeRequests()
+         .anyRequest().hasAnyRole("USER", "API")
+         .and()
+         .httpBasic();*/
 
     }
 
@@ -58,11 +74,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web
                 .ignoring()
-                .antMatchers("/fonts/**","/css/**", "/images/**", "/js/**", "/jquery-ui/**","/index","/verifyLogin");
+                .antMatchers("/fonts/**", "/css/**", "/images/**", "/js/**", "/jquery-ui/**", "/index", "/verifyLogin");
     }
-    
-   /*@Bean
-    public AuthenticationProvider authenticator() {
-        return new TestingAuthenticationProvider();
-    }*/
+
+    /*@Bean
+     public AuthenticationProvider authenticator() {
+     return new TestingAuthenticationProvider();
+     }*/
 }

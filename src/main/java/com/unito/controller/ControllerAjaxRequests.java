@@ -81,12 +81,11 @@ public class ControllerAjaxRequests {
     @RequestMapping(value = "/verifyLogin", method = RequestMethod.POST, consumes = "application/json")
     public String verifyLogin(@RequestBody String data, HttpServletRequest request) {
 
-        Gson gson = new Gson();
-        UserDetails userLogin = null;
-        UserDetails dbUser = null;
-        String idToken;
-        String json;
-        boolean ok = false;
+        Gson gson               = new Gson();
+        UserDetails userLogin   = null;
+        UserDetails dbUser      = null;
+        boolean ok              = false;
+        
         try {
             userLogin = gson.fromJson(data, UserDetails.class);
         } catch (JsonSyntaxException e) {
@@ -102,9 +101,7 @@ public class ControllerAjaxRequests {
             }
             
             ok = true;
-            
             //idToken = userLogin.getIdtoken();
-
             //do login
             // if userLogin.id doesn't exist in DB, register the user
             // else get info from db
@@ -123,6 +120,6 @@ public class ControllerAjaxRequests {
             //error login
             ok = false;
         }
-        return json = gson.toJson(ok);//json;
+        return gson.toJson(ok);//json;
     }
 }
