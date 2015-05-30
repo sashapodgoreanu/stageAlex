@@ -43,7 +43,7 @@ public class ControllerHome {
     @RequestMapping(value = {"/index", "/login"}, method = GET)
     public String index(HttpServletRequest request, @AuthenticationPrincipal Object customUser) {
         //System.out.println("::::: "+jDBCAccountDetailsRep.toString());
-        userDetailsRepository.find(5);
+        //userDetailsRepository.find(5);
         return "index";
     }
     

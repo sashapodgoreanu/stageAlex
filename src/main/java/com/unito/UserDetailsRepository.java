@@ -18,9 +18,11 @@ public interface UserDetailsRepository {
 
     UserDetails save(UserDetails user);
     
+    boolean update(UserDetails user);
+    
     boolean exists(long id);
 
-    UserDetails find(long id);
+    UserDetails find(String id);
 
     UserDetails findByUsername(String username);
 

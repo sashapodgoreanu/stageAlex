@@ -10,6 +10,7 @@ import com.unito.model.UserDetails.UserDetails;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -23,11 +24,15 @@ import org.springframework.stereotype.Repository;
 public class JDBCUserDetailsRepository implements UserDetailsRepository {
     
     private JdbcTemplate jdbcTemplate;
-    private static final String INSERT_USERDETAILS = "insert into USERDETAILS (ID, ID_TOKEN) values (?, ?)";
-    private static final String SELECT_USERDETAILS = "select * from USERDETAILS (ID, ID_TOKEN) values (?, ?)";
+    
+    private String INSERT_USERDETAILS = "insert into USERDETAILS (ID, ID_TOKEN) values (?, ?)";
+    private String SELECT_USERDETAILS = "select * from USERDETAILS where ID =?";
+    private String UPDATE_USERDETAILS = "update USERDETAILS set ID_TOKEN = ? where ID = ?";
+
     @Autowired
     public JDBCUserDetailsRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        //SELECT_USERDETAILS = env.getProperty("select");
     }
 
     @Override
@@ -37,6 +42,7 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
 
     @Override
     public UserDetails save(UserDetails userDetails) {
+        LOG.info(INSERT_USERDETAILS);
         if (userDetails== null) 
             throw new NullPointerException();
         jdbcTemplate.update(INSERT_USERDETAILS,userDetails.getId(),userDetails.getIdtoken());
@@ -44,8 +50,11 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
     }
 
     @Override
-    public UserDetails find(long id) {
-        UserDetails userDetails = (UserDetails) this.jdbcTemplate.queryForObject(SELECT_USERDETAILS, (new UserDetailsMapper()), id);
+    public UserDetails find(String id) {
+        LOG.info(SELECT_USERDETAILS);
+        if (id == null) throw new NullPointerException("id of userdetails is null");
+        UserDetails userDetails = (UserDetails) jdbcTemplate.queryForObject(SELECT_USERDETAILS, (new UserDetailsMapper()), id);
+        LOG.info("selected from db "+userDetails.toString());
         return userDetails;
     }
 
@@ -66,6 +75,14 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
         this:: String a;*/
         return false;
     }
+
+    @Override
+    public boolean update(UserDetails user) {
+        LOG.info("update user");
+        if (user == null)
+            throw new NullPointerException("user is null");
+        return jdbcTemplate.update(this.UPDATE_USERDETAILS,user.getIdtoken(),user.getId()) != 0;
+    }
     
     class UserDetailsMapper implements RowMapper{
 
@@ -76,10 +93,8 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
             userDetails.setIdtoken(rs.getString("ID_TOKEN"));
             return userDetails;
         }
-        
     }
+    private static final Logger LOG = Logger.getLogger(JDBCUserDetailsRepository.class.getName());
     
-    
-
     
 }
