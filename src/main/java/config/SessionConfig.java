@@ -14,28 +14,28 @@ import javax.servlet.http.HttpSessionListener;
  */
 public class SessionConfig implements HttpSessionListener {
  
-    private int totalSession = 0;
+    //private int totalSession = 0;
     
     @Override
     public void sessionCreated(HttpSessionEvent event) {
-        totalSession++;
-        System.out.format("==== Session %s was created. %s active session ====",event.getSession().getId(),totalSession);
+        //totalSession++;
+        //System.out.format("==== Session %s was created. %s active session ====",event.getSession().getId(),totalSession);
         //Durata della sessione
         event.getSession().setMaxInactiveInterval(60*60);
     }
  
     @Override
     public void sessionDestroyed(HttpSessionEvent event) {
-        totalSession--;
-        System.out.format("==== Session %s was destroyed. %s active session ====",event.getSession().getId(), totalSession);
+        //totalSession--;
+        //System.out.format("==== Session %s was destroyed. %s active session ====",event.getSession().getId(), totalSession);
     }
 
-    public int getTotalSession() {
-        return totalSession;
-    }
+    //public int getTotalSession() {
+     //   return totalSession;
+    //}
 
-    public void setTotalSession(int totalSession) {
-        this.totalSession = totalSession;
-    }
+    //public void setTotalSession(int totalSession) {
+    //    this.totalSession = totalSession;
+   // }
     
 }

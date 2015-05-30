@@ -14,7 +14,7 @@
             <option value="2">addvalues</option>
             <option value="3">to be implemented</option>
         </select>
-        <form name="jdbccontrols" id ="jdbccontrols" action="${adminjdbc}" >
+        <form name="jdbccontrols" id ="jdbccontrols" action="${adminjdbc}">
             <input type ="submit" value="Submit"/>
         </form>
     </body>

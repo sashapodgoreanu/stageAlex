@@ -15,6 +15,14 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDetails {
 
+    private String id;
+
+    private String verified;
+
+    private Name name;
+
+    private String circledByCount;
+    
     private String etag;
 
     private Image image;
@@ -24,14 +32,6 @@ public class UserDetails {
     private String kind;
 
     private String url;
-
-    private String id;
-
-    private String verified;
-
-    private Name name;
-
-    private String circledByCount;
 
     private String gender;
 

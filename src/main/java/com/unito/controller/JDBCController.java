@@ -5,9 +5,9 @@
  */
 package com.unito.controller;
 
-import com.unito.data.JDBCDbInit;
-import com.unito.model.Assoc;
+import com.unito.repository.JDBCDbInit;
 import java.util.Map;
+import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,28 +16,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 
+ *
  * @author SashaAlexandru
  */
 @Controller
 public class JDBCController {
-    
+
     @Autowired
     private JDBCDbInit jDBCDbInit;
-    
+    private static final Logger LOG = Logger.getLogger(JDBCController.class.getName());
+
     @RequestMapping(value = "/adminjdbc", method = GET)
-    public ModelAndView working_area(@RequestParam Map<String, Integer> params) {
-        String error;
+    public ModelAndView working_area(@RequestParam(required = false) Map<String, String> params) {
+        LOG.info("/adminjdbc");
         ModelAndView mvc = new ModelAndView("adminjdbc");
-        Assoc retVal = new Assoc();
-        System.out.println("hello "+params.get("action"));
-        switch(params.get("action")){
-            //create bd
-            case 1: retVal = jDBCDbInit.createDB();
+        String action = params.get("action");
+        LOG.info("params " + action);
+        
+        if (action == null) {
+            return mvc;
+        } else {
+            switch (action) {
+                //create bd
+                case "1":
+                    jDBCDbInit.createDB();
+            }
         }
-        if (!retVal.ok){}
-            //error
-        else mvc.addObject("val", retVal.val);
         return mvc;
-    }    
+    }
 }

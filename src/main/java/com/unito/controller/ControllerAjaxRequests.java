@@ -6,19 +6,16 @@
 package com.unito.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.unito.UserDetailsRepository;
 import com.unito.model.Tag;
 import com.unito.model.TagRepository;
 import com.unito.model.TokenValidateResponse;
 import com.unito.model.UserDetails.UserDetails;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +40,8 @@ public class ControllerAjaxRequests {
 
     @Autowired
     AuthenticationManager authenticationManager;
+    @Autowired
+    private UserDetailsRepository userDetailsRepository;
 
     @RequestMapping(value = "tag", method = RequestMethod.POST)
     public String getShopInJSON(@RequestBody String data) {
@@ -80,21 +79,28 @@ public class ControllerAjaxRequests {
     public String verifyLogin(@RequestBody String data, HttpServletRequest request) {
 
         Gson gson = new Gson();
-        UserDetails userLogin = gson.fromJson(data, UserDetails.class);
+        UserDetails userLogin = null;
+        try {
+            userLogin = gson.fromJson(data, UserDetails.class);
+        } catch (JsonSyntaxException e) {
+        }
+
+        userDetailsRepository.save(userLogin);
         
         System.out.println(userLogin.toString());
-
         String idToken = userLogin.getIdtoken();
 
         RestTemplate restTemplate = new RestTemplate();
         TokenValidateResponse tokenValidateResponse = restTemplate.getForObject(VALIDATE_HTTPS + userLogin.getIdtoken(), TokenValidateResponse.class);
         if (tokenValidateResponse.getUser_id().equals(userLogin.getId())) {
+            
+
             //do login
             // if userLogin.id doesn't exist in DB, register the user
             
             // else get info from db
             // authenticate user
-            UsernamePasswordAuthenticationToken authRequest
+            /*UsernamePasswordAuthenticationToken authRequest
                     = new UsernamePasswordAuthenticationToken("user", "password");
             // Authenticate the user
             Authentication authentication = authenticationManager.authenticate(authRequest);
@@ -103,7 +109,7 @@ public class ControllerAjaxRequests {
 
             // Create a new session and add the security context.
             HttpSession session = request.getSession(true);
-            session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+            session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);*/
         } else {
             //error login
         }

@@ -16,7 +16,9 @@ public interface UserDetailsRepository {
 
     long count();
 
-    UserDetails save(UserDetails spitter);
+    UserDetails save(UserDetails user);
+    
+    boolean exists(long id);
 
     UserDetails find(long id);
 
