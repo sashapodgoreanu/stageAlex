@@ -47,11 +47,21 @@ public class ControllerHome {
         return "index";
     }
     
-    @RequestMapping(value = {"/logout"}, method = GET)
-    public String logout() {
-        //save user data
-        //to do
-        return "index";
+    
+    @RequestMapping(value = {"/logout", "/logoutapp"}, method = GET)
+    public String logout(@AuthenticationPrincipal Object customUser) {
+         
+        System.out.println("logout");
+        System.out.println("ustom user = "+customUser);
+        
+        //userDetailsRepository.find(customUser)
+        return "redirect: logoutws";
+    }
+    
+    @RequestMapping(value = {"/logoutsuccess"}, method = GET)
+    public String logoutsucess() {
+        System.out.println("logoutsuccess");
+        return "goout";
     }
 
     @RequestMapping(value = "/workingarea", method = GET)

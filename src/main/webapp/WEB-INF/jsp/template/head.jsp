@@ -142,6 +142,12 @@
             $("#hiddenMenu").on("click", ".glyphicon-remove-circle", function (e) {
                 cpanel.hide();
             });
+            
+            $("#login-form").on("click", "#signinButton", function (e) {
+                alert("clicked");
+            });
+            
+            
 
 
             //listener of scrolling bar - Updates position for Properties-rightclickMenu
@@ -229,6 +235,7 @@
             if (data){
                 $("#username").val(userDetails.id);
                 $("#password").val(userDetails.idtoken);
+                $("#inputEmail").val(userDetails.url);
                 $("#login-form").submit();
             }
         }

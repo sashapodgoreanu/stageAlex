@@ -26,6 +26,8 @@ public class UserDetails {
     private String etag;
 
     private Image image;
+    
+    private Emails[] emails;
 
     private String isPlusUser;
 
@@ -45,6 +47,16 @@ public class UserDetails {
     
     private String accesstoken;
 
+    public Emails[] getEmails() {
+        return emails;
+    }
+
+    public void setEmails(Emails[] emails) {
+        this.emails = emails;
+    }
+
+    
+    
     public String getAccesstoken() {
         return accesstoken;
     }
@@ -168,8 +180,12 @@ public class UserDetails {
 
     @Override
     public String toString() {
-        return "UserDetails{" + "etag=" + etag + ", image=" + image + ", isPlusUser=" + isPlusUser + ", kind=" + kind + ", url=" + url + ", id=" + id + ", verified=" + verified + ", name=" + name + ", circledByCount=" + circledByCount + ", gender=" + gender + ", language=" + language + ", displayName=" + displayName + ", objectType=" + objectType + ", idtoken=" + idtoken + '}';
+        return "UserDetails{" + "id=" + id + ", verified=" + verified + ", name=" + name + ", circledByCount=" + circledByCount + ", etag=" + etag + ", image=" + image + ", emails=" + emails + ", isPlusUser=" + isPlusUser + ", kind=" + kind + ", url=" + url + ", gender=" + gender + ", language=" + language + ", displayName=" + displayName + ", objectType=" + objectType + ", idtoken=" + idtoken + ", accesstoken=" + accesstoken + '}';
     }
+
+  
     
+    
+   
     
 }

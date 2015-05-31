@@ -80,11 +80,12 @@ public class ControllerAjaxRequests {
      }*/
     @RequestMapping(value = "/verifyLogin", method = RequestMethod.POST, consumes = "application/json")
     public String verifyLogin(@RequestBody String data, HttpServletRequest request) {
-
+        LOG.info(data!=null? "Data from google respone: "+data :"Data from google respone:NULL");
         Gson gson               = new Gson();
         UserDetails userLogin   = null;
         UserDetails dbUser      = null;
         boolean ok              = false;
+        TokenValidateResponse tokenValidateResponse;
         
         try {
             userLogin = gson.fromJson(data, UserDetails.class);
@@ -92,8 +93,9 @@ public class ControllerAjaxRequests {
         }
         //validate the user
         RestTemplate restTemplate = new RestTemplate();
-        TokenValidateResponse tokenValidateResponse = restTemplate.getForObject(VALIDATE_HTTPS + userLogin.getIdtoken(), TokenValidateResponse.class);
-        if (tokenValidateResponse.getUser_id().equals(userLogin.getId())) {
+        
+        tokenValidateResponse = restTemplate.getForObject(VALIDATE_HTTPS + userLogin.getIdtoken(), TokenValidateResponse.class);
+        if (tokenValidateResponse != null && tokenValidateResponse.getUser_id().equals(userLogin.getId())) {
             //  recover the user form db
             dbUser = userDetailsRepository.find(userLogin.getId());
             if (dbUser != null){

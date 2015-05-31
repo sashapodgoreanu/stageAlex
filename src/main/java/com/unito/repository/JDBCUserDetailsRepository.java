@@ -54,7 +54,7 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
         LOG.info(SELECT_USERDETAILS);
         if (id == null) throw new NullPointerException("id of userdetails is null");
         UserDetails userDetails = (UserDetails) jdbcTemplate.queryForObject(SELECT_USERDETAILS, (new UserDetailsMapper()), id);
-        LOG.info("selected from db "+userDetails.toString());
+        LOG.info("selected from db: "+userDetails.toString());
         return userDetails;
     }
 
