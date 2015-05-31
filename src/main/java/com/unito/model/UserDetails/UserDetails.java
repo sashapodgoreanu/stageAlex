@@ -5,6 +5,7 @@
  */
 package com.unito.model.UserDetails;
 
+import java.util.Arrays;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
@@ -45,7 +46,7 @@ public class UserDetails {
     
     private String idtoken;
     
-    private String accesstoken;
+    private String access_token;
 
     public Emails[] getEmails() {
         return emails;
@@ -58,11 +59,11 @@ public class UserDetails {
     
     
     public String getAccesstoken() {
-        return accesstoken;
+        return access_token;
     }
 
     public void setAccesstoken(String accesstoken) {
-        this.accesstoken = accesstoken;
+        this.access_token = accesstoken;
     }
 
     public String getEtag() {
@@ -180,12 +181,7 @@ public class UserDetails {
 
     @Override
     public String toString() {
-        return "UserDetails{" + "id=" + id + ", verified=" + verified + ", name=" + name + ", circledByCount=" + circledByCount + ", etag=" + etag + ", image=" + image + ", emails=" + emails + ", isPlusUser=" + isPlusUser + ", kind=" + kind + ", url=" + url + ", gender=" + gender + ", language=" + language + ", displayName=" + displayName + ", objectType=" + objectType + ", idtoken=" + idtoken + ", accesstoken=" + accesstoken + '}';
+        return "UserDetails{" + "id=" + id + ", verified=" + verified + ", name=" + name + ", circledByCount=" + circledByCount + ", etag=" + etag + ", image=" + image + ", emails=" + Arrays.toString(emails) + ", isPlusUser=" + isPlusUser + ", kind=" + kind + ", url=" + url + ", gender=" + gender + ", language=" + language + ", displayName=" + displayName + ", objectType=" + objectType + ", idtoken=" + idtoken + ", accesstoken=" + access_token + '}';
     }
-
-  
-    
-    
-   
     
 }

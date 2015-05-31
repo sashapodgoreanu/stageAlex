@@ -91,6 +91,7 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
             UserDetails userDetails = new UserDetails();
             userDetails.setId(rs.getString("ID"));
             userDetails.setIdtoken(rs.getString("ID_TOKEN"));
+            userDetails.setAccesstoken(rs.getString("ACCESS_TOKEN"));
             return userDetails;
         }
     }

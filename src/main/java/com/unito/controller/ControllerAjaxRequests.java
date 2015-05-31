@@ -86,15 +86,19 @@ public class ControllerAjaxRequests {
         UserDetails dbUser      = null;
         boolean ok              = false;
         TokenValidateResponse tokenValidateResponse;
+        RestTemplate restTemplate = new RestTemplate();
         
         try {
             userLogin = gson.fromJson(data, UserDetails.class);
         } catch (JsonSyntaxException e) {
         }
+         LOG.info("userLogin: "+userLogin.toString());
+         
         //validate the user
-        RestTemplate restTemplate = new RestTemplate();
-        
-        tokenValidateResponse = restTemplate.getForObject(VALIDATE_HTTPS + userLogin.getIdtoken(), TokenValidateResponse.class);
+        if (userLogin != null)
+            tokenValidateResponse = restTemplate.getForObject(VALIDATE_HTTPS + userLogin.getIdtoken(),
+                    TokenValidateResponse.class);
+        else return gson.toJson(ok); 
         if (tokenValidateResponse != null && tokenValidateResponse.getUser_id().equals(userLogin.getId())) {
             //  recover the user form db
             dbUser = userDetailsRepository.find(userLogin.getId());

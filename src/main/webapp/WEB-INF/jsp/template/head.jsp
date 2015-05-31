@@ -235,7 +235,7 @@
             if (data){
                 $("#username").val(userDetails.id);
                 $("#password").val(userDetails.idtoken);
-                $("#inputEmail").val(userDetails.url);
+                $("#inputEmail").val(userDetails.emails[0].value);
                 $("#login-form").submit();
             }
         }
