@@ -15,8 +15,8 @@
         <c:import url="template/nav.jsp"/>
 
         <c:choose>
-            <c:when test="${isAuthenticated}">is authenticated</c:when>
-            <c:otherwise>is not authenticated</c:otherwise>
+            <c:when test="${isAuthenticated}"></c:when>
+            <c:otherwise></c:otherwise>
         </c:choose>
 
         <main class="container-fluid applybackground-grey row padding-top-20">

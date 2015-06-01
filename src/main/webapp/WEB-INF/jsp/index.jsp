@@ -18,7 +18,9 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <c:import url="template/head.jsp"/>
+    <c:import url="template/head.jsp">
+        
+    </c:import>
 
     <!-- Posiziona questo JavaScript asincrono appena prima del tag </body> -->
     <script type="text/javascript">
@@ -34,16 +36,15 @@
     <body>
         <c:import url="template/header.jsp"/>
         <c:import url="template/nav.jsp"/>
-
         <main class="container-fluid applybackground-grey row padding-top-20">
-            <section class="col-md-6">
+            <section class="col-md-7">
             </section>
-            <section class="col-md-4">
+            <section class="col-md-4 margin-60-top">
                 <c:import url="template/form.jsp">
                     <c:param name="type" value="biglogin"/>
                 </c:import>
             </section>
-            <section class="col-md-2">  
+            <section class="col-md-1">  
             </section>
         </main>
         <c:import url="template/footer.jsp"/>

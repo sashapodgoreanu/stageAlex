@@ -7,7 +7,6 @@ package com.unito.controller;
 
 import com.unito.UserDetailsRepository;
 import com.unito.model.UserDetails.UserDetails;
-import static java.util.logging.Level.INFO;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,27 +25,19 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ControllerHome {
 
+    private String title;
+    private ModelAndView mvc;
+    
     @Autowired
     private UserDetailsRepository userDetailsRepository;
     private final String REVOKE_URL = "https://accounts.google.com/o/oauth2/revoke?token=";
 
-
-    @RequestMapping(value = "helloWorld", method = GET)
-    public ModelAndView thiWillNotBeHello() {
-        ModelAndView mv = new ModelAndView("displayName");
-        mv.addObject("hello", "Hello");
-        return mv;
-    }
-
-    /*@RequestMapping(value = {"/login","/"}, method = RequestMethod.GET)
-     public String indexR(){
-     return "redirect: index";
-     }*/
     @RequestMapping(value = {"/index", "/login"}, method = GET)
-    public String index(HttpServletRequest request, @AuthenticationPrincipal Object customUser) {
-        //System.out.println("::::: "+jDBCAccountDetailsRep.toString());
-        //userDetailsRepository.find(5);
-        return "index";
+    public ModelAndView index(HttpServletRequest request, @AuthenticationPrincipal Object customUser) {
+        mvc = new ModelAndView("index");
+        title = "Login Page";
+        mvc.addObject("title",title);
+        return mvc;
     }
     
     
@@ -73,10 +64,12 @@ public class ControllerHome {
     }
 
     @RequestMapping(value = "/workingarea", method = GET)
-    public String working_area(@AuthenticationPrincipal User customUser) {
-        LOG.log(INFO, "AuthenticationPrincipal = " + customUser.toString());
+    public ModelAndView working_area(@AuthenticationPrincipal User customUser) {
+        mvc = new ModelAndView("working_area");
+        title = "Working Area";
+        mvc.addObject("title",title);
         
-        return "working_area";
+        return mvc;
     }
     private static final Logger LOG = Logger.getLogger(ControllerHome.class.getName());
     

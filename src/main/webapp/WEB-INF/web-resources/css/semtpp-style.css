@@ -61,7 +61,7 @@ main{
 .glyphicon-remove-circle{
     cursor: pointer;
     color: #ffffff;
-    
+
 }
 
 #hiddenMenu #propBar{
@@ -82,6 +82,36 @@ main{
     background-image: url(../images/bg_body.jpg);
 }
 
+.text-divider{
+    text-align: center;
+    color: #AAA;
+    margin: 0;
+    padding: 10px 0;
+    position: relative;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.text-divider span{
+    width: 100%;
+    border-top: 1px solid #CCC;
+    position: absolute;
+    left: 0;
+    top: 18px;
+    z-index: 1;
+    
+}
+.text-divider em{
+    background: #FFF;
+    padding: 0 7px;
+    position: relative;
+    z-index: 0;
+}
+
+.dropdown-menu {
+    min-width:140px !important;
+}
+
+
 .margin-20-top{
     margin-top: 20px !important;
 }
@@ -90,6 +120,9 @@ main{
 }
 .margin-40-top{
     margin-top: 40px !important;
+}
+.margin-60-top{
+    margin-top: 60px !important;
 }
 .margin-15-top{
     margin-top: 15px !important;

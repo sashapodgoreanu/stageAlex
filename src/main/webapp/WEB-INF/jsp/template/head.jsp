@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--Bootstrap: The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-    <title>Welocme</title>
+    <title>${title}</title>
 
 
 

@@ -41,21 +41,30 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <span id="signinButton">
-                                    <span
-                                        approval_prompt="auto"
-                                        access_type="online "
-                                        class="g-signin"
-                                        data-callback="signinCallback"
-                                        data-clientid="630129138206-mpttf2fj47g6milr9hlf6sfm8gijitue.apps.googleusercontent.com"
-                                        data-cookiepolicy="single_host_origin"
-                                        data-requestvisibleactions="http://schemas.google.com/AddActivity"
-                                        data-scope="https://www.googleapis.com/auth/plus.login 
-                                        https://www.googleapis.com/auth/userinfo.email">
-                                    </span>
-                                </span>
+                            <div class="text-divider"><em></em><span></span></div>
                             </div>
-                            <input type ="hidden" name ="useraction"  val ="0">
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    <div class=" col-sm-5 col-sm-offset-1">
+                                        <span id="signinButton">
+                                            <span
+                                                approval_prompt="auto"
+                                                access_type="online "
+                                                class="g-signin"
+                                                data-callback="signinCallback"
+                                                data-clientid="630129138206-mpttf2fj47g6milr9hlf6sfm8gijitue.apps.googleusercontent.com"
+                                                data-cookiepolicy="single_host_origin"
+                                                data-requestvisibleactions="http://schemas.google.com/AddActivity"
+                                                data-scope="https://www.googleapis.com/auth/plus.login 
+                                                https://www.googleapis.com/auth/userinfo.email">
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="col-sm-5 col-sm-offset-1">
+                                        <button type="submit" class="btn btn-default">Dropbox(TODO)</button>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </c:when>
                     <c:otherwise>
