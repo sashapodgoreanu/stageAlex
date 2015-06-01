@@ -3,10 +3,12 @@
     Created on : 31-mag-2015, 23.35.35
     Author     : SashaAlexandru
 --%>
-<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<sec:authorize access="isAuthenticated()" var="isAuthenticated" />
 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<sec:authorize access="isAuthenticated()" var="isAuthenticated" />
+<s:url value ="/logout" var="logout" scope="application"/>
 
 <c:choose>
     <c:when test="${param.type == 'biglogin'}">
@@ -67,7 +69,7 @@
             </div>
         </div>
     </c:when>
-    <c:when test="${param.type == 'smalllogin'}">
+    <c:when test="${param.type == 'smalllogin' && isAuthenticated && userDetails != null}">
         <span>
             <img src="${userDetails.image.url}" alt="..." class="img-circle">
         </span>
@@ -78,7 +80,7 @@
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropUserDetails">
-                    <li role="presentation"><a href="#">Logout</a></li>
+                    <li role="presentation"><a href="${logout}">Logout</a></li>
                     <li role="presentation"><a href="#">Settings</a></li>
                     <li role="presentation"><a href="#">Another Action</a></li>
                     <li role="presentation"><a href="#">ETC</a></li>
@@ -86,5 +88,4 @@
             </div>      
         </span>
     </c:when>
-    <c:otherwise>FORM NOT SUPPORTED</c:otherwise>
 </c:choose>

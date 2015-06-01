@@ -143,12 +143,6 @@
                 cpanel.hide();
             });
             
-            $("#login-form").on("click", "#signinButton", function (e) {
-                alert("clicked");
-            });
-            
-            
-
 
             //listener of scrolling bar - Updates position for Properties-rightclickMenu
             $(window).scroll(function () {
@@ -263,7 +257,6 @@
                 }
             });
         }
-
     </script>
 
 </head>

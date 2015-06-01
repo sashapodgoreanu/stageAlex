@@ -4,18 +4,35 @@
     Author     : Alexandru Podgoreanu 
 --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<sec:authorize access="isAuthenticated()" var="isAuthenticated" />
+<s:url var="discoversemt" value="/discoversemt" scope="application"/>
+<s:url var="about" value="/about" scope="application"/>
 <header class="container-fluid" >
     <div class="page-header row">
-        <section class="col-md-4 margin-15-top">.col-md-4</section>
-        <section class="col-md-5 margin-15-top">.col-md-3</section>
+        <!--Logo-->
+        <section class="col-md-2 margin-15-top"></section>
+        <!--Search Bar-->
+        <section class="col-md-3 margin-15-top">
+        </section>
+        <!--Search Bar-->
+        <section class="col-md-3 margin-15-top">
+            <c:if test="${!isAuthenticated}">  
+                <ul class="list-inline">
+                    <li><a href="${discoversemt}">Discover SemT</a></li>
+                    <li><a href="${discoversemt}">About</a></li>
+                </ul>
+            </c:if>
+        </section>
         <!--User Details-->
-        <section class="col-md-2 user-details">
+        <section class="col-md-3 user-details">
             <c:import url="template/form.jsp">
-                    <c:param name="type" value="smalllogin"/>
+                <c:param name="type" value="smalllogin"/>
             </c:import>
         </section>
-        <section class="col-md-1 margin-15-top">.col-md-1</section>
+        <!--News-->
+        <section class="col-md-1 margin-15-topt"></section>
     </div>
 </header>
 
