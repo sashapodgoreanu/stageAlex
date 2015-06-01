@@ -1,10 +1,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <s:url value ="/tag" var="tag" scope="application"/>
 <s:url value ="/tagPost" var="tagPost" scope="application"/>
 <s:url value = "/helloWorld" var ="helloWorld" scope="application"/>
-
+<sec:authorize access="isAuthenticated()" var="isAuthenticated" />
 <!DOCTYPE html>
 
 <html lang="en">
@@ -12,6 +13,11 @@
     <body>
         <c:import url="template/header.jsp"/>
         <c:import url="template/nav.jsp"/>
+
+        <c:choose>
+            <c:when test="${isAuthenticated}">is authenticated</c:when>
+            <c:otherwise>is not authenticated</c:otherwise>
+        </c:choose>
 
         <main class="container-fluid applybackground-grey row padding-top-20">
             <aside class="col-md-2">

@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -53,8 +54,13 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
     public UserDetails find(String id) {
         LOG.info(SELECT_USERDETAILS);
         if (id == null) throw new NullPointerException("id of userdetails is null");
-        UserDetails userDetails = (UserDetails) jdbcTemplate.queryForObject(SELECT_USERDETAILS, (new UserDetailsMapper()), id);
-        LOG.info("selected from db: "+userDetails.toString());
+        UserDetails userDetails = null;
+        try {
+            userDetails = (UserDetails) jdbcTemplate.queryForObject(SELECT_USERDETAILS, (new UserDetailsMapper()), id);
+        } catch (EmptyResultDataAccessException e) {
+        }
+        //jdbcTemplate.queryForMap(SELECT_USERDETAILS, id);
+        LOG.info(userDetails != null? "selected from db: "+userDetails.toString(): "NULL");
         return userDetails;
     }
 
@@ -89,6 +95,8 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
         @Override
         public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
             UserDetails userDetails = new UserDetails();
+            if (rowNum == 0)
+                return null;
             userDetails.setId(rs.getString("ID"));
             userDetails.setIdtoken(rs.getString("ID_TOKEN"));
             userDetails.setAccesstoken(rs.getString("ACCESS_TOKEN"));

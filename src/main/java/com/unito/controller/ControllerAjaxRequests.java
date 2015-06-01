@@ -83,7 +83,7 @@ public class ControllerAjaxRequests {
         LOG.info(data!=null? "Data from google respone: "+data :"Data from google respone:NULL");
         Gson gson               = new Gson();
         UserDetails userLogin   = null;
-        UserDetails dbUser      = null;
+        UserDetails dbResultUser      = null;
         boolean ok              = false;
         TokenValidateResponse tokenValidateResponse;
         RestTemplate restTemplate = new RestTemplate();
@@ -101,9 +101,11 @@ public class ControllerAjaxRequests {
         else return gson.toJson(ok); 
         if (tokenValidateResponse != null && tokenValidateResponse.getUser_id().equals(userLogin.getId())) {
             //  recover the user form db
-            dbUser = userDetailsRepository.find(userLogin.getId());
-            if (dbUser != null){
+            dbResultUser = userDetailsRepository.find(userLogin.getId());
+            if (dbResultUser != null){
                 LOG.info("result update: "+userDetailsRepository.update(userLogin));
+            } else {
+                LOG.info("Insert: "+userDetailsRepository.save(userLogin));
             }
             
             ok = true;

@@ -67,9 +67,9 @@ public class ControllerHome {
     }
     
     @RequestMapping(value = {"/logoutsuccess"}, method = GET)
-    public String logoutsucess() {
+    public String logoutsucess(@AuthenticationPrincipal User customUser) {
         LOG.info("logoutsuccess");
-        return "goout";
+        return "index";
     }
 
     @RequestMapping(value = "/workingarea", method = GET)
