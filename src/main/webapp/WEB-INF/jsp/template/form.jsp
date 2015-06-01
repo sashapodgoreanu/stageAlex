@@ -68,7 +68,23 @@
         </div>
     </c:when>
     <c:when test="${param.type == 'smalllogin'}">
-        <!-- TODO -->
+        <span>
+            <img src="${userDetails.image.url}" alt="..." class="img-circle">
+        </span>
+        <span>
+            <div class="dropdown" style="display : inline;">
+                <a id="dropUserDetails" data-target="#" href="#" class="dropdown-toggle no-hover" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                    ${userDetails.emails[0].value}
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropUserDetails">
+                    <li role="presentation"><a href="#">Logout</a></li>
+                    <li role="presentation"><a href="#">Settings</a></li>
+                    <li role="presentation"><a href="#">Another Action</a></li>
+                    <li role="presentation"><a href="#">ETC</a></li>
+                </ul>
+            </div>      
+        </span>
     </c:when>
-    <c:otherwise>is not authenticated</c:otherwise>
+    <c:otherwise>FORM NOT SUPPORTED</c:otherwise>
 </c:choose>

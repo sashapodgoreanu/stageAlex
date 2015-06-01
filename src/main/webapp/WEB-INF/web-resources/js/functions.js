@@ -90,3 +90,4 @@ function disableRightClick(elem) {
         e.preventDefault();
     });
 }
+

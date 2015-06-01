@@ -77,6 +77,7 @@ main{
     padding : 5px;
 }
 
+.no-hover,.no-hover:hover,.no-hover:link,.no-hover:active,.no-hover:visited{text-decoration:none; color: #5e5e5e}
 .applybackground-grey{
     background-image: url(../images/bg_body.jpg);
 }

@@ -53,14 +53,14 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
     @Override
     public UserDetails find(String id) {
         LOG.info(SELECT_USERDETAILS);
-        if (id == null) throw new NullPointerException("id of userdetails is null");
+        if (id == null) throw new NullPointerException("find: id of userdetails is null");
         UserDetails userDetails = null;
         try {
             userDetails = (UserDetails) jdbcTemplate.queryForObject(SELECT_USERDETAILS, (new UserDetailsMapper()), id);
         } catch (EmptyResultDataAccessException e) {
         }
         //jdbcTemplate.queryForMap(SELECT_USERDETAILS, id);
-        LOG.info(userDetails != null? "selected from db: "+userDetails.toString(): "NULL");
+        LOG.info(userDetails != null? "find: selected from db: "+userDetails.toString(): "NULL");
         return userDetails;
     }
 
@@ -95,8 +95,6 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
         @Override
         public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
             UserDetails userDetails = new UserDetails();
-            if (rowNum == 0)
-                return null;
             userDetails.setId(rs.getString("ID"));
             userDetails.setIdtoken(rs.getString("ID_TOKEN"));
             userDetails.setAccesstoken(rs.getString("ACCESS_TOKEN"));
