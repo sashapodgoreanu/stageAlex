@@ -38,7 +38,7 @@ public class JDBCController {
         } else {
             switch (action) {
                 //create bd
-                case "1":
+                case "0":
                     jDBCDbInit.createDB();
             }
         }

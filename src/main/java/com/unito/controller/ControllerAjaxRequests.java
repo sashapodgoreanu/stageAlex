@@ -100,6 +100,7 @@ public class ControllerAjaxRequests {
                 LOG.info("Insert: "+userDetailsRepository.save(userLogin));
             }
             
+            LOG.info("TO SESSION: "+userLogin);
             request.getSession().setAttribute("userDetails", userLogin);
             ok = true;
             

@@ -63,6 +63,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 .setCachePeriod(debug.getValue() ? 0 : 600000);
         registry.addResourceHandler("/jquery-ui/**").addResourceLocations("WEB-INF/web-resources/jquery-ui/")
                 .setCachePeriod(debug.getValue() ? 0 : 600000);
+        
+        
     }
     
     /**
@@ -80,6 +82,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(localeChangeInterceptor);
-
     }
+    
+    
 }
