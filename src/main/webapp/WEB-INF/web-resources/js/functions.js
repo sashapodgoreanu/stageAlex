@@ -114,11 +114,16 @@ var initTablesNav = function (saveURL) {
     });
 };
 
+
 var Table = function (name, saveURL) {
     this.name = name;
     this.saveURL = saveURL;
     this.saveCompleted = false;
-    Table.prototype.save = function () {
+
+};
+
+$.extend(Table.prototype, {
+    save: function () {
         $.ajax({
             url: saveURL,
             type: 'POST',
@@ -134,15 +139,55 @@ var Table = function (name, saveURL) {
                 alert(thrownError);
             },
             complete: function () {
-                this.saveCompleted = true;
+                this.open();
             }
         });
-    };
-    Table.prototype.open = function () {
-        //ajax call
-    };
-};
+    },
+    open: function () {
+        $.ajax({
+            url: '/stageAlex/workingarea',
+            dataType: 'html',
+            success: function (response) {
+                console.log(response);
+                $('#navbar-up').html(response);
+            }
+        });
+    }
+});
 
+
+
+(function ($) {
+
+    var APP = {
+        Elements: {
+            // elementi DOM
+
+        },
+        Utils: {
+            // metodi helper o di utility
+
+        },
+        fn: {
+            // il core
+
+        },
+        init: function () {
+
+            // metodo di inizializzazione
+
+        }
+
+    };
+
+    $(document).ready(function () {
+
+        APP.init(); // esegue tutto
+
+
+    });
+
+})(jQuery);
 //ajax call
 
 

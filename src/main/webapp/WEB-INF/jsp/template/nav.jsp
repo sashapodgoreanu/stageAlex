@@ -7,7 +7,7 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <sec:authorize access="isAuthenticated()" var="isAuthenticated" />
 <c:if test="${isAuthenticated}">
-    <nav class="navbar navbar-default no-margin-bottom">
+    <nav id="navbar-up" class="navbar navbar-default no-margin-bottom">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">SemT+</a>
