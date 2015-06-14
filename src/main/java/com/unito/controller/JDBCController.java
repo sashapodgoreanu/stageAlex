@@ -31,6 +31,7 @@ public class JDBCController {
         LOG.info("/adminjdbc");
         ModelAndView mvc = new ModelAndView("adminjdbc");
         String action = params.get("action");
+        boolean result = false;
         LOG.info("params " + action);
         
         if (action == null) {
@@ -39,9 +40,10 @@ public class JDBCController {
             switch (action) {
                 //create bd
                 case "0":
-                    jDBCDbInit.createDB();
+                    result = jDBCDbInit.createDB();
             }
         }
+        mvc.addObject("result",result);
         return mvc;
     }
 }

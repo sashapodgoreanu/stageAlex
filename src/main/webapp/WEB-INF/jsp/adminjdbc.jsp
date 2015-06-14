@@ -17,6 +17,7 @@
         <form name="jdbccontrols" id ="jdbccontrols" action="${adminjdbc}">
             <input type ="submit" value="Submit"/>
         </form>
+        <h1>${result}</h1>
     </body>
     ${val}
 </html>

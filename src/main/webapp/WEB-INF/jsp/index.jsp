@@ -13,6 +13,8 @@
 <s:url value ="/tagPost" var="tagPost" scope="application"/>
 <s:url value ="/verifyLogin" var="verifyLogin" scope="application"/>
 <s:url value ="/logout" var="logout" scope="application"/>
+<s:url value ="/save-url" var="save-url" scope="application"/>
+<s:url value ="/savetable" var="savetable" scope="application"/>
 <sec:authorize access="isAuthenticated()" var="isAuthenticated" />
 
 <!DOCTYPE html>

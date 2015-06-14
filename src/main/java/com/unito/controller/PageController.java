@@ -7,6 +7,7 @@ package com.unito.controller;
 
 import com.unito.UserDetailsRepository;
 import com.unito.model.UserDetails.UserDetails;
+import com.unito.model.UserSession;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,20 +20,20 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- *
+ * UsserSession is a session bean so i dont need to put the userSession in a session object
  * @author SashaAlexandru
  */
 @Controller
-public class ControllerHome {
-
+public class PageController {
+    
     private String title;
     private ModelAndView mvc;
     
-    @Autowired
-    private UserDetailsRepository userDetailsRepository;
+    @Autowired private UserDetailsRepository userDetailsRepository;
+    @Autowired private UserSession userSession;
     private final String REVOKE_URL = "https://accounts.google.com/o/oauth2/revoke?token=";
 
-    @RequestMapping(value = {"/index", "/login"}, method = GET)
+    @RequestMapping(value = {"/index", "/login","/"}, method = GET)
     public ModelAndView index(HttpServletRequest request, @AuthenticationPrincipal Object customUser) {
         mvc = new ModelAndView("index");
         title = "Login Page";
@@ -67,10 +68,14 @@ public class ControllerHome {
     public ModelAndView working_area(@AuthenticationPrincipal User customUser) {
         mvc = new ModelAndView("working_area");
         title = "Working Area";
+        LOG.info(userSession.toString());
+        LOG.info(userSession.getOpenedTables().toString());
+        
+        mvc.addObject("openedTables",userSession.getOpenedTables());
         mvc.addObject("title",title);
         
         return mvc;
     }
-    private static final Logger LOG = Logger.getLogger(ControllerHome.class.getName());
+    private static final Logger LOG = Logger.getLogger(PageController.class.getName());
     
 }

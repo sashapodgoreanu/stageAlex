@@ -91,3 +91,62 @@ function disableRightClick(elem) {
     });
 }
 
+//Scripts for UP Nav Bar 
+var initTablesNav = function (saveURL) {
+    //Add listener for button + (add new table)
+    $(".tables-nav").on("click", "a", function (event) {
+        event.preventDefault();
+        //on click + button
+        if ($(this).attr('id') === 'addTable') {
+            //show modal to insert table name
+            $('#addTableModal').modal('show');
+        } else //else was clicked a Table name
+        {
+            alert("not yet developed: ID = " + $(this).attr('id'));
+        }
+    });
+
+    //Save new created Table
+    $("#addTableModal").on("click", "#createNewTableButton", function () {
+        var instanceTable = new Table($("#createNewTableInput").val(), saveURL)
+        instanceTable.save();
+        $('#addTableModal').modal('hide');
+    });
+};
+
+var Table = function (name, saveURL) {
+    this.name = name;
+    this.saveURL = saveURL;
+    this.saveCompleted = false;
+    Table.prototype.save = function () {
+        $.ajax({
+            url: saveURL,
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            //data to be sent
+            data: JSON.stringify({'name': this.name}),
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            },
+            complete: function () {
+                this.saveCompleted = true;
+            }
+        });
+    };
+    Table.prototype.open = function () {
+        //ajax call
+    };
+};
+
+//ajax call
+
+
+
+
+
+

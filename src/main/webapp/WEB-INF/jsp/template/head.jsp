@@ -4,6 +4,8 @@
     Author     : Alexandru Podgoreanu 
 --%>
 
+<%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<s:url value ="/save-table" var="savetable" scope="application"/>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,6 +36,7 @@
     </style>
     <script>
         $(function () {
+            initTablesNav("${savetable}");
             performTagging("${tag}");
 
             //Menu for right click

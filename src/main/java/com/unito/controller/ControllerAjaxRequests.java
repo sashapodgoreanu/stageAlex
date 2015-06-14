@@ -8,10 +8,12 @@ package com.unito.controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.unito.UserDetailsRepository;
+import com.unito.model.Table;
 import com.unito.model.Tag;
 import com.unito.model.TagRepository;
 import com.unito.model.TokenValidateResponse;
 import com.unito.model.UserDetails.UserDetails;
+import com.unito.model.UserSession;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +42,7 @@ public class ControllerAjaxRequests {
     private static final String VALIDATE_HTTPS = "https://www.googleapis.com/oauth2/v1/tokeninfo?id_token=";
     @EJB
     TagRepository tagRep;
+    @Autowired private UserSession userSession;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -67,6 +70,18 @@ public class ControllerAjaxRequests {
         //Persona aPerson = gson.fromJson(data, Persona.class);
         System.out.println(data);
         return "";//json;
+    }
+    
+    @RequestMapping(value = "save-table", method = RequestMethod.POST, consumes = "application/json")
+    public String saveTable(@RequestBody /*@Valid Persona*/ String data) {
+        boolean ok          = true;
+        Gson gson           = new Gson();
+        Table newTable      = gson.fromJson(data, Table.class);
+        
+        LOG.info("new table to register: "+newTable.toString());
+        userSession.registerNewTable(newTable);
+        System.out.println(data);
+        return gson.toJson(ok);//json;
     }
 
     
@@ -102,6 +117,7 @@ public class ControllerAjaxRequests {
             
             LOG.info("TO SESSION: "+userLogin);
             request.getSession().setAttribute("userDetails", userLogin);
+            userSession.setUserdetails(userLogin);
             ok = true;
             
         } else {
