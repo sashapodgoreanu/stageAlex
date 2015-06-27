@@ -77,9 +77,27 @@ public class ControllerAjaxRequests {
         boolean ok          = true;
         Gson gson           = new Gson();
         Table newTable      = gson.fromJson(data, Table.class);
+  
         
         LOG.info("new table to register: "+newTable.toString());
-        userSession.registerNewTable(newTable);
+        int newTableId = userSession.registerNewTable(newTable);
+        LOG.info("new table id: "+newTableId);
+        System.out.println(data);
+        Assoc response = new Assoc(newTableId != -1,newTableId);
+        LOG.info("response "+response.toString());
+        LOG.info("response json"+gson.toJson(response));
+        return gson.toJson(response);//json;
+    }
+    
+    @RequestMapping(value = "close-table", method = RequestMethod.POST, consumes = "application/json")
+    public String closeTable(@RequestBody /*@Valid Persona*/ String data) {
+        boolean ok          = true;
+        Gson gson           = new Gson();
+        Table closeTable      = gson.fromJson(data, Table.class);
+  
+        
+        LOG.info("table to close: "+closeTable.toString());
+        userSession.closeTable(closeTable);
         System.out.println(data);
         return gson.toJson(ok);//json;
     }
@@ -127,3 +145,20 @@ public class ControllerAjaxRequests {
         return gson.toJson(ok);//json;
     }
 }
+
+class Assoc {
+            boolean ok;
+            int idTable;
+
+            public Assoc(boolean ok, int idTable) {
+                this.ok = ok;
+                this.idTable = idTable;
+            }
+
+            @Override
+            public String toString() {
+                return "Assoc{" + "ok=" + ok + ", idTable=" + idTable + '}';
+            }
+            
+            
+        }

@@ -31,32 +31,14 @@
                     <a href="#" class="list-group-item">Vestibulum at eros</a>
                 </div>
             </aside>
-            <section class="col-md-4">
+            <section class="col-md-5">
                 <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-
-                    </div>
-                    <div class="col-md-4"></div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <button type="button" class="btn btn-default" aria-label="Left Align">
-                            <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
-                        </button>
-                    </div>
-                    <div class="col-md-4">
-                        <button type="button" class="btn btn-default" aria-label="Left Align">
-                            <span class="glyphicon glyphicon glyphicon-envelope" aria-hidden="true"></span> New Mail
-                        </button>
-                    </div>
-                    <div class="col-md-4">
+                    <div class="col-md-8">
+                        <c:import url="template/table_base.jsp"/>
                     </div>
                 </div>
-
             </section>
-            <section class="col-md-4">
+            <section class="col-md-3">
                 <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-4">

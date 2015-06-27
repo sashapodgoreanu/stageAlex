@@ -91,10 +91,9 @@ function disableRightClick(elem) {
     });
 }
 
-//Scripts for UP Nav Bar 
-var initTablesNav = function (saveURL) {
-    //Add listener for button + (add new table)
-    $(".tables-nav").on("click", "a", function (event) {
+var activateMenuTable = function () {
+    //assign event to body because .tables-nav will be replaced with new from server
+    $("body").on("click", ".tables-nav a", function (event) {
         event.preventDefault();
         //on click + button
         if ($(this).attr('id') === 'addTable') {
@@ -105,32 +104,106 @@ var initTablesNav = function (saveURL) {
             alert("not yet developed: ID = " + $(this).attr('id'));
         }
     });
+};
 
+//Scripts for UP Nav Bar 
+var initTablesNav = function (saveURL) {
+    //Add listener for button + (add new table)
+    activateMenuTable();
     //Save new created Table
     $("#addTableModal").on("click", "#createNewTableButton", function () {
-        var instanceTable = new Table($("#createNewTableInput").val(), saveURL)
-        instanceTable.save();
+        var instanceTable = new Table();
+        instanceTable.name = $("#createNewTableInput").val();
+        instanceTable.saveURL = saveURL;
         $('#addTableModal').modal('hide');
+        instanceTable.save();
     });
 };
 
 
-var Table = function (name, saveURL) {
-    this.name = name;
-    this.saveURL = saveURL;
-    this.saveCompleted = false;
-
+var Table = function () {
 };
 
 $.extend(Table.prototype, {
+    name: "",
+    saveURL: "",
+    closeURL: "",
+    init: function (saveUrl, closeUrl) {
+        this.saveURL = saveUrl;
+        this.closeURL = closeUrl;
+
+        var thiz = this;
+        /*
+         * Init Listeners
+         */
+        //Close Table Listener
+        $("body").on("click", ".remove", function () {
+            var idTable = $(this).attr("table-id");
+            thiz.closeTable(idTable);
+        });
+    },
     save: function () {
+        var thiz = this;
+        var responseFromServ;
         $.ajax({
-            url: saveURL,
+            url: thiz.saveURL,
             type: 'POST',
             contentType: 'application/json',
             dataType: 'json',
             //data to be sent
-            data: JSON.stringify({'name': this.name}),
+            data: JSON.stringify({'name': thiz.name}),
+            success: function (data) {
+                responseFromServ = data;
+                console.log("resp:" + responseFromServ);
+                console.log("data " + data);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            },
+            complete: function () {
+                thiz.open(responseFromServ.idTable);
+            }
+        });
+        console.log("saved");
+    },
+    open: function (id) {
+        $.ajax({
+            url: '/stageAlex/workingarea/' + id,
+            dataType: 'html',
+            success: function (response) {
+                //console.log($('#navbar-up').html(response));
+                var result = $('<div />').append(response).find('#navbar-up').html();
+                $('#navbar-up').html(result);
+
+                //focus on new table 
+                /*$('#navbar-up li').each(function () {
+                 $(this).removeClass("active");
+                 });
+                 $('#navbar-up li:nth-last-child(2)').addClass("active");*/
+
+            }
+        });
+        ///this.openUtils.loadTable(5);
+    },
+    /*openUtils: {
+     loadTable: function(id){
+     console.log(id);
+     }
+     },
+     /*
+     * Close table
+     */
+    closeTable: function (tableId) {
+        var thiz = this;
+        console.log(thiz.closeURL);
+        $.ajax({
+            url: thiz.closeURL,
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            //data to be sent
+            data: JSON.stringify({'id': tableId}),
             success: function (data) {
                 console.log(data);
             },
@@ -139,17 +212,7 @@ $.extend(Table.prototype, {
                 alert(thrownError);
             },
             complete: function () {
-                this.open();
-            }
-        });
-    },
-    open: function () {
-        $.ajax({
-            url: '/stageAlex/workingarea',
-            dataType: 'html',
-            success: function (response) {
-                console.log(response);
-                $('#navbar-up').html(response);
+                thiz.open(tableId-1);
             }
         });
     }

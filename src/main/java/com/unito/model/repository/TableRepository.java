@@ -7,12 +7,17 @@ package com.unito.model.repository;
 
 import com.unito.model.Table;
 import com.unito.model.UserDetails.UserDetails;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -22,16 +27,16 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TableRepository {
 
-    
     private JdbcTemplate jdbcTemplate;
     private final String INSERT_TABLE = "insert into W_TABLE(NAME, OWNER) values(?,?)";
+    private final String INSERT_USER_ON_TABLE = "insert into USER_W_TABLE(USERDETAILS_ID,W_TABLE_ID, OPENED) values(?,?,?)";
     private final String SELECT_ALL = "select wt.ID as ID, wt.NAME as NAME, wt.OWNER as OWNER, uwt.opened as OPENED\n"
             + "from W_TABLE wt join USER_W_TABLE uwt on(wt.id = uwt.W_TABLE_ID) \n"
             + "where uwt.USERDETAILS_ID = ?";
     private final String SELECT_ALL_OPENED = "select wt.ID as ID, wt.NAME as NAME, wt.OWNER as OWNER, uwt.opened as OPENED\n"
             + "from W_TABLE wt join USER_W_TABLE uwt on(wt.id = uwt.W_TABLE_ID) \n"
             + "where uwt.OPENED = TRUE and uwt.USERDETAILS_ID = ?";
-
+    private final String UPDATE_OPENED_TABLE = "update USER_W_TABLE set opened = ? where USERDETAILS_ID = ? and W_TABLE_ID =?";
     
     @Autowired
     public TableRepository(JdbcTemplate jdbcTemplate) {
@@ -48,22 +53,39 @@ public class TableRepository {
     }
 
     public List<Table> getOpenedTables(UserDetails userDetails) {
-        List<Table> retVal = jdbcTemplate.query(SELECT_ALL_OPENED, (new TableRowMapper<>()),userDetails.getId());
+        List<Table> retVal = jdbcTemplate.query(SELECT_ALL_OPENED, (new TableRowMapper<>()), userDetails.getId());
         return retVal;
     }
 
-    public boolean saveTable(Table tableToSave) {
-        return jdbcTemplate.update(INSERT_TABLE, tableToSave.getName(), tableToSave.getOwner()) == 1;
-        //to do aggiungere una riga nella working table con gli utenti collegati
+    public int saveTable(Table tableToSave) {
+        System.out.println("saving");
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        System.out.println(keyHolder.getKey());
+        //http://docs.spring.io/spring/docs/2.5.x/reference/jdbc.html#jdbc-auto-genereted-keys
+        jdbcTemplate.update(
+                new PreparedStatementCreator() {
+                    @Override
+                    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                        PreparedStatement ps = connection.prepareStatement(INSERT_TABLE, new String[]{"id"});
+                        ps.setString(1, tableToSave.getName());
+                        ps.setString(2, tableToSave.getOwner());
+                        return ps;
+                    }
+                },
+                keyHolder);
+        return keyHolder.getKey().intValue() >= 0 ? keyHolder.getKey().intValue() : -1;
     }
-    
-    public boolean addUserOnTable(Table wtable, UserDetails userDetails){
-        //todo
-        throw new UnsupportedOperationException("Not supported yet.");
+
+    public boolean addUserOnTable(Table wtable, UserDetails userDetails) {
+        return jdbcTemplate.update(INSERT_USER_ON_TABLE, userDetails.getId(),wtable.getID(), wtable.isOpened()) == 1;
     }
 
     public boolean addUserOnTable(UserDetails userDetails, Table table) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public boolean closeTable(UserDetails userDetails, Table closeTable) {
+        return jdbcTemplate.update(UPDATE_OPENED_TABLE,false,userDetails.getId(),closeTable.getID()) == 1;
     }
 
     class TableRowMapper<T> implements RowMapper {

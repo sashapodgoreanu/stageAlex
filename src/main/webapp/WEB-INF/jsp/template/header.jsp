@@ -7,8 +7,7 @@
 <%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <sec:authorize access="isAuthenticated()" var="isAuthenticated" />
-<s:url var="discoversemt" value="/discoversemt" scope="application"/>
-<s:url var="about" value="/about" scope="application"/>
+
 <header class="container-fluid" >
     <div class="page-header row">
         <!--Logo-->

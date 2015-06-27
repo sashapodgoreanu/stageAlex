@@ -5,7 +5,19 @@
 --%>
 
 <%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%-- 
+    Set up URLS
+--%>
 <s:url value ="/save-table" var="savetable" scope="application"/>
+<s:url value ="/tag" var="tag" scope="application"/>
+<s:url value ="/login" var="login" scope="application"/>
+<s:url value ="/tagPost" var="tagPost" scope="application"/>
+<s:url value ="/verifyLogin" var="verifyLogin" scope="application"/>
+<s:url value ="/logout" var="logout" scope="application"/>
+<s:url value ="/save-table" var="savetable" scope="application"/>
+<s:url value ="/discoversemt" var="discoversemt"  scope="application"/>
+<s:url value ="/about" var="about"  scope="application"/>
+<s:url value ="/close-table" var="closetable" scope="application"/>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,6 +49,8 @@
     <script>
         $(function () {
             initTablesNav("${savetable}");
+            var instanceTable = new Table();
+            instanceTable.init("${savetable}","${closetable}");
             performTagging("${tag}");
 
             //Menu for right click

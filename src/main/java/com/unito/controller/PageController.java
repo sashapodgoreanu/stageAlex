@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import org.springframework.web.client.RestTemplate;
@@ -64,14 +65,17 @@ public class PageController {
         return "index";
     }
 
-    @RequestMapping(value = "/workingarea", method = GET)
-    public ModelAndView working_area(@AuthenticationPrincipal User customUser) {
+    @RequestMapping(value = "/workingarea/{idTable}", method = GET)
+    public ModelAndView working_area(@AuthenticationPrincipal User customUser, @PathVariable int idTable) {
+        
         mvc = new ModelAndView("working_area");
         title = "Working Area";
+        LOG.info("Id table: "+idTable);
         LOG.info(userSession.toString());
         LOG.info(userSession.getOpenedTables().toString());
         
         mvc.addObject("openedTables",userSession.getOpenedTables());
+        mvc.addObject("idTable",idTable);
         mvc.addObject("title",title);
         
         return mvc;

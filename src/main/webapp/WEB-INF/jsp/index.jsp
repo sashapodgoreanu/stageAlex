@@ -8,13 +8,6 @@
 <%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<s:url value ="/tag" var="tag" scope="application"/>
-<s:url value ="/login" var="login" scope="application"/>
-<s:url value ="/tagPost" var="tagPost" scope="application"/>
-<s:url value ="/verifyLogin" var="verifyLogin" scope="application"/>
-<s:url value ="/logout" var="logout" scope="application"/>
-<s:url value ="/save-url" var="save-url" scope="application"/>
-<s:url value ="/savetable" var="savetable" scope="application"/>
 <sec:authorize access="isAuthenticated()" var="isAuthenticated" />
 
 <!DOCTYPE html>

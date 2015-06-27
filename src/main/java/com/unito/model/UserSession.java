@@ -24,12 +24,22 @@ public class UserSession {
     TableRepository tableRepository;
     private UserDetails userdetails;
     private List<Table> tables;
+    private List<Table> openTables;
 
     @Autowired
     public UserSession(TableRepository tableRepository) {
         this.tableRepository = tableRepository;
     }
 
+    public List<Table> getOpenTables() {
+        return openTables;
+    }
+
+    public void setOpenTables(List<Table> openTables) {
+        this.openTables = openTables;
+    }
+
+    
     public TableRepository getTableRepository() {
         return tableRepository;
     }
@@ -56,6 +66,8 @@ public class UserSession {
     }
     
     public List<Table> getOpenedTables(){
+        this.tables = tableRepository.getAllTables(userdetails);
+        this.openTables = tableRepository.getAllTables(userdetails);
         List<Table> retVal = new ArrayList<>();
         for(Table t : this.tables){
             if (t.isOpened())
@@ -69,9 +81,22 @@ public class UserSession {
         return "UserSession{" + "userdetails=" + userdetails.toString() + '}';
     }
 
-    public void registerNewTable(Table newTable) {
-        tableRepository.saveTable(newTable);
+    public int registerNewTable(Table newTable) {
+        newTable.setOwner(this.getUserdetails().getId());
+        int newtableId = tableRepository.saveTable(newTable);
+        if (newtableId != -1){
+            newTable.setID(newtableId);
+            newTable.setOpened(true);
+            //todo insert check control from db
+            tableRepository.addUserOnTable(newTable, userdetails);
+        }
         this.tables.add(newTable);
+        return newtableId;
+    }
+
+    public boolean closeTable(Table closeTable) {
+        return tableRepository.closeTable(userdetails,closeTable);
+        
     }
 
     
