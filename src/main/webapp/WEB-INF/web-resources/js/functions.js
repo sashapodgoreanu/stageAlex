@@ -120,14 +120,206 @@ var initTablesNav = function (saveURL) {
     });
 };
 
+/*
+ * Sends dataJson to URL, on ajaxcomplete will run ajaxComplete method of instance object
+ * @param {STring} URL - Url were to send dataJson
+ * @param {String} dataJson - Json plain object
+ * @param {Object} instance - will be object that called sendJSONAssnc or the object that need some data from server
+ * @returns {Boolean} true if dataJson was send to server successfully
+ */
+$.sendJSONAssnc = function (URL, dataJson, instance) {
+    var response;
+    var ok = false;
+    if (!isJson(dataJson)) {
+        ok = false;
+    }
+    else {
+        $.ajax({
+            url: URL,
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: dataJson,
+            success: function (data) {
+                response = data;
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr);
+                $('html').html(xhr.responseText);
+            },
+            /*
+             * On ajax complete, i will call ajaxComplete(response) function of instance
+             */
+            complete: function () {
+                if (instance && ok)
+                    instance.complete(response);
+            }
+        });
+    }
+    return ok;
+};
+
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
+
+/*
+ Robot.prototype = Person.prototype;        // Set prototype to Person's
+ Robot.prototype.constructor = Robot;   // Set constructor back to Robot
+ */
+
+ObserverList = function () {
+    this.observerList = [];
+};
+$.extend(ObserverList.prototype, {
+    add: function (obj) {
+        return this.observerList.push(obj);
+    },
+    count: function () {
+        return this.observerList.length;
+    },
+    get: function (index) {
+        if (index > -1 && index < this.observerList.length) {
+            return this.observerList[ index ];
+        }
+    },
+    indexOf: function (obj, startIndex) {
+        var i = startIndex;
+
+        while (i < this.observerList.length) {
+            if (this.observerList[i] === obj) {
+                return i;
+            }
+            i++;
+        }
+
+        return -1;
+    },
+    removeAt: function (index) {
+        this.observerList.splice(index, 1);
+    }
+});
+function Observable() {
+    this.observers = new ObserverList();
+}
+$.extend(Observable.prototype, {
+    addObserver: function (observer) {
+        this.observers.add(observer);
+    },
+    removeObserver: function (observer) {
+        this.observers.removeAt(this.observers.indexOf(observer, 0));
+    },
+    notify: function (context) {
+        var observerCount = this.observers.count();
+        for (var i = 0; i < observerCount; i++) {
+            var obs = this.observers.get(i);
+            obs.update(context);
+        }
+    }
+});
+
+
+// The Observer
+var Observer = function () {
+    /*
+     * To be implemented by extended class
+     */
+    this.update = function (context) {//to be implemented
+    };
+}
+
+
+
+var ListPanel = function (listPanel, addElement, modal, addURL) {
+    this.listPanel = listPanel;
+    this.addElement = addElement;
+    this.modal = modal;
+    this.addURL = addURL;
+};
+ListPanel.prototype = Observer.prototype;        // Set prototype to Observer's
+ListPanel.prototype.constructor = ListPanel;    // Set constructor back to ListPanel
+$.extend(ListPanel.prototype, {
+    init: function () {
+        var thiz = this;
+        //add new element to wardrobe
+        $(this.listPanel).on("click", this.addElement, function () {
+            $(thiz.modal).modal("show");
+        });
+    },
+    update: function (context) {
+        var tableID= $(this.addElement).attr("table-id");
+        $.sendJSONAssnc(this.addURL, JSON.stringify($.extend(context, {'id':tableID})), this);
+    },
+    ajaxComplete: function (response) {
+        //TODO
+    }
+});
+
+/*
+ * Modal that is used to save data on server
+ */
+var SaveModal = function (modal, saveButon, type) {
+    Observable.call(this);
+    this.saveButon = saveButon;
+    this.modal = modal;
+    this.type = type;
+    this.inputValues = {};
+};
+SaveModal.prototype = Observable.prototype;        // Set prototype to Observer's
+SaveModal.prototype.constructor = SaveModal;    // Set constructor back to ListPanel
+$.extend(SaveModal.prototype, {
+    init: function () {
+        var thiz = this;
+        $(this.modal).on("click", this.saveButon, function () {
+            var ok = true;
+            
+            if (thiz.type === "A") {
+                thiz.inputValues = {'name': "", 'url': ""};
+                $(thiz.modal + " input").each(function () {
+                    if ($(this).val() !== "") {
+                        if ($(this).attr("name") === "name")
+                            thiz.inputValues.name = $(this).val();
+                        if ($(this).attr("name") === "url")
+                            thiz.inputValues.url = $(this).val();
+                    } else {
+                        alert($(this).attr("name") + " non puo essere vuouto!");
+                        ok = false;
+                    }
+                });
+            }
+            
+            if (ok) {
+                $(thiz.modal + " input").each(function () {
+                    $(this).val("");
+
+                });
+                thiz.hide();
+                thiz.notify(thiz.inputValues);
+            }
+        });
+    },
+    show: function () {
+        $(this.modal).modal('show');
+    },
+    hide: function () {
+        $(this.modal).modal('hide');
+    }
+});
+
 
 var Table = function () {
 };
-
 $.extend(Table.prototype, {
     name: "",
     saveURL: "",
     closeURL: "",
+    crentOpenedTableId: "",
     init: function (saveUrl, closeUrl) {
         this.saveURL = saveUrl;
         this.closeURL = closeUrl;
@@ -139,8 +331,14 @@ $.extend(Table.prototype, {
         //Close Table Listener
         $("body").on("click", ".remove", function () {
             var idTable = $(this).attr("table-id");
+            /*
+             * Set current table id
+             */
+            thiz.crentOpenedTableId = $('#navbar-up li:nth-last-child(3)').attr("table-id");
             thiz.closeTable(idTable);
         });
+
+
     },
     save: function () {
         var thiz = this;
@@ -212,7 +410,8 @@ $.extend(Table.prototype, {
                 alert(thrownError);
             },
             complete: function () {
-                thiz.open(tableId-1);
+                console.log("open table with id " + thiz.crentOpenedTableId);
+                thiz.open(thiz.crentOpenedTableId);
             }
         });
     }
@@ -252,9 +451,3 @@ $.extend(Table.prototype, {
 
 })(jQuery);
 //ajax call
-
-
-
-
-
-

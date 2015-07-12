@@ -6,6 +6,7 @@
 package com.unito.model;
 
 import com.unito.model.UserDetails.UserDetails;
+import com.unito.model.repository.SemTElemRepository;
 import com.unito.model.repository.TableRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +23,15 @@ proxyMode=ScopedProxyMode.TARGET_CLASS)
 public class UserSession {
     
     TableRepository tableRepository;
-    private UserDetails userdetails;
+    SemTElemRepository semTElemRepository;
+    private UserDetails userDetails;
     private List<Table> tables;
     private List<Table> openTables;
 
     @Autowired
-    public UserSession(TableRepository tableRepository) {
+    public UserSession(TableRepository tableRepository, SemTElemRepository semTElemRepository) {
         this.tableRepository = tableRepository;
+        this.semTElemRepository = semTElemRepository;
     }
 
     public List<Table> getOpenTables() {
@@ -49,11 +52,11 @@ public class UserSession {
     }
 
     public UserDetails getUserdetails() {
-        return userdetails;
+        return userDetails;
     }
 
     public void setUserdetails(UserDetails userdetails) {
-        this.userdetails = userdetails;
+        this.userDetails = userdetails;
         this.tables = tableRepository.getAllTables(userdetails);
     }
 
@@ -66,8 +69,8 @@ public class UserSession {
     }
     
     public List<Table> getOpenedTables(){
-        this.tables = tableRepository.getAllTables(userdetails);
-        this.openTables = tableRepository.getAllTables(userdetails);
+        this.tables = tableRepository.getAllTables(userDetails);
+        this.openTables = tableRepository.getAllTables(userDetails);
         List<Table> retVal = new ArrayList<>();
         for(Table t : this.tables){
             if (t.isOpened())
@@ -75,10 +78,26 @@ public class UserSession {
         }
         return retVal;
     }
+    
+    //TODO
+    public List<SemTElem> getElementsOnTable(Table table){
+        List<SemTElem> retVal = new ArrayList<>();
+        //List<SemTElem> result = semTElemRepository.getElementsOnTable(table, userDetails);
+        /*for(SemTElem t : this.tables){
+            if (t.isOpened())
+             *   retVal.add(t);
+        }*/
+        return retVal;
+    }
+    //TODO
+    public boolean addElement(SemTElem semTElem, Table table){
+        semTElemRepository.addelementOnTable(semTElem, table);
+        return true;
+    }
 
     @Override
     public String toString() {
-        return "UserSession{" + "userdetails=" + userdetails.toString() + '}';
+        return "UserSession{" + "userdetails=" + userDetails.toString() + '}';
     }
 
     public int registerNewTable(Table newTable) {
@@ -88,16 +107,18 @@ public class UserSession {
             newTable.setID(newtableId);
             newTable.setOpened(true);
             //todo insert check control from db
-            tableRepository.addUserOnTable(newTable, userdetails);
+            tableRepository.addUserOnTable(newTable, userDetails);
         }
         this.tables.add(newTable);
         return newtableId;
     }
 
     public boolean closeTable(Table closeTable) {
-        return tableRepository.closeTable(userdetails,closeTable);
+        return tableRepository.closeTable(userDetails,closeTable);
         
     }
+    
+    
 
     
     

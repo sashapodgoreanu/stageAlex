@@ -149,6 +149,11 @@ main{
     margin-left: 50px;
 }
 
+main #addElement {
+    float:right;
+    cursor: pointer;
+}
+
 
 .margin-20-top{
     margin-top: 20px !important;

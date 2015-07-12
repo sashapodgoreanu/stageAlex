@@ -52,23 +52,23 @@ public class JDBCDbInit {
             + "                    )";
     private final String DROP_USER_W_TABLE = "drop table " + USER_W_TABLE;
 
-    private final String OBJECTS = "OBJECTS";
-    private final String CREATE_OBJECTS = "create table " + OBJECTS
+    private final String SEMTELEMS = "SEMTELEMS";
+    private final String CREATE_SEMTELEMS = "create table " + SEMTELEMS
             + "                    ("
-            + "                     URL varchar(1024) not null,"
-            + "                     ID_PROPERTY integer"
+            + "                     URL varchar(2048) not null primary key,"
+            + "                     NAME varchar (32) not null"
             + "                    )";
-    private final String DROP_OBJECTS = "drop table " + OBJECTS;
+    private final String DROP_SEMTELEMS = "drop table " + SEMTELEMS;
 
-    private final String OBJECTS_ON_TABLE = "OBJECTS_ON_TABLE";
-    private final String CREATE_OBJECTS_ON_TABLE = "create table " + OBJECTS_ON_TABLE
+    private final String SEMTELEMS_ON_TABLE = "SEMTELEMS_ON_TABLE";
+    private final String CREATE_SEMTELEMS_ON_TABLE = "create table " + SEMTELEMS_ON_TABLE
             + "                    ("
             + "                     URL varchar(1024) not null,"
             + "                     ID_TABLE integer,"
             + "                     IN_WARDROBE BOOLEAN,"
             + "                     primary key(ID_TABLE, URL)"
             + "                    )";
-    private final String DROP_OBJECTS_ON_TABLE = "drop table " + OBJECTS_ON_TABLE;
+    private final String DROP_SEMTELEMS_ON_TABLE = "drop table " + SEMTELEMS_ON_TABLE;
 
     private final String PROPERTIES = "PROPERTIES";
     private final String CREATE_PROPERTIES = "create table " + PROPERTIES
@@ -77,8 +77,7 @@ public class JDBCDbInit {
             + "                     generated always as identity (start with 1, increment by 1),"
             + "                     VALUE varchar(64) not null,"
             + "                     ID_USERDETAILS varchar(1024),"
-            + "                     PRIVATE boolean,"
-            + "                     foreign key(ID_USERDETAILS) references USERDETAILS(ID)"
+            + "                     ID_OBJECT varchar(1024) not null"
             + "                    )";
     private final String DROP_PROPERTIES = "drop table " + PROPERTIES;
 
@@ -93,8 +92,8 @@ public class JDBCDbInit {
             jdbcTemplate.update(DROP_PROPERTIES);
 
         }
-        if (existsTable(OBJECTS_ON_TABLE)) {
-            jdbcTemplate.update(DROP_OBJECTS_ON_TABLE);
+        if (existsTable(SEMTELEMS_ON_TABLE)) {
+            jdbcTemplate.update(DROP_SEMTELEMS_ON_TABLE);
 
         }
         if (existsTable(USER_W_TABLE)) {
@@ -109,19 +108,19 @@ public class JDBCDbInit {
             jdbcTemplate.update(DROP_W_TABLE);
 
         }
-        if (existsTable(OBJECTS)) {
-            jdbcTemplate.update(DROP_OBJECTS);
+        if (existsTable(SEMTELEMS)) {
+            jdbcTemplate.update(DROP_SEMTELEMS);
         }
 
         int res = jdbcTemplate.update(CREATE_USER_DETAILS);
         success = success && res == 1;
         res = jdbcTemplate.update(CREATE_W_TABLE);
         success = success && res == 1;
-        res = jdbcTemplate.update(CREATE_OBJECTS);
+        res = jdbcTemplate.update(CREATE_SEMTELEMS);
         success = success && res == 1;
         res = jdbcTemplate.update(CREATE_USER_W_TABLE);
         success = success && res == 1;
-        res = jdbcTemplate.update(CREATE_OBJECTS_ON_TABLE);
+        res = jdbcTemplate.update(CREATE_SEMTELEMS_ON_TABLE);
         success = success && res == 1;
         res = jdbcTemplate.update(CREATE_PROPERTIES);
         success = success && res == 1;
