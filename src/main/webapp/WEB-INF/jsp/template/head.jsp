@@ -75,118 +75,13 @@
                 rightclickMenu.hide();
             });
 
-            //Adds id to section of Properties-rightclikMenu
-            $(function () {
-                var elem = $("#hiddenMenu").find(".panel-collapse");
-                var sections = elem.parent().siblings();
-                var L = 0;
-                $.each(sections, function (i, elem) {
-                    if (L !== 0)
-                        $(this).addClass('closed');
-                    L++;
-                });
-                console.log(L);
-            });
-
-            //title bar for sliding elements
-            $thisSlide = null;
-            $lastSlide = null;
-
-            //listener that slide up and down panels from Properties-rightclikMenu
-            $(".panel-collapse").click(function () {
-
-                $thisSlide = $(this).parent();
-                if ($thisSlide.hasClass("open")) {
-                    $content1 = $thisSlide.children().next();
-
-                    $thisSlide.removeClass("open");
-                    $thisSlide.addClass("closed");
-                    $content1.slideToggle(300, function () {
-                        //execute this after slideToggle is done
-
-                        var spanArrow = $thisSlide.find("span");
-
-                        if ($content1.is(":visible")) {
-                            spanArrow.attr("class", "glyphicon glyphicon-triangle-bottom");
-                        } else {
-                            spanArrow.attr("class", "glyphicon glyphicon-triangle-right");
-                        }
-                    });
-                } else {
-                    //close the one that are open
-                    $openSlide = $("#hiddenMenu").find(".open");
-                    if ($openSlide !== null) {
-                        $openSlide.removeClass("open");
-                        $openSlide.addClass("closed");
-                        $content1 = $openSlide.children().next();
-                        $content1.slideUp(300, function () {
-                            //execute this after slideUp is done
-                            var spanArrow = $openSlide.find(".glyphicon");
-                            spanArrow.attr("class", "glyphicon glyphicon-triangle-right");
-                        });
-                    }
-                    //open the clicked one
-                    $content1 = $thisSlide.children().next();
-                    $thisSlide.removeClass("closed");
-                    $thisSlide.addClass("open");
-                    $content1.slideDown(300, function () {
-                        //execute this after slideToggle is done
-                        var spanArrow = $thisSlide.find(".glyphicon");
-                        spanArrow.attr("class", "glyphicon glyphicon-triangle-bottom");
-                    });
-                }
-            });
-
-            //Position of Properties-rightclickMenu
-            var position;
-            //Propertie-rightclickeMenu 
-            var cpanel = $("#hiddenMenu");
-            cpanel.hide();
-
-            //Listener that shows Properties-rightclickMenu
+            var objProperties1 = new ObjProperties("#hiddenMenu");
+            objProperties1.init();
+            /*
+             * Show Object Properties
+             */
             $("#propertiesMenu").on("click", function (e) {
-                cpanel.show();
-                cpanel.css({
-                    display: "block",
-                    left: e.pageX - 50,
-                    top: e.pageY - 130
-                });
-                //set the position of the Properties-rightclickMenu
-                position = cpanel.position().top;
-            });
-
-            //Listener that shows Properties-rightclickMenu
-            $("#hiddenMenu").on("click", ".glyphicon-remove-circle", function (e) {
-                cpanel.hide();
-            });
-            
-
-            //listener of scrolling bar - Updates position for Properties-rightclickMenu
-            $(window).scroll(function () {
-                var top = $(window).scrollTop();
-                //
-                cpanel.css({
-                    top: position - top
-                });
-            });
-
-            //Draggable
-            $('body').on('mousedown', '#propBar', function () {
-
-                $(this).parent().addClass('draggable').parents().on('mousemove', function (e) {
-                    $('.draggable').offset({
-                        top: e.pageY - $('#propBar').outerHeight() / 2,
-                        left: e.pageX - $('#propBar').outerWidth() / 2
-                    }).on('mouseup', function () {
-                        $(this).removeClass('draggable');
-
-                        //Update position of Properties-rightclickMenu for window scroll
-                        position = cpanel.position().top;
-                    });
-                    e.preventDefault();
-                });
-            }).on('mouseup', function () {
-                $('.draggable').removeClass('draggable');
+                objProperties1.show(e);
             });
         });
 
