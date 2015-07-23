@@ -253,8 +253,8 @@ $.extend(ListPanel.prototype, {
         });
     },
     update: function (context) {
-        var tableID= $(this.addElement).attr("table-id");
-        $.sendJSONAssnc(this.addURL, JSON.stringify($.extend(context, {'id':tableID})), this);
+        var tableID = $(this.addElement).attr("table-id");
+        $.sendJSONAssnc(this.addURL, JSON.stringify($.extend(context, {'id': tableID})), this);
     },
     ajaxComplete: function (response) {
         //TODO
@@ -278,7 +278,7 @@ $.extend(SaveModal.prototype, {
         var thiz = this;
         $(this.modal).on("click", this.saveButon, function () {
             var ok = true;
-            
+
             if (thiz.type === "A") {
                 thiz.inputValues = {'name': "", 'url': ""};
                 $(thiz.modal + " input").each(function () {
@@ -293,7 +293,7 @@ $.extend(SaveModal.prototype, {
                     }
                 });
             }
-            
+
             if (ok) {
                 $(thiz.modal + " input").each(function () {
                     $(this).val("");
@@ -417,6 +417,109 @@ $.extend(Table.prototype, {
     }
 });
 
+/*
+ * Right click on a object -> Properties 
+ */
+var ObjProperties = function (idMenu) {
+    this.idMenu = idMenu;
+};
+$.extend(ObjProperties.prototype, {
+    init: function () {
+        //to use inside jquery functions
+        var thiz = this;
+        //hide on init
+        thiz.hide();
+        //
+        $(function () {
+            var elem = $(thiz.idMenu).find(".panel-collapse");
+            var sections = elem.parent().siblings();
+            var L = 0;
+            $.each(sections, function (i, elem) {
+                if (L !== 0)
+                    $(this).addClass('closed');
+                L++;
+            });
+            console.log(L);
+        });
+
+        //Listener that shows Properties-rightclickMenu
+        $(this.idMenu).on("click", ".glyphicon-remove-circle", function () {
+            thiz.hide();
+        });
+
+        //Drag On
+        $(this.idMenu).draggable({
+            containment: 'window',
+            scroll: false,
+            handle: '#propBar'
+        });
+
+        /*
+         * Handles the close and open panels of object Properties
+         */
+        $(".panel-collapse").click(function () {
+
+            var thisSlide = $(this).parent(); 
+            var content1;
+            var openSlide;
+            if (thisSlide.hasClass("open")) {
+                content1 = thisSlide.children().next();
+
+                thisSlide.removeClass("open");
+                thisSlide.addClass("closed");
+                content1.slideToggle(300, function () {
+                    //execute this after slideToggle is done
+
+                    var spanArrow = thisSlide.find("span");
+
+                    if (content1.is(":visible")) {
+                        spanArrow.attr("class", "glyphicon glyphicon-triangle-bottom");
+                    } else {
+                        spanArrow.attr("class", "glyphicon glyphicon-triangle-right");
+                    }
+                });
+            } else {
+                //close the one that are open
+                openSlide = $("#hiddenMenu").find(".open");
+                if (openSlide !== null) {
+                    openSlide.removeClass("open");
+                    openSlide.addClass("closed");
+                    content1 = openSlide.children().next();
+                    content1.slideUp(300, function () {
+                        //execute this after slideUp is done
+                        var spanArrow = openSlide.find(".glyphicon");
+                        spanArrow.attr("class", "glyphicon glyphicon-triangle-right");
+                    });
+                }
+                //open the clicked one
+                content1 = thisSlide.children().next();
+                thisSlide.removeClass("closed");
+                thisSlide.addClass("open");
+                content1.slideDown(300, function () {
+                    //execute this after slideToggle is done
+                    var spanArrow = thisSlide.find(".glyphicon");
+                    spanArrow.attr("class", "glyphicon glyphicon-triangle-bottom");
+                });
+            }
+        });
+    },
+    show: function (event) {
+        console.log(event);
+        console.log(this.idMenu);
+        $(this.idMenu).show();
+        $(this.idMenu).position({
+            my: "center center",
+            of: event,
+            collision: "fit"
+        });
+    },
+    hide: function () {
+        $(this.idMenu).hide();
+    }
+});
+
+
+//TODO  OBJECT OF DISCOURSE
 
 
 (function ($) {
