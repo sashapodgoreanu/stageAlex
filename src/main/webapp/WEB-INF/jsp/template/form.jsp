@@ -98,3 +98,4 @@
         </span>
     </c:when>
 </c:choose>
+<a href="${logout}">Logout</a>
