@@ -428,6 +428,7 @@ var ObjProperties = function (idMenu) {
     this.idMenu = idMenu;
 };
 $.extend(ObjProperties.prototype, {
+    position: 0,
     init: function () {
         //to use inside jquery functions
         var thiz = this;
@@ -506,6 +507,14 @@ $.extend(ObjProperties.prototype, {
                 });
             }
         });
+
+        $(window).scroll(function () {
+            var top = $(window).scrollTop();
+            var position = thiz.position;
+            $(thiz.idMenu).css({
+                top: position - top
+            });
+        });
     },
     show: function (event) {
         console.log(event);
@@ -516,36 +525,37 @@ $.extend(ObjProperties.prototype, {
             of: event,
             collision: "fit"
         });
+        this.position = $(this.idMenu).position().top;
     },
     hide: function () {
         $(this.idMenu).hide();
     }
 });
 
- var availableTags = [
-            "ActionScript",
-            "AppleScript",
-            "Asp",
-            "BASIC",
-            "C",
-            "C++",
-            "Clojure",
-            "COBOL",
-            "ColdFusion",
-            "Erlang",
-            "Fortran",
-            "Groovy",
-            "Haskell",
-            "Java",
-            "JavaScript",
-            "Lisp",
-            "Perl",
-            "PHP",
-            "Python",
-            "Ruby",
-            "Scala",
-            "Scheme"
-        ];
+var availableTags = [
+    "ActionScript",
+    "AppleScript",
+    "Asp",
+    "BASIC",
+    "C",
+    "C++",
+    "Clojure",
+    "COBOL",
+    "ColdFusion",
+    "Erlang",
+    "Fortran",
+    "Groovy",
+    "Haskell",
+    "Java",
+    "JavaScript",
+    "Lisp",
+    "Perl",
+    "PHP",
+    "Python",
+    "Ruby",
+    "Scala",
+    "Scheme"
+];
 //TODO  OBJECT OF DISCOURSE
 var TagArea = function (idTagContainer, idAutocomplete, url) {
     this.idTagContainer = idTagContainer;
@@ -560,7 +570,7 @@ $.extend(TagArea.prototype, {
         $("body").on("click", this.idTagContainer, function () {
             $(thiz.idAutocomplete).focus();
         });
-       
+
         $(thiz.idAutocomplete).autocomplete({
             source: availableTags
         });
