@@ -37,7 +37,7 @@ main{
 }
 
 #hiddenMenu{
-    position:fixed !important;
+    position: fixed;
     border: 0px !important;
 
 }
@@ -152,6 +152,34 @@ main{
 main #addElement {
     float:right;
     cursor: pointer;
+}
+
+.tagContainer, .autocompleteContainer{
+    border: 1px solid #ddd !important;
+    -webkit-border-radius: 8px 8px 8px 8px;
+    border-radius: 8px 8px 8px 8px;
+    margin-bottom: 20px;
+}
+
+.autocompleteContainer{
+  height:80px  
+}
+
+.tagContainer{
+  height:150px  
+}
+.autocomplete-hidden{
+    border: none!important;
+    width: 100px;
+    margin-left:5px;
+    
+    
+}
+
+.autocomplete-hidden:focus{
+    border-color: #cccccc !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
 }
 
 

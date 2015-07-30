@@ -118,11 +118,19 @@
                     <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Objects of discourse
                     </div>
                     <div class="panel-body">
-                        <form class="form-horizontal tag-container">
+                        <form class="form-horizontal tag-container margin-15-top margin-20-right">
                             <div class="form-group cloneable">
-                                <label for="tag-1" class="col-sm-3 control-label label-tag">First Tag</label>
+                                <label for="autocomplete" class="col-sm-3 control-label label-tag">Mine: </label>
                                 <div class="col-sm-9">
-                                    <input id="tag-1" class="input-tag form-control" value="">
+                                    <div id="autocompleteContainer" class="autocompleteContainer">
+                                        <input id="autocompleteMine" class="autocomplete-hidden input-tag form-control">
+                                    </div>
+                                </div>
+                                <label for="tagContainer" class="col-sm-3 control-label label-tag">Others: </label>
+                                <div class="col-sm-9">
+                                    <div id="tagContainer" class="tagContainer">
+                                        <input id="autocompleteOthers" class="autocomplete-hidden input-tag form-control">
+                                    </div>
                                 </div>
                             </div>
                         </form>

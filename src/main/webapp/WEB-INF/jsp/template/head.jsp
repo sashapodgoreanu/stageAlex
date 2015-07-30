@@ -29,18 +29,22 @@
 
 
     <script src="${pageContext.request.getContextPath()}/js/jquery-2.1.3.min.js" type="text/javascript"></script>
-
-    <!--SemT CSS -->
-    <link href="${pageContext.request.getContextPath()}/css/semtpp-style.css" rel="stylesheet">
-    <script src="${pageContext.request.getContextPath()}/js/functions.js" type="text/javascript"></script>
-
+    
+   
+    
+    
     <!-- Bootstrap -->
     <link href="${pageContext.request.getContextPath()}/css/bootstrap.min.css" rel="stylesheet">
     <script src="${pageContext.request.getContextPath()}/js/bootstrap.min.js" type="text/javascript"></script>
-
+    
+    <!--SemT CSS -->
+    <link href="${pageContext.request.getContextPath()}/css/semtpp-style.css" rel="stylesheet">
+    <script src="${pageContext.request.getContextPath()}/js/functions.js" type="text/javascript"></script>
+    
     <!-- jQuery UI Autocomplete -->
-    <link rel="stylesheet" href="${pageContext.request.getContextPath()}/jquery-ui/jquery-ui.css">
     <script src="${pageContext.request.getContextPath()}/jquery-ui/jquery-ui.js"></script>
+    <link href="${pageContext.request.getContextPath()}/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+    
     <style>
         .ui-autocomplete-loading {
             background: white url("${pageContext.request.getContextPath()}/jquery-ui/images/ui-anim_basic_16x16.gif") right center no-repeat;
@@ -51,11 +55,11 @@
             initTablesNav("${savetable}");
             var instanceTable = new Table();
             instanceTable.init("${savetable}","${closetable}");
-            performTagging("${tag}");
+            //performTagging();
 
             //Menu for right click
             var rightclickMenu = $("#contextMenu");
-
+            
             //listener for right click for elements
             $("body").on("contextmenu", ".btn", function (e) {
                 //prevent default menu on right click
@@ -77,12 +81,18 @@
 
             var objProperties1 = new ObjProperties("#hiddenMenu");
             objProperties1.init();
-            /*
+            
+            
+            a = "${tag}";
+             /*
              * Show Object Properties
              */
             $("#propertiesMenu").on("click", function (e) {
                 objProperties1.show(e);
             });
+            
+            var mineTag = new TagArea("#autocompleteContainer","#autocompleteMine","urltodo");
+            mineTag.init();
         });
 
         var access_token;

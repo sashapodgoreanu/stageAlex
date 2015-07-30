@@ -7,6 +7,9 @@
 $.rightCliked = new Object();
 
 //Functions
+//
+//Old Tag 
+//Non usato
 function performTagging(requestUrl) {
     //
     $('.tag-container').on("keydown.autocomplete", /*input class*/".input-tag", function (event, ui) {
@@ -232,7 +235,7 @@ var Observer = function () {
      */
     this.update = function (context) {//to be implemented
     };
-}
+};
 
 
 
@@ -242,6 +245,7 @@ var ListPanel = function (listPanel, addElement, modal, addURL) {
     this.modal = modal;
     this.addURL = addURL;
 };
+
 ListPanel.prototype = Observer.prototype;        // Set prototype to Observer's
 ListPanel.prototype.constructor = ListPanel;    // Set constructor back to ListPanel
 $.extend(ListPanel.prototype, {
@@ -459,7 +463,7 @@ $.extend(ObjProperties.prototype, {
          */
         $(".panel-collapse").click(function () {
 
-            var thisSlide = $(this).parent(); 
+            var thisSlide = $(this).parent();
             var content1;
             var openSlide;
             if (thisSlide.hasClass("open")) {
@@ -518,10 +522,50 @@ $.extend(ObjProperties.prototype, {
     }
 });
 
-
+ var availableTags = [
+            "ActionScript",
+            "AppleScript",
+            "Asp",
+            "BASIC",
+            "C",
+            "C++",
+            "Clojure",
+            "COBOL",
+            "ColdFusion",
+            "Erlang",
+            "Fortran",
+            "Groovy",
+            "Haskell",
+            "Java",
+            "JavaScript",
+            "Lisp",
+            "Perl",
+            "PHP",
+            "Python",
+            "Ruby",
+            "Scala",
+            "Scheme"
+        ];
 //TODO  OBJECT OF DISCOURSE
+var TagArea = function (idTagContainer, idAutocomplete, url) {
+    this.idTagContainer = idTagContainer;
+    this.idAutocomplete = idAutocomplete;
+    this.url = url;
+};
 
-
+$.extend(TagArea.prototype, {
+    init: function () {
+        var thiz = this;
+        //when click tagContainer i focus input
+        $("body").on("click", this.idTagContainer, function () {
+            $(thiz.idAutocomplete).focus();
+        });
+       
+        $(thiz.idAutocomplete).autocomplete({
+            source: availableTags
+        });
+    }
+});
 (function ($) {
 
     var APP = {
