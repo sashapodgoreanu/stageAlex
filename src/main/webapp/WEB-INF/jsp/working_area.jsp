@@ -43,7 +43,7 @@
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
                         <!-- Single button -->
-                        <button id="idButton" type="button" class="btn btn-default">
+                        <button id="idButton" type="button" class="btn btn-default tipo1">
                             Action
                         </button>
 
@@ -54,13 +54,13 @@
                 <div class="row">
                     <div class="col-md-4">
                         <!-- Single button -->
-                        <button id="idButton" type="button" class="btn btn-default">
+                        <button id="idButton" type="button" class="btn btn-default tipo1">
                             Action
                         </button>
                     </div>
                     <div class="col-md-4">
                         <!-- Single button -->
-                        <button id="idButton" type="button" class="btn btn-default">
+                        <button id="idButton" type="button" class="btn btn-default tipo1">
                             Action
                         </button>
                     </div>
@@ -70,7 +70,7 @@
 
             </section>
             <aside class="col-md-2">
-                
+
                 <c:import url="template/wardrobe.jsp"/>
             </aside>
 
@@ -91,7 +91,7 @@
                 </div>
 
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Main topic
+                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right triangle" aria-hidden="true" ></span>Main topic
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -103,7 +103,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Type
+                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right triangle" aria-hidden="true" ></span>Type
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -114,11 +114,19 @@
                         </ul>
                     </div>
                 </div>
+                <!-- Tags Panel -->
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Objects of discourse
+                    <div class="panel-heading panel-collapse">
+                        <span class="glyphicon glyphicon-triangle-right triangle" aria-hidden="true" ></span>Objects of discourse
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body margin-15-left">
                         <form class="form-horizontal tag-container margin-15-top margin-20-right">
+                            <div class="row">
+                                <div class="col-md-offset-10"><button type="button" class="btn btn-default tipo2">
+                                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                            </div>
                             <div class="form-group cloneable">
                                 <label for="autocomplete" class="col-sm-3 control-label label-tag">Mine: </label>
                                 <div class="col-sm-9">
@@ -132,12 +140,18 @@
                                         <input id="autocompleteOthers" class="autocomplete-hidden input-tag form-control">
                                     </div>
                                 </div>
+                                <div class="col-sm-12">
+                                    <div id="searchTagContainer" class="searchTag">
+                                        <input id="searchTag" class="autocomplete-hidden input-tag form-control">
+                                    </div>
+                                </div>
+
                             </div>
                         </form>
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Language
+                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right triangle" aria-hidden="true" ></span>Language
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -149,7 +163,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Formats
+                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right triangle" aria-hidden="true" ></span>Formats
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -161,7 +175,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Authors
+                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right triangle" aria-hidden="true" ></span>Authors
                     </div>
                     <div class="panel-body">
                         <ul>
@@ -173,7 +187,7 @@
                     </div>
                 </div>
                 <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true" ></span>Contains
+                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right triangle" aria-hidden="true" ></span>Contains
                     </div>
                     <div class="panel-body">
                         <ul>

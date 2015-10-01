@@ -154,7 +154,7 @@ main #addElement {
     cursor: pointer;
 }
 
-.tagContainer, .autocompleteContainer{
+.tagContainer, .autocompleteContainer, .searchTag{
     border: 1px solid #ddd !important;
     -webkit-border-radius: 8px 8px 8px 8px;
     border-radius: 8px 8px 8px 8px;

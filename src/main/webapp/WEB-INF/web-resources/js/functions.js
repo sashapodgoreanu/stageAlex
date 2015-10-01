@@ -76,7 +76,7 @@ function enableMenu() {
     alert("succ");
     var $contextMenu = $('#context-menu');
     //if right cliked on a button show html element with id = "context-menu"
-    $("body").on("contextmenu", ".btn", function (e) {
+    $("body").on("tipo1", function (e) {
         $contextMenu.css({
             display: "block",
             left: e.pageX,
@@ -172,10 +172,6 @@ function isJson(str) {
 }
 
 
-/*
- Robot.prototype = Person.prototype;        // Set prototype to Person's
- Robot.prototype.constructor = Robot;   // Set constructor back to Robot
- */
 
 ObserverList = function () {
     this.observerList = [];
@@ -472,16 +468,10 @@ $.extend(ObjProperties.prototype, {
 
                 thisSlide.removeClass("open");
                 thisSlide.addClass("closed");
-                content1.slideToggle(300, function () {
-                    //execute this after slideToggle is done
-
-                    var spanArrow = thisSlide.find("span");
-
-                    if (content1.is(":visible")) {
-                        spanArrow.attr("class", "glyphicon glyphicon-triangle-bottom");
-                    } else {
-                        spanArrow.attr("class", "glyphicon glyphicon-triangle-right");
-                    }
+                content1.slideToggle(300);
+                $(".triangle").each(function(){
+                    var thiz = this;
+                    $(this).attr("class", "glyphicon glyphicon-triangle-right triangle");
                 });
             } else {
                 //close the one that are open
@@ -492,8 +482,8 @@ $.extend(ObjProperties.prototype, {
                     content1 = openSlide.children().next();
                     content1.slideUp(300, function () {
                         //execute this after slideUp is done
-                        var spanArrow = openSlide.find(".glyphicon");
-                        spanArrow.attr("class", "glyphicon glyphicon-triangle-right");
+                        var spanArrow = openSlide.find(".triangle");
+                        spanArrow.attr("class", "glyphicon glyphicon-triangle-right triangle");
                     });
                 }
                 //open the clicked one
@@ -502,8 +492,8 @@ $.extend(ObjProperties.prototype, {
                 thisSlide.addClass("open");
                 content1.slideDown(300, function () {
                     //execute this after slideToggle is done
-                    var spanArrow = thisSlide.find(".glyphicon");
-                    spanArrow.attr("class", "glyphicon glyphicon-triangle-bottom");
+                    var spanArrow = thisSlide.find(".triangle");
+                    spanArrow.attr("class", "glyphicon glyphicon-triangle-bottom triangle");
                 });
             }
         });

@@ -25,11 +25,11 @@ public class JDBCConfig {
         //driverManager.setDriverClassName("org.apache.derby.jdbc.EmbeddedDriver");
         //driverManager.setDriverClassName(new org.apache.derby.jdbc.EmbeddedDriver());
         //driverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
-        driverManager.setDriverClassName("org.apache.derby.jdbc.ClientDriver");
+        driverManager.setDriverClassName("com.mysql.jdbc.Driver");
         //create=true - start db derby server
-        driverManager.setUrl("jdbc:derby://localhost:1527/semtt;create=true");
-        driverManager.setUsername("semuser");
-        driverManager.setPassword("password");
+        driverManager.setUrl("jdbc:mysql://podgoreanu.ddns.net:3306/mysql");
+        driverManager.setUsername("root");
+        driverManager.setPassword("645128");
         return driverManager;
     }
 

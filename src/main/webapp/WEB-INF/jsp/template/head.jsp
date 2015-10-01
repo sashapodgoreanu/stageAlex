@@ -61,7 +61,9 @@
             var rightclickMenu = $("#contextMenu");
             
             //listener for right click for elements
-            $("body").on("contextmenu", ".btn", function (e) {
+            //jquery.on(event = "contextmenu","...")
+            //contextmenu = rightclick
+            $("body").on("contextmenu",".tipo1", function (e) {
                 //prevent default menu on right click
                 e.preventDefault();
                 //Variable that contains all insormation about right clicked element

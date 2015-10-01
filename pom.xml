@@ -114,8 +114,14 @@
             <artifactId>derbyclient</artifactId>
             <version>10.11.1.1</version>
         </dependency>
-
-
+        
+        <!-- mysql connector -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.36</version>
+        </dependency>
+        
         <!-- JSon -->
         <dependency>
             <groupId>com.google.code.gson</groupId>

@@ -22,10 +22,10 @@ public class JDBCDbInit {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final String USER_DETAILS = "UserDetails";
+    private final String USER_DETAILS = "USERDETAILS";
     private final String CREATE_USER_DETAILS = "create table " + USER_DETAILS
             + "                ("
-            + "                ID varchar(1024) primary key,"
+            + "                ID varchar(1024) not null,"
             + "                ID_TOKEN varchar (1024),"
             + "                ACCESS_TOKEN varchar (1024),"
             + "                ROLE_USER varchar (16)"
@@ -35,7 +35,7 @@ public class JDBCDbInit {
     private final String W_TABLE = "W_TABLE";
     private final String CREATE_W_TABLE = "create table " + W_TABLE
             + "                (ID integer not null primary key"
-            + "                generated always as identity (start with 1, increment by 1),"
+            + "                AUTO_INCREMENT,"
             + "                NAME varchar (64) unique,"
             + "                OWNER varchar (1024)"
             + "                )";
@@ -43,19 +43,18 @@ public class JDBCDbInit {
 
     private final String USER_W_TABLE = "USER_W_TABLE";
     private final String CREATE_USER_W_TABLE = "create table " + USER_W_TABLE
-            + "                    (USERDETAILS_ID VARCHAR(1024),"
+            + "                    ("
+            + "                    USERDETAILS_ID VARCHAR(1024),"
             + "                    W_TABLE_ID INTEGER,"
-            + "                    OPENED boolean,"
-            + "                    PRIMARY KEY(USERDETAILS_ID, W_TABLE_ID),"
-            + "                    FOREIGN KEY(USERDETAILS_ID) REFERENCES USERDETAILS(ID),"
-            + "                    FOREIGN KEY(W_TABLE_ID) REFERENCES W_TABLE(ID)"
+            + "                    OPENED boolean/*,"
+            + "                    PRIMARY KEY(USERDETAILS_ID, W_TABLE_ID)*/"
             + "                    )";
     private final String DROP_USER_W_TABLE = "drop table " + USER_W_TABLE;
 
     private final String SEMTELEMS = "SEMTELEMS";
     private final String CREATE_SEMTELEMS = "create table " + SEMTELEMS
             + "                    ("
-            + "                     URL varchar(2048) not null primary key,"
+            + "                     URL varchar(2048) not null,"
             + "                     NAME varchar (32) not null"
             + "                    )";
     private final String DROP_SEMTELEMS = "drop table " + SEMTELEMS;
@@ -65,16 +64,16 @@ public class JDBCDbInit {
             + "                    ("
             + "                     URL varchar(1024) not null,"
             + "                     ID_TABLE integer,"
-            + "                     IN_WARDROBE BOOLEAN,"
-            + "                     primary key(ID_TABLE, URL)"
+            + "                     IN_WARDROBE BOOLEAN/*,"
+            + "                     primary key(ID_TABLE, URL)*/"
             + "                    )";
     private final String DROP_SEMTELEMS_ON_TABLE = "drop table " + SEMTELEMS_ON_TABLE;
 
     private final String PROPERTIES = "PROPERTIES";
     private final String CREATE_PROPERTIES = "create table " + PROPERTIES
             + "                    ("
-            + "                     ID integer not null primary key\n"
-            + "                     generated always as identity (start with 1, increment by 1),"
+            + "                     ID integer not null primary key"
+            + "                     AUTO_INCREMENT,"
             + "                     VALUE varchar(64) not null,"
             + "                     ID_USERDETAILS varchar(1024),"
             + "                     ID_OBJECT varchar(1024) not null"
