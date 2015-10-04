@@ -27,7 +27,7 @@ public class JDBCConfig {
         //driverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
         driverManager.setDriverClassName("com.mysql.jdbc.Driver");
         //create=true - start db derby server
-        driverManager.setUrl("jdbc:mysql://podgoreanu.ddns.net:3306/mysql");
+        driverManager.setUrl("jdbc:mysql://podgoreanu.dlinkddns.com:3306/mysql");
         driverManager.setUsername("root");
         driverManager.setPassword("645128");
         return driverManager;
@@ -42,5 +42,5 @@ public class JDBCConfig {
     public UserDetailsRepository userDetailsRepository(JdbcTemplate jdbcTemplate) {
         return new JDBCUserDetailsRepository(jdbcTemplate);
     }
-
+    
 }

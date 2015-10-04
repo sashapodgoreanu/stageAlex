@@ -128,50 +128,7 @@ public class ControllerAjaxRequests {
         System.out.println(data);
         return gson.toJson(ok);//json;
     }
-
-    @RequestMapping(value = "/verifyLogin", method = RequestMethod.POST, consumes = "application/json")
-    public String verifyLogin(@RequestBody String data, HttpServletRequest request) {
-        LOG.info(data != null ? "Data from google respone: " + data : "Data from google respone:NULL");
-        Gson gson = new Gson();
-        UserDetails userLogin = null;
-        UserDetails dbResultUser = null;
-        boolean ok = false;
-        TokenValidateResponse tokenValidateResponse;
-        RestTemplate restTemplate = new RestTemplate();
-
-        try {
-            userLogin = gson.fromJson(data, UserDetails.class);
-        } catch (JsonSyntaxException e) {
-        }
-        LOG.info("userLogin: " + userLogin.toString());
-
-        //validate the user
-        if (userLogin != null) {
-            tokenValidateResponse = restTemplate.getForObject(VALIDATE_HTTPS + userLogin.getIdtoken(),
-                    TokenValidateResponse.class);
-        } else {
-            return gson.toJson(ok);
-        }
-        if (tokenValidateResponse != null && tokenValidateResponse.getUser_id().equals(userLogin.getId())) {
-            //  recover the user form db
-            dbResultUser = userDetailsRepository.find(userLogin.getId());
-            if (dbResultUser != null) {
-                LOG.info("result update: " + userDetailsRepository.update(userLogin));
-            } else {
-                LOG.info("Insert: " + userDetailsRepository.save(userLogin));
-            }
-
-            LOG.info("TO SESSION: " + userLogin);
-            request.getSession().setAttribute("userDetails", userLogin);
-            userSession.setUserdetails(userLogin);
-            ok = true;
-
-        } else {
-            //error login
-            ok = false;
-        }
-        return gson.toJson(ok);//json;
-    }
+    
 }
 
 class Assoc {

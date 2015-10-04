@@ -16,12 +16,20 @@
             <div class="panel-body">
                 <c:choose>
                     <c:when test="${!isAuthenticated}">
+                        
+                        <!-- I will send to Spring security username and password to authenticate -->
+                        
                         <form id="login-form" class="form-horizontal" action='${login}' method="POST">
-                            <input id = "username" type="hidden" name = "username" class="form-control" placeholder="Pick a username">
                             <div class="form-group">
-                                <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                                <label for="inputEmail" class="col-sm-2 control-label">Email</label>
                                 <div class="col-sm-10">
-                                    <input type="email" name  ="email" class="form-control" id="inputEmail" placeholder="Log in">
+                                    <input type="email" name  ="email" class="form-control" id="inputEmail" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="username" class="col-sm-2 control-label">Login</label>
+                                <div class="col-sm-10">
+                                    <input id = "username" name = "username" class="form-control" placeholder="Login">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -46,19 +54,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-10">
                                     <div class=" col-sm-5 col-sm-offset-1">
-                                        <span id="signinButton">
-                                            <span
-                                                approval_prompt="auto"
-                                                access_type="online "
-                                                class="g-signin"
-                                                data-callback="signinCallback"
-                                                data-clientid="630129138206-mpttf2fj47g6milr9hlf6sfm8gijitue.apps.googleusercontent.com"
-                                                data-cookiepolicy="single_host_origin"
-                                                data-requestvisibleactions="http://schemas.google.com/AddActivity"
-                                                data-scope="https://www.googleapis.com/auth/plus.login 
-                                                https://www.googleapis.com/auth/userinfo.email">
-                                            </span>
-                                        </span>
+                                        <button type="submit" class="btn btn-default">Google(TODO)</button>
                                     </div>
                                     <div class="col-sm-5 col-sm-offset-1">
                                         <button type="submit" class="btn btn-default">Dropbox(TODO)</button>

@@ -17,9 +17,9 @@
 </script>
 <div id="wardrobe" class="panel panel-default">
     <!--panel content-->
-    <div class="panel-heading">Wardrobea<span id="addElement" table-id="${idTable}" class="glyphicon glyphicon-plus" aria-hidden="true"></span></div>
+    <div class="panel-heading">Wardrobe<span id="addElement" table-id="${idTable}" class="glyphicon glyphicon-plus" aria-hidden="true"></span></div>
     <div class="panel-body">
-        <p>Drag and drob elements to and from table</p>
+        <p>Drag and drop elements to and from table</p>
     </div>
 
     <!-- List group with elements-->

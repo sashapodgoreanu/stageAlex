@@ -6,18 +6,17 @@
 package com.unito.controller;
 
 import com.unito.UserDetailsRepository;
-import com.unito.model.UserDetails.UserDetails;
 import com.unito.model.UserSession;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -36,16 +35,27 @@ public class PageController {
 
     @RequestMapping(value = {"/index", "/login","/"}, method = GET)
     public ModelAndView index(HttpServletRequest request, @AuthenticationPrincipal Object customUser) {
+        System.out.println(customUser.toString());
         mvc = new ModelAndView("index");
         title = "Login Page";
         mvc.addObject("title",title);
         return mvc;
     }
     
+    @RequestMapping(value = {"/processlogin"}, method = GET)
+    public String processlogin(HttpServletRequest request, @AuthenticationPrincipal Object customUser) {
+        //get authenticated user
+        User logedInUser = (User) customUser;
+        //get UserDetails from Db 
+        //Set UserSession with UserDetails
+        userSession.setUserdetails(userDetailsRepository.find(logedInUser.getUsername()));
+        return "redirect:/workingarea/0";
+    }
+    
     
     @RequestMapping(value = {"/logout", "/logoutapp"}, method = GET)
     public String logout(@AuthenticationPrincipal User customUser) {
-        UserDetails userDetails;
+        /*UserDetails userDetails;
         RestTemplate restTemplate = new RestTemplate();
         
         LOG.info("logout");
@@ -55,7 +65,7 @@ public class PageController {
         if (userDetails != null){
             LOG.info("GET:"+REVOKE_URL+userDetails.getAccesstoken());
             restTemplate.getForObject(REVOKE_URL+userDetails.getAccesstoken(), String.class);
-        } else return "redirect: logoutws?googleinssuccess"; //was a problem with google session login
+        } else return "redirect: logoutws?googleinssuccess"; //was a problem with google session login*/
         return "redirect: logoutws";
     }
     

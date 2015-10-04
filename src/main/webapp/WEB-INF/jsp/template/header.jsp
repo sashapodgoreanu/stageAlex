@@ -6,7 +6,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<sec:authorize access="isAuthenticated()" var="isAuthenticated" />
+<%--sec:authorize access="isAuthenticated()" var="isAuthenticated" /--%>
 
 <header class="container-fluid" >
     <div class="page-header row">
@@ -14,15 +14,6 @@
         <section class="col-md-2 margin-15-top"></section>
         <!--Search Bar-->
         <section class="col-md-3 margin-15-top">
-        </section>
-        <!--Search Bar-->
-        <section class="col-md-3 margin-15-top">
-            <c:if test="${!isAuthenticated}">  
-                <ul class="list-inline">
-                    <li><a href="${discoversemt}">Discover SemT</a></li>
-                    <li><a href="${discoversemt}">About</a></li>
-                </ul>
-            </c:if>
         </section>
         <!--User Details-->
         <section class="col-md-3 user-details">

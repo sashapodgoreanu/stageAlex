@@ -7,6 +7,7 @@ package com.unito.model.UserDetails;
 
 import java.util.Arrays;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.springframework.stereotype.Component;
 
 /**
  *
@@ -48,6 +49,11 @@ public class UserDetails {
     
     private String access_token;
 
+    public UserDetails() {
+        System.out.println("INSIDE");
+    }
+
+    
     public Emails[] getEmails() {
         return emails;
     }

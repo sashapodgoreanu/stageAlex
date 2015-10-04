@@ -5,6 +5,11 @@
  */
 package config;
 
+import com.unito.model.UserDetails.UserDetails;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +18,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 /**
  *
@@ -42,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/workingarea/**")
+                .antMatchers("/w/**")
                 .hasRole("USER")
                 .anyRequest()
                 .authenticated()
@@ -51,23 +58,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().loginPage("/login").permitAll()
                 .usernameParameter("username").passwordParameter("password")
-                .defaultSuccessUrl("/workingarea/0")
+                .defaultSuccessUrl("/processlogin", true)
                 .failureUrl("/login?error")
                 .and()
                 .logout()
                 .logoutUrl("/logoutws").permitAll()
                 .logoutSuccessUrl("/login")
                 .and().csrf().disable();
-        /* .and()
-         .httpBasic();*/
-        /*
-         http.csrf().disable()
-         .antMatcher("/login")
-         .authorizeRequests()
-         .anyRequest().hasAnyRole("USER", "API")
-         .and()
-         .httpBasic();*/
-
     }
 
     @Override
@@ -76,9 +73,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers("/fonts/**", "/css/**", "/images/**", "/js/**", "/jquery-ui/**", "/index", "/verifyLogin","/workingarea/**");
     }
-
-    /*@Bean
-     public AuthenticationProvider authenticator() {
-     return new TestingAuthenticationProvider();
-     }*/
+    
+    
 }
