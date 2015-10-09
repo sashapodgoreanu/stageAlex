@@ -10,15 +10,15 @@
 
     <!-- List group with users-->
     <ul class="media-list">
-        <c:forEach items="${usersOnTable}" var = "user" varStatus="status">
+        <div id="totalUsers" data-totalUsers="${usersOnTable.size()}"></div>
+        <c:forEach items="${usersOnTable}" var = "user">
             <li class="media">
                 <div class="media-left">
                     <a href="#">
                         <!-- <img class="media-object" src="..." alt="..." -->
-                        <span class="glyphicon glyphicon-user userIcon1" 
+                        <span class="glyphicon glyphicon-user userIcon1 semtUsers" 
                               aria-hidden="true" 
-                              data-user-id="${user.id}"
-                              data-color="${color[status.index]}"></span>
+                              data-user-id="${user.id}"></span>
                     </a>
                 </div>
                 <div class="media-body">
@@ -30,6 +30,12 @@
 </div>
 
 <script>
+    //Color the ussers 
+    $(function(){
+        $(".semtUsers").each(function(){
+            $(this).css({"color":getRandomColor()});
+        });
+    });
     function getRandomColor() {
         var letters = '0123456789ABCDEF'.split('');
         var color = '#';

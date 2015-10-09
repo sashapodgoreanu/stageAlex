@@ -549,24 +549,11 @@ var availableTags = [
     "Scala",
     "Scheme"
 ];
-//TODO  OBJECT OF DISCOURSE
-var TagArea = function (idTagContainer, idAutocomplete, url) {
-    this.idTagContainer = idTagContainer;
-    this.idAutocomplete = idAutocomplete;
-    this.url = url;
-};
+
 
 $.extend(TagArea.prototype, {
     init: function () {
-        var thiz = this;
-        //when click tagContainer i focus input
-        $("body").on("click", this.idTagContainer, function () {
-            $(thiz.idAutocomplete).focus();
-        });
-
-        $(thiz.idAutocomplete).autocomplete({
-            source: availableTags
-        });
+        
     }
 });
 (function ($) {

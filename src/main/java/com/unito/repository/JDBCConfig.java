@@ -43,4 +43,5 @@ public class JDBCConfig {
         return new JDBCUserDetailsRepository(jdbcTemplate);
     }
     
+    
 }

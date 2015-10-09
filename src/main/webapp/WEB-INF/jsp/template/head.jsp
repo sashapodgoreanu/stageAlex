@@ -10,6 +10,7 @@
 --%>
 <s:url value ="/save-table" var="savetable" scope="application"/>
 <s:url value ="/workingarea/" var="workingarea" scope="application"/>
+<s:url value ="/getTagsForObj" var="getTagsForObj" scope="application"/>
 <s:url value ="/tag" var="tag" scope="application"/>
 <s:url value ="/login" var="login" scope="application"/>
 <s:url value ="/tagPost" var="tagPost" scope="application"/>
@@ -103,8 +104,8 @@
                 objProperties1.show(e);
             });
             
-            var mineTag = new TagArea("#autocompleteContainer","#autocompleteMine","urltodo");
-            mineTag.init();
+            var ood = new ObjectOfDiscourse("#autocompleteContainer","#autocompleteOthers","${getTagsForObj}");
+            ood.init();
         });
     </script>
 

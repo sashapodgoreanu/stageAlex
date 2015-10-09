@@ -6,11 +6,13 @@
 package com.unito.model;
 
 import com.unito.ColorGenerator;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author Alexandru Podgoreanu
  */
+@Component
 public class ColorGeneratorHTML implements ColorGenerator{
 
     @Override

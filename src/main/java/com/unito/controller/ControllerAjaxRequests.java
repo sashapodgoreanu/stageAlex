@@ -7,18 +7,14 @@ package com.unito.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
 import com.unito.UserDetailsRepository;
 import com.unito.model.SemTElem;
 import com.unito.model.Table;
 import com.unito.model.Tag;
 import com.unito.model.TagRepository;
-import com.unito.model.TokenValidateResponse;
-import com.unito.model.UserDetails.UserDetails;
 import com.unito.model.UserSession;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
-import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.BindingResult;
@@ -26,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -61,6 +56,18 @@ public class ControllerAjaxRequests {
         String json = gson.toJson(tagRep.getChilds(myTag.getValue()));
         System.out.println(tagRep.getChilds(myTag.getValue()).toString() + "   " + json);
         return json;
+    }
+    
+    @RequestMapping(value = "getTagsForObj", method = RequestMethod.POST)
+    public String getTagsForObjJSON(@RequestBody String data) {
+        System.out.println(data);
+       /* Gson gson = new Gson();
+        Tag myTag = gson.fromJson(data, Tag.class);
+        
+        String json = gson.toJson(tagRep.getChilds(myTag.getValue()));
+        System.out.println(tagRep.getChilds(myTag.getValue()).toString() + "   " + json);
+        return json;*/
+        return null;
     }
 
     @RequestMapping(value = "tagPost", method = RequestMethod.POST, consumes = "application/json")

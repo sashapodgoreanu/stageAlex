@@ -12,7 +12,7 @@
         </button>
     </div>
     <div class="form-group cloneable">
-        <label for="autocomplete" class="col-sm-3 control-label label-tag">Mine: </label>
+        <label for="autocompleteContainer" class="col-sm-3 control-label label-tag">Mine: </label>
         <div id="autocompleteContainer" class="autocompleteContainer">
             <span class="atag">
                 <span class="wtag">TAG</span> 
