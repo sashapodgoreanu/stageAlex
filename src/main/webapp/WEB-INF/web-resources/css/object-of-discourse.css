@@ -1,0 +1,62 @@
+/*
+    This CSS contains style for Resource Properties of an Object of Sem T++
+*/
+/* 
+    Created on : Oct 5, 2015, 10:31:55 PM
+    Author     : Alexandru Podgoreanu
+*/
+
+.tagContainer, .autocompleteContainer, .searchTag{
+    border: 1px solid #ddd !important;
+    -webkit-border-radius: 8px 8px 8px 8px;
+    border-radius: 8px 8px 8px 8px;
+    margin-bottom: 20px;
+    overflow-y: scroll;
+}
+
+.autocompleteContainer{
+  height:80px  
+}
+
+.tagContainer{
+  height:150px  
+}
+
+.atag{
+    background: #e9eaed;
+    border: 1px solid #9daccb;
+    border-radius: 2px;
+    color: #1e2d4c;
+    cursor: default;
+    float: left;
+    height: 1.6em;
+    margin: 6px 2px 2px 6px;
+    padding: 0 6px 0 3px;
+    position: relative;
+    white-space: nowrap;
+}
+
+.wtag, .ctag {
+    display: inline-block;
+    max-width: 350px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wtag {
+    margin-right: 5px;
+}
+.ctag {
+    margin-top: 1px;
+
+}
+
+.ctag a{
+    text-decoration: none;
+
+}
+.ctag a:hover{
+    color: red;
+    cursor: pointer;
+}
+

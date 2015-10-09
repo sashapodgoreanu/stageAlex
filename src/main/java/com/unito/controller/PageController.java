@@ -6,11 +6,12 @@
 package com.unito.controller;
 
 import com.unito.UserDetailsRepository;
+import com.unito.model.UserDetails.UserDetails;
 import com.unito.model.UserSession;
+import java.security.Principal;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -20,55 +21,61 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * UsserSession is a session bean so i dont need to put the userSession in a session object
+ * UsserSession is a session bean so i dont need to put the userSession in a
+ * session object
+ *
  * @author SashaAlexandru
  */
 @Controller
 public class PageController {
-    
+    org.springframework.security.authentication.AnonymousAuthenticationToken a;
+    Principal b;
     private String title;
     private ModelAndView mvc;
-    
-    @Autowired private UserDetailsRepository userDetailsRepository;
-    @Autowired private UserSession userSession;
-    private final String REVOKE_URL = "https://accounts.google.com/o/oauth2/revoke?token=";
 
-    @RequestMapping(value = {"/index", "/login","/"}, method = GET)
+    @Autowired
+    private UserDetailsRepository userDetailsRepository;
+    @Autowired
+    private UserSession userSession;
+    private final String REVOKE_URL = "https://accounts.google.com/o/oauth2/revoke?token=";
+    
+    
+    @RequestMapping(value = {"/index", "/login", "/"}, method = GET)
     public ModelAndView index(HttpServletRequest request, @AuthenticationPrincipal Object customUser) {
-        System.out.println(customUser.toString());
         mvc = new ModelAndView("index");
         title = "Login Page";
-        mvc.addObject("title",title);
+        mvc.addObject("title", title);
         return mvc;
     }
-    
+
     @RequestMapping(value = {"/processlogin"}, method = GET)
-    public String processlogin(HttpServletRequest request, @AuthenticationPrincipal Object customUser) {
-        //get authenticated user
-        User logedInUser = (User) customUser;
+    public String processlogin(HttpServletRequest request, @AuthenticationPrincipal User customUser) {
         //get UserDetails from Db 
         //Set UserSession with UserDetails
-        userSession.setUserdetails(userDetailsRepository.find(logedInUser.getUsername()));
+        System.out.println("userDetailsRepository"+userDetailsRepository);
+        System.out.println("UserSession"+userSession);
+        UserDetails ud = userDetailsRepository.find(customUser.getUsername());
+        
+        userSession.setUserdetails(ud);
         return "redirect:/workingarea/0";
     }
-    
-    
+
     @RequestMapping(value = {"/logout", "/logoutapp"}, method = GET)
     public String logout(@AuthenticationPrincipal User customUser) {
         /*UserDetails userDetails;
-        RestTemplate restTemplate = new RestTemplate();
+         RestTemplate restTemplate = new RestTemplate();
         
-        LOG.info("logout");
-        LOG.info("ustom user = "+customUser);
+         LOG.info("logout");
+         LOG.info("ustom user = "+customUser);
         
-        userDetails = userDetailsRepository.find(customUser.getUsername());
-        if (userDetails != null){
-            LOG.info("GET:"+REVOKE_URL+userDetails.getAccesstoken());
-            restTemplate.getForObject(REVOKE_URL+userDetails.getAccesstoken(), String.class);
-        } else return "redirect: logoutws?googleinssuccess"; //was a problem with google session login*/
+         userDetails = userDetailsRepository.find(customUser.getUsername());
+         if (userDetails != null){
+         LOG.info("GET:"+REVOKE_URL+userDetails.getAccesstoken());
+         restTemplate.getForObject(REVOKE_URL+userDetails.getAccesstoken(), String.class);
+         } else return "redirect: logoutws?googleinssuccess"; //was a problem with google session login*/
         return "redirect: logoutws";
     }
-    
+
     @RequestMapping(value = {"/logoutsuccess"}, method = GET)
     public String logoutsucess(@AuthenticationPrincipal User customUser) {
         LOG.info("logoutsuccess");
@@ -77,19 +84,23 @@ public class PageController {
 
     @RequestMapping(value = "/workingarea/{idTable}", method = GET)
     public ModelAndView working_area(@AuthenticationPrincipal User customUser, @PathVariable int idTable) {
-        
+
         mvc = new ModelAndView("working_area");
         title = "Working Area";
-        LOG.info("Id table: "+idTable);
+        LOG.info("Id table: " + idTable);
         LOG.info(userSession.toString());
         LOG.info(userSession.getOpenedTables().toString());
-        
-        mvc.addObject("openedTables",userSession.getOpenedTables());
-        mvc.addObject("idTable",idTable);
-        mvc.addObject("title",title);
-        
+
+        mvc.addObject("openedTables", userSession.getOpenedTables());
+        mvc.addObject("elementsOnTable", userSession.getElementsOnTable(idTable));
+        //TO DO add idTable 
+        mvc.addObject("usersOnTable", userDetailsRepository.getUsersOnTable(idTable));   
+        mvc.addObject("idTable", idTable);
+        mvc.addObject("title", title);
+
         return mvc;
     }
     private static final Logger LOG = Logger.getLogger(PageController.class.getName());
+
     
 }

@@ -15,10 +15,10 @@
             <div>
                 <ul class="nav navbar-nav tables-nav">
                     <li <c:if test="${idTable== 0}">class="active"</c:if> table-id="0"
-                                                     ><a style="padding-right: 15px !important;" href="#">Home</a></li>
+                                                    ><a style="padding-right: 15px !important;" href="#">Home</a></li>
                         <c:forEach items="${openedTables}" var = "table">
                         <li <c:if test="${idTable == table.ID}">class="active" </c:if> table-id="${table.ID}"><a id="${table.ID}" href="#">${table.name}</a><span class ="remove" table-id="${table.ID}">x</span></li>
-                            
+
                     </c:forEach>
                     <li><a id ="addTable" href="#"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></li>
                 </ul>

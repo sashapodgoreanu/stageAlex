@@ -8,6 +8,7 @@ package com.unito.model;
 import com.unito.model.UserDetails.UserDetails;
 import com.unito.model.repository.SemTElemRepository;
 import com.unito.model.repository.TableRepository;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(value="session",
 proxyMode=ScopedProxyMode.TARGET_CLASS)
-public class UserSession {
+public class UserSession implements Serializable{
     
     TableRepository tableRepository;
     SemTElemRepository semTElemRepository;
@@ -40,15 +41,6 @@ public class UserSession {
 
     public void setOpenTables(List<Table> openTables) {
         this.openTables = openTables;
-    }
-
-    
-    public TableRepository getTableRepository() {
-        return tableRepository;
-    }
-
-    public void setTableRepository(TableRepository tableRepository) {
-        this.tableRepository = tableRepository;
     }
 
     public UserDetails getUserdetails() {
@@ -80,13 +72,8 @@ public class UserSession {
     }
     
     //TODO
-    public List<SemTElem> getElementsOnTable(Table table){
-        List<SemTElem> retVal = new ArrayList<>();
-        //List<SemTElem> result = semTElemRepository.getElementsOnTable(table, userDetails);
-        /*for(SemTElem t : this.tables){
-            if (t.isOpened())
-             *   retVal.add(t);
-        }*/
+    public List<SemTElem> getElementsOnTable(int idTable){
+        List<SemTElem> retVal = semTElemRepository.getElementsOnTable(idTable);
         return retVal;
     }
     //TODO
@@ -95,10 +82,10 @@ public class UserSession {
         return true;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "UserSession{" + "userdetails=" + userDetails.toString() + '}';
-    }
+    }*/
 
     public int registerNewTable(Table newTable) {
         newTable.setOwner(this.getUserdetails().getId());

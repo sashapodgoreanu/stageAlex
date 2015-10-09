@@ -109,7 +109,7 @@ var initTablesNav = function (saveURL, closeURL, workingareaURL) {
             $('#addTableModal').modal('show');
         } else //else was clicked a Table name
         {
-            window.location = $(thiz).attr('id');
+            instanceTable.open($(thiz).attr('id'));
         }
     });
     //Save new created Table
@@ -350,6 +350,8 @@ $.extend(Table.prototype, {
             success: function (data) {
                 succes = true;
                 responseFromServ = data;
+                console.log("resp:" + responseFromServ);
+                console.log("data " + data);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
@@ -357,7 +359,7 @@ $.extend(Table.prototype, {
             },
             complete: function () {
                 if (succes)
-                    window.location = responseFromServ.idTable;
+                    thiz.open(responseFromServ.idTable);
             }
         });
         console.log("saved");
@@ -457,6 +459,7 @@ $.extend(ObjProperties.prototype, {
 
             var thisSlide = $(this).parent();
             var content1;
+            var openSlide;
             if (thisSlide.hasClass("open")) {
                 content1 = thisSlide.children().next();
 
@@ -469,7 +472,17 @@ $.extend(ObjProperties.prototype, {
                 });
             } else {
                 //close the one that are open
-                thiz.closeAllPanels(300);
+                openSlide = $("#hiddenMenu").find(".open");
+                if (openSlide !== null) {
+                    openSlide.removeClass("open");
+                    openSlide.addClass("closed");
+                    content1 = openSlide.children().next();
+                    content1.slideUp(300, function () {
+                        //execute this after slideUp is done
+                        var spanArrow = openSlide.find(".triangle");
+                        spanArrow.attr("class", "glyphicon glyphicon-triangle-right triangle");
+                    });
+                }
                 //open the clicked one
                 content1 = thisSlide.children().next();
                 thisSlide.removeClass("closed");
@@ -491,9 +504,6 @@ $.extend(ObjProperties.prototype, {
             });
 
         });
-        $("body").on("mousedown", "#propBar",function (event, ui) {
-            thiz.closeAllPanels(0);
-        });
         $(this.idMenu).on("dragstop", function (event, ui) {
             thiz.position = ui.position.top;
         });
@@ -512,34 +522,8 @@ $.extend(ObjProperties.prototype, {
     },
     hide: function () {
         $(this.idMenu).hide();
-    },
-    closeAllPanels: function (duration) {
-        //close the one that are open
-        var openSlide = $("#hiddenMenu").find(".open");
-        if (openSlide !== null) {
-            openSlide.removeClass("open");
-            openSlide.addClass("closed");
-            var content1 = openSlide.children().next();
-            content1.slideUp(duration, function () {
-                //execute this after slideUp is done
-                var spanArrow = openSlide.find(".triangle");
-                spanArrow.attr("class", "glyphicon glyphicon-triangle-right triangle");
-            });
-        }
     }
-    
 });
-
-var ObjectOfDiscourse = function(personalContainerId,sharedContainerId){
-    this.personalContainerId = personalContainerId;
-    this.sharedContainerId = sharedContainerId;
-    this.personalTags = [];
-    this.otherTags = [];
-    this.
-    this.init = function() {
-        
-    };
-}
 
 var availableTags = [
     "ActionScript",

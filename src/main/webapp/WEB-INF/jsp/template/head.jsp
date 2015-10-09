@@ -9,6 +9,7 @@
     Set up URLS
 --%>
 <s:url value ="/save-table" var="savetable" scope="application"/>
+<s:url value ="/workingarea/" var="workingarea" scope="application"/>
 <s:url value ="/tag" var="tag" scope="application"/>
 <s:url value ="/login" var="login" scope="application"/>
 <s:url value ="/tagPost" var="tagPost" scope="application"/>
@@ -39,7 +40,9 @@
     
     <!--SemT CSS -->
     <link href="${pageContext.request.getContextPath()}/css/semtpp-style.css" rel="stylesheet">
+    <link href="${pageContext.request.getContextPath()}/css/object-of-discourse.css" rel="stylesheet">
     <script src="${pageContext.request.getContextPath()}/js/functions.js" type="text/javascript"></script>
+    <script src="${pageContext.request.getContextPath()}/js/object-of-discourse.js" type="text/javascript"></script>
     
     <!-- jQuery UI Autocomplete -->
     <script src="${pageContext.request.getContextPath()}/jquery-ui/jquery-ui.js"></script>
@@ -52,9 +55,12 @@
     </style>
     <script>
         $(function () {
-            initTablesNav("${savetable}");
-            var instanceTable = new Table();
-            instanceTable.init("${savetable}","${closetable}");
+            initTablesNav("${savetable}","${closetable}","${workingarea}");
+            var instanceTable = new Table("${savetable}","${closetable}","${workingarea}");
+            var gui_ood = new GUI_ood("#showTags", "#contextMenuShowHideTagsv1");
+            
+            instanceTable.init();
+            gui_ood.init();
             //performTagging();
 
             //Menu for right click
@@ -64,16 +70,20 @@
             //jquery.on(event = "contextmenu","...")
             //contextmenu = rightclick
             $("body").on("contextmenu",".tipo1", function (e) {
+                var thiz = this;
                 //prevent default menu on right click
                 e.preventDefault();
                 //Variable that contains all insormation about right clicked element
                 $.rightCliked = this;
                 //show rightclickMenu
                 rightclickMenu.css({
-                    display: "block",
-                    left: e.pageX,
-                    top: e.pageY
+                    display: "block"
                 });
+                $(rightclickMenu).position({
+                my: "right top",
+                at: "right bottom",
+                of: thiz
+            });
             });
 
             //listener that hides #contextMenu

@@ -5,6 +5,7 @@
  */
 package com.unito;
 
+import com.unito.model.Table;
 import com.unito.model.UserDetails.UserDetails;
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface UserDetailsRepository {
     UserDetails findByUsername(String username);
 
     List<UserDetails> findAll();
+    
+    List<UserDetails> getUsersOnTable(int id);
 }

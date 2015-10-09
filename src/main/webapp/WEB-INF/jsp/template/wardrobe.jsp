@@ -15,6 +15,7 @@
         wardrobe.init();
     });
 </script>
+
 <div id="wardrobe" class="panel panel-default">
     <!--panel content-->
     <div class="panel-heading">Wardrobe<span id="addElement" table-id="${idTable}" class="glyphicon glyphicon-plus" aria-hidden="true"></span></div>

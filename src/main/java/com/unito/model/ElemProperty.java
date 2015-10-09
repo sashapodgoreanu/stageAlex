@@ -13,6 +13,7 @@ public class ElemProperty {
     private int id;
     private String value;
     private boolean privato;
+    private boolean shared;
 
     public ElemProperty(int id, String value, boolean privato) {
         this.id = id;

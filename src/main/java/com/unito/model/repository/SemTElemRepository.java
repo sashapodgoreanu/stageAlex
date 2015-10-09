@@ -58,8 +58,8 @@ public class SemTElemRepository {
         return retVal;
     }
 
-    public List<SemTElem> getElementsOnTable(Table table) {
-        List<SemTElem> retVal = jdbcTemplate.query(SELECT_ALL_ELEMENTS_ON_TABLE, (new SemTElemRepository.SemTElemMapper<>()), table.getID());
+    public List<SemTElem> getElementsOnTable(int idTable) {
+        List<SemTElem> retVal = jdbcTemplate.query(SELECT_ALL_ELEMENTS_ON_TABLE, (new SemTElemRepository.SemTElemMapper<>()), idTable);
         LOG.info(retVal == null ? "null" : retVal.toString());
         return retVal;
     }
@@ -82,7 +82,7 @@ public class SemTElemRepository {
         if (insert) {
             ok = addElement(semTElem) && addElementinWardrobe(semTElem, table);
         } else {
-            for (SemTElem semTElemtemp : getElementsOnTable(table)) {
+            for (SemTElem semTElemtemp : getElementsOnTable(table.getID())) {
                 if (semTElemtemp.equals(semTElem)) {
                     insert2 = false;
                     break;

@@ -6,6 +6,7 @@
 package com.unito.repository;
 
 import com.unito.UserDetailsRepository;
+import com.unito.model.Table;
 import com.unito.model.UserDetails.UserDetails;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,9 +27,11 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
     
     private JdbcTemplate jdbcTemplate;
     
-    private String INSERT_USERDETAILS = "insert into USERDETAILS (ID, ID_TOKEN, ACCESS_TOKEN) values (?, ?, ?)";
-    private String SELECT_USERDETAILS = "select * from USERDETAILS where ID =?";
-    private String UPDATE_USERDETAILS = "update USERDETAILS set ID_TOKEN = ?, ACCESS_TOKEN = ? where ID = ?";
+    private final String INSERT_USERDETAILS = "insert into USERDETAILS (ID, ID_TOKEN, ACCESS_TOKEN) values (?, ?, ?)";
+    private final String SELECT_USERDETAILS = "select * from USERDETAILS where ID =?";
+    private final String UPDATE_USERDETAILS = "update USERDETAILS set ID_TOKEN = ?, ACCESS_TOKEN = ? where ID = ?";
+    private final String SELECT_ALL_USER_ON_TABLE ="select u.ID as ID, u.ID_TOKEN as ID_TOKEN, u.ACCESS_TOKEN as ACCESS_TOKEN  from USERDETAILS u join USER_W_TABLE uwt on (u.id = uwt.userdetails_id) "
+            + "                               where uwt.w_table_id = ?";
 
     @Autowired
     public JDBCUserDetailsRepository(JdbcTemplate jdbcTemplate) {
@@ -89,8 +92,15 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
             throw new NullPointerException("user is null");
         return jdbcTemplate.update(this.UPDATE_USERDETAILS,user.getIdtoken(),user.getAccesstoken(),user.getId()) != 0;
     }
+
+    @Override
+    public List<UserDetails> getUsersOnTable(int tableId) {
+        LOG.info("Getting users on table "+tableId);
+        List<UserDetails> retVal = jdbcTemplate.query(SELECT_ALL_USER_ON_TABLE, (new UserDetailsMapper<>()), tableId);
+        return retVal;
+    }
     
-    class UserDetailsMapper implements RowMapper{
+    class UserDetailsMapper<T> implements RowMapper{
 
         @Override
         public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -101,7 +111,6 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
             return userDetails;
         }
     }
+   
     private static final Logger LOG = Logger.getLogger(JDBCUserDetailsRepository.class.getName());
-    
-    
 }

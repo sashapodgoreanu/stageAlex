@@ -19,7 +19,7 @@
             <c:otherwise></c:otherwise>
         </c:choose>
 
-        <main class="container-fluid applybackground-grey row padding-top-20">
+        <main id="main" class="container-fluid applybackground-grey row padding-top-20">
             <aside class="col-md-2">
                 <div class="list-group">
                     <a href="#" class="list-group-item active">
@@ -31,175 +31,17 @@
                     <a href="#" class="list-group-item">Vestibulum at eros</a>
                 </div>
             </aside>
-            <section class="col-md-5">
-                <div class="row">
-                    <div class="col-md-8">
-                        <c:import url="template/table_base.jsp"/>
-                    </div>
-                </div>
-            </section>
-            <section class="col-md-3">
-                <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                        <!-- Single button -->
-                        <button id="idButton" type="button" class="btn btn-default tipo1">
-                            Action
-                        </button>
-
-                    </div>
-                    <div class="col-md-4"></div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-4">
-                        <!-- Single button -->
-                        <button id="idButton" type="button" class="btn btn-default tipo1">
-                            Action
-                        </button>
-                    </div>
-                    <div class="col-md-4">
-                        <!-- Single button -->
-                        <button id="idButton" type="button" class="btn btn-default tipo1">
-                            Action
-                        </button>
-                    </div>
-                    <div class="col-md-4">
-                    </div>
-                </div>
-
+            <section class="col-md-1"></section>
+            <section class="col-md-7">
+                <c:import url="template/table_base.jsp"/>
             </section>
             <aside class="col-md-2">
-
                 <c:import url="template/wardrobe.jsp"/>
+                <c:import url="template/users_on_table.jsp"/>
             </aside>
-
-            <!----------------- hidden context -------------------------------->
-
-            <div id="contextMenu" class="dropdown clearfix" style="z-index: 50;">
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px;">
-                    <li><a tabindex="-1" href="#">Action</a></li>
-                    <li><a tabindex="-1" href="#">Another action</a></li>
-                    <li><a tabindex="-1" href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li id="propertiesMenu"><a tabindex="-1" href="#hiddenMenu">Properties</a></li>
-                </ul>
-            </div>
-
-            <div id="hiddenMenu" class="panel panel-default" style="z-index: 40;">
-                <div id="propBar"><span>Properties</span> <span style="float: right;" class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
-                </div>
-
-                <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right triangle" aria-hidden="true" ></span>Main topic
-                    </div>
-                    <div class="panel-body">
-                        <ul>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right triangle" aria-hidden="true" ></span>Type
-                    </div>
-                    <div class="panel-body">
-                        <ul>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- Tags Panel -->
-                <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading panel-collapse">
-                        <span class="glyphicon glyphicon-triangle-right triangle" aria-hidden="true" ></span>Objects of discourse
-                    </div>
-                    <div class="panel-body margin-15-left">
-                        <form class="form-horizontal tag-container margin-15-top margin-20-right">
-                            <div class="row">
-                                <div class="col-md-offset-10"><button type="button" class="btn btn-default tipo2">
-                                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="form-group cloneable">
-                                <label for="autocomplete" class="col-sm-3 control-label label-tag">Mine: </label>
-                                <div class="col-sm-9">
-                                    <div id="autocompleteContainer" class="autocompleteContainer">
-                                        <input id="autocompleteMine" class="autocomplete-hidden input-tag form-control">
-                                    </div>
-                                </div>
-                                <label for="tagContainer" class="col-sm-3 control-label label-tag">Others: </label>
-                                <div class="col-sm-9">
-                                    <div id="tagContainer" class="tagContainer">
-                                        <input id="autocompleteOthers" class="autocomplete-hidden input-tag form-control">
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div id="searchTagContainer" class="searchTag">
-                                        <input id="searchTag" class="autocomplete-hidden input-tag form-control">
-                                    </div>
-                                </div>
-
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right triangle" aria-hidden="true" ></span>Language
-                    </div>
-                    <div class="panel-body">
-                        <ul>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right triangle" aria-hidden="true" ></span>Formats
-                    </div>
-                    <div class="panel-body">
-                        <ul>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right triangle" aria-hidden="true" ></span>Authors
-                    </div>
-                    <div class="panel-body">
-                        <ul>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="panel panel-default no-padding-right no-padding-left">
-                    <div class="panel-heading panel-collapse"><span class="glyphicon glyphicon-triangle-right triangle" aria-hidden="true" ></span>Contains
-                    </div>
-                    <div class="panel-body">
-                        <ul>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                            <li>This is just some random content.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
         </main>
+        <c:import url="template/hidden_menu.jsp"/>   
+
         <c:import url="template/footer.jsp"/>
     </body>
 </html>
