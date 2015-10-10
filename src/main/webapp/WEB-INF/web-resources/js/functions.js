@@ -410,8 +410,10 @@ $.extend(Table.prototype, {
 /*
  * Right click on a object -> Properties 
  */
-var ObjProperties = function (idMenu) {
+var ObjProperties = function (idMenu, idProp) {
     this.idMenu = idMenu;
+    this.idProp = idProp;
+    this.panels = [];
 };
 $.extend(ObjProperties.prototype, {
     position: 0,
@@ -433,9 +435,18 @@ $.extend(ObjProperties.prototype, {
             console.log(L);
         });
 
-        //Listener that shows Properties-rightclickMenu
+        //Listener that close Properties-rightclickMenu
         $(this.idMenu).on("click", ".glyphicon-remove-circle", function () {
             thiz.hide();
+            thiz.destroyPanels();
+        });
+
+        /*
+         * Show Object Properties
+         */
+        $(this.idProp).on("click", function (e) {
+            thiz.show(e);
+            thiz.loadPanels();
         });
 
         //Drag On
@@ -495,9 +506,20 @@ $.extend(ObjProperties.prototype, {
         });
 
     },
+    addPanel: function(panel) {
+        this.panels.push(panel);
+    },
+    loadPanels: function () {
+        for (var i = 0; i < this.panels.length; i++) {
+            this.panels[i].load();
+        }
+    },
+    destroyPanels: function () {
+        for (var i = 0; i < this.panels.length; i++) {
+            this.panels[i].destroy();
+        }
+    },
     show: function (event) {
-        console.log(event);
-        console.log(this.idMenu);
         $(this.idMenu).show();
         $(this.idMenu).position({
             my: "center center",
@@ -535,7 +557,9 @@ var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, tagsUr
     this.otherTags = [];
     this.init = function () {
         var thiz = this;
-        this.destory();
+    };
+    this.load = function () {
+        var thiz = this;
         //ajax call
         $.ajax({
             url: thiz.tagsUrl,
@@ -545,19 +569,17 @@ var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, tagsUr
             //data to be sent
             data: JSON.stringify({'value': "request.term"}),
             success: function (data) {
-                
                 thiz.response(data);
             }
         });
-
     };
-    this.destory = function () {
+    this.destroy = function () {
         this.personalTags = [];
         this.otherTags = [];
         $(this.personalContainerId).empty();
         $(this.sharedContainerId).empty();
     };
-    this.complete = function(response){
+    this.complete = function (response) {
         alert(response);
     };
 }

@@ -92,20 +92,12 @@
                 rightclickMenu.hide();
             });
 
-            var objProperties1 = new ObjProperties("#hiddenMenu");
+            var objProperties1 = new ObjProperties("#hiddenMenu","#propertiesMenu");
             objProperties1.init();
-            
-            
-            a = "${tag}";
-             /*
-             * Show Object Properties
-             */
-            $("#propertiesMenu").on("click", function (e) {
-                objProperties1.show(e);
-            });
             
             var ood = new ObjectOfDiscourse("#autocompleteContainer","#autocompleteOthers","${getTagsForObj}");
             ood.init();
+            objProperties1.addPanel(ood);
         });
     </script>
 
