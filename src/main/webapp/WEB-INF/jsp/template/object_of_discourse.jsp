@@ -12,17 +12,12 @@
         </button>
     </div>
     <div class="form-group cloneable">
-        <label for="autocompleteContainer" class="col-sm-3 control-label label-tag">Mine: </label>
-        <div id="autocompleteContainer" class="autocompleteContainer">
-            <span class="atag">
-                <span class="wtag">TAG</span> 
-                <span class="ctag"><a>x</a></span>
-            </span>
+        <label for="personalContainer" class="col-sm-3 control-label label-tag">Mine: </label>
+        <div id="personalContainer" class="autocompleteContainer">
         </div>
         
         <label for="tagContainer" class="col-sm-3 control-label label-tag">Others: </label>
-        <div id="tagContainer" class="tagContainer">
-            <input id="autocompleteOthers" class="autocomplete-hidden input-tag form-control">
+        <div id="sharedContainer" class="tagContainer">
         </div>
         <div id="searchTagContainer" class="searchTag">
             <input id="searchTag" class="autocomplete-hidden input-tag form-control">

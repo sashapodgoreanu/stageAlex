@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.unito.repository;
+package com.unito.model.repository;
 
 import com.unito.UserDetailsRepository;
 import com.unito.model.Table;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Repository;
  * @author Alexandru Podgoreanu
  */
 @Repository
-public class JDBCUserDetailsRepository implements UserDetailsRepository {
+public class UserDetailsRepositoryJDBC implements UserDetailsRepository {
     
     private JdbcTemplate jdbcTemplate;
     
@@ -34,7 +34,7 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
             + "                               where uwt.w_table_id = ?";
 
     @Autowired
-    public JDBCUserDetailsRepository(JdbcTemplate jdbcTemplate) {
+    public UserDetailsRepositoryJDBC(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         //SELECT_USERDETAILS = env.getProperty("select");
     }
@@ -112,5 +112,5 @@ public class JDBCUserDetailsRepository implements UserDetailsRepository {
         }
     }
    
-    private static final Logger LOG = Logger.getLogger(JDBCUserDetailsRepository.class.getName());
+    private static final Logger LOG = Logger.getLogger(UserDetailsRepositoryJDBC.class.getName());
 }

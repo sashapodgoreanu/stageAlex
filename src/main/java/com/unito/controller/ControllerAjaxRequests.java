@@ -8,11 +8,14 @@ package com.unito.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.unito.UserDetailsRepository;
+import com.unito.model.Properties;
 import com.unito.model.SemTElem;
 import com.unito.model.Table;
 import com.unito.model.Tag;
 import com.unito.model.TagRepository;
 import com.unito.model.UserSession;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,25 +52,35 @@ public class ControllerAjaxRequests {
 
     @RequestMapping(value = "tag", method = RequestMethod.POST)
     public String getShopInJSON(@RequestBody String data) {
-        
+
         Gson gson = new Gson();
         Tag myTag = gson.fromJson(data, Tag.class);
-        
+
         String json = gson.toJson(tagRep.getChilds(myTag.getValue()));
         System.out.println(tagRep.getChilds(myTag.getValue()).toString() + "   " + json);
         return json;
     }
+
+    @RequestMapping(value = "getPersonalTagsForObj", method = RequestMethod.POST)
+    public String getPersonalTagsForObjJSON(@RequestBody String data) {
+        LOG.info("received "+data);
+        Gson gson = new Gson();
+        HashMap<String,String> myTag = gson.fromJson(data, HashMap.class);
+        List<Properties> retVal = userSession.getPersonalTagsForObj(myTag.get("id"));
+
+        System.out.println(myTag.toString());
+        return gson.toJson(retVal);
+    }
     
-    @RequestMapping(value = "getTagsForObj", method = RequestMethod.POST)
-    public String getTagsForObjJSON(@RequestBody String data) {
-        System.out.println(data);
-       /* Gson gson = new Gson();
-        Tag myTag = gson.fromJson(data, Tag.class);
-        
-        String json = gson.toJson(tagRep.getChilds(myTag.getValue()));
-        System.out.println(tagRep.getChilds(myTag.getValue()).toString() + "   " + json);
-        return json;*/
-        return null;
+    @RequestMapping(value = "getSharedTagsForObj", method = RequestMethod.POST)
+    public String getSharedTagsForObjJSON(@RequestBody String data) {
+        LOG.info("received "+data);
+        Gson gson = new Gson();
+        HashMap<String,String> myTag = gson.fromJson(data, HashMap.class);
+        List<Properties> retVal = userSession.getSharedTagsForObj(myTag.get("id"));
+
+        System.out.println(myTag.toString());
+        return gson.toJson(retVal);
     }
 
     @RequestMapping(value = "tagPost", method = RequestMethod.POST, consumes = "application/json")
@@ -84,7 +97,7 @@ public class ControllerAjaxRequests {
 
     @RequestMapping(value = "save-table", method = RequestMethod.POST, consumes = "application/json")
     public String saveTable(@RequestBody /*@Valid Persona*/ String data) {
-        LOG.info("saveTable: "+data);
+        LOG.info("saveTable: " + data);
         boolean ok = true;
         Gson gson = new Gson();
         Table newTable = gson.fromJson(data, Table.class);
@@ -101,22 +114,21 @@ public class ControllerAjaxRequests {
 
     @RequestMapping(value = "addElement", method = RequestMethod.POST, consumes = "application/json")
     public String addElement(@RequestBody String data) {
-        LOG.info("Add element "+data);
-        boolean ok              = true;
+        LOG.info("Add element " + data);
+        boolean ok = true;
         Gson gson = new Gson();
-        SemTElem semTElem  = gson.fromJson(data, SemTElem.class);
-        
+        SemTElem semTElem = gson.fromJson(data, SemTElem.class);
+
         //esclude fields from json data
         gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        Table table  = gson.fromJson(data, Table.class);
+        Table table = gson.fromJson(data, Table.class);
 
-        LOG.info("New Element: "+semTElem.toString());
-        
-        
-         LOG.info("new Element to register: "+semTElem.toString());
-         LOG.info("On table with id"+table.toString());
-         userSession.addElement(semTElem, table);
-         /*LOG.info("new table id: "+newTableId);
+        LOG.info("New Element: " + semTElem.toString());
+
+        LOG.info("new Element to register: " + semTElem.toString());
+        LOG.info("On table with id" + table.toString());
+        userSession.addElement(semTElem, table);
+        /*LOG.info("new table id: "+newTableId);
          System.out.println(data);
          Assoc response = new Assoc(newTableId != -1,newTableId);
          LOG.info("response "+response.toString());
@@ -135,7 +147,7 @@ public class ControllerAjaxRequests {
         System.out.println(data);
         return gson.toJson(ok);//json;
     }
-    
+
 }
 
 class Assoc {

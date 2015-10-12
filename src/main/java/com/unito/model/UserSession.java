@@ -6,8 +6,10 @@
 package com.unito.model;
 
 import com.unito.model.UserDetails.UserDetails;
+import com.unito.model.repository.PropertiesRepository;
 import com.unito.model.repository.SemTElemRepository;
 import com.unito.model.repository.TableRepository;
+import com.unito.model.repository.UserDetailsRepositoryJDBC;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,23 +18,35 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
-
-
 @Component
-@Scope(value="session",
-proxyMode=ScopedProxyMode.TARGET_CLASS)
-public class UserSession implements Serializable{
-    
-    TableRepository tableRepository;
-    SemTElemRepository semTElemRepository;
+@Scope(value = "session",
+        proxyMode = ScopedProxyMode.TARGET_CLASS)
+public class UserSession implements Serializable {
+
+    @Autowired
+    private UserDetailsRepositoryJDBC userDetailsRepositoryJDBC;
+    @Autowired
+    private TableRepository tableRepository;
+    @Autowired
+    private SemTElemRepository semTElemRepository;
+    @Autowired
+    private PropertiesRepository propertiesRepository;
     private UserDetails userDetails;
+    //set on open table
+    private int openTableId;
+
     private List<Table> tables;
     private List<Table> openTables;
 
-    @Autowired
-    public UserSession(TableRepository tableRepository, SemTElemRepository semTElemRepository) {
-        this.tableRepository = tableRepository;
-        this.semTElemRepository = semTElemRepository;
+    public UserSession() {
+    }
+
+    public int getOpenTableId() {
+        return openTableId;
+    }
+
+    public void setOpenTableId(int openTableId) {
+        this.openTableId = openTableId;
     }
 
     public List<Table> getOpenTables() {
@@ -59,38 +73,40 @@ public class UserSession implements Serializable{
     public void setTables(List<Table> tables) {
         this.tables = tables;
     }
-    
-    public List<Table> getOpenedTables(){
+
+    public List<Table> getOpenedTables() {
         this.tables = tableRepository.getAllTables(userDetails);
         this.openTables = tableRepository.getAllTables(userDetails);
         List<Table> retVal = new ArrayList<>();
-        for(Table t : this.tables){
-            if (t.isOpened())
+        for (Table t : this.tables) {
+            if (t.isOpened()) {
                 retVal.add(t);
+            }
         }
         return retVal;
     }
-    
+
     //TODO
-    public List<SemTElem> getElementsOnTable(int idTable){
+    public List<SemTElem> getElementsOnTable(int idTable) {
         List<SemTElem> retVal = semTElemRepository.getElementsOnTable(idTable);
         return retVal;
     }
+
     //TODO
-    public boolean addElement(SemTElem semTElem, Table table){
+
+    public boolean addElement(SemTElem semTElem, Table table) {
         semTElemRepository.addelementOnTable(semTElem, table);
         return true;
     }
 
     /*@Override
-    public String toString() {
-        return "UserSession{" + "userdetails=" + userDetails.toString() + '}';
-    }*/
-
+     public String toString() {
+     return "UserSession{" + "userdetails=" + userDetails.toString() + '}';
+     }*/
     public int registerNewTable(Table newTable) {
         newTable.setOwner(this.getUserdetails().getId());
         int newtableId = tableRepository.saveTable(newTable);
-        if (newtableId != -1){
+        if (newtableId != -1) {
             newTable.setID(newtableId);
             newTable.setOpened(true);
             //todo insert check control from db
@@ -101,13 +117,26 @@ public class UserSession implements Serializable{
     }
 
     public boolean closeTable(Table closeTable) {
-        return tableRepository.closeTable(userDetails,closeTable);
-        
-    }
-    
-    
+        return tableRepository.closeTable(userDetails, closeTable);
 
-    
-    
-    
+    }
+
+    public List<Properties> getPersonalTagsForObj(String idObj) {
+        List<Properties> retVal;
+        retVal = propertiesRepository.getPersonalPropertiesForObj(userDetails.getId(), idObj);
+        return retVal;
+    }
+
+    public List<Properties> getSharedTagsForObj(String idObj) {
+        List<UserDetails> users = userDetailsRepositoryJDBC.getUsersOnTable(openTableId);
+        List<Properties> retVal = new ArrayList<>();
+        for (UserDetails u : users) {
+            //get all tags for this object that are not mine
+            if (!u.getId().equals(userDetails.getId())) {
+                retVal.addAll(propertiesRepository.getSharedPropertiesForObj(u.getId(), idObj));
+            }
+        }
+        return retVal;
+    }
+
 }

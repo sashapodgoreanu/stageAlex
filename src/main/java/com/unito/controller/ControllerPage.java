@@ -27,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author SashaAlexandru
  */
 @Controller
-public class PageController {
+public class ControllerPage {
     org.springframework.security.authentication.AnonymousAuthenticationToken a;
     Principal b;
     private String title;
@@ -87,6 +87,7 @@ public class PageController {
 
         mvc = new ModelAndView("working_area");
         title = "Working Area";
+        userSession.setOpenTableId(idTable);
         LOG.info("Id table: " + idTable);
         LOG.info(userSession.toString());
         LOG.info(userSession.getOpenedTables().toString());
@@ -100,7 +101,7 @@ public class PageController {
 
         return mvc;
     }
-    private static final Logger LOG = Logger.getLogger(PageController.class.getName());
+    private static final Logger LOG = Logger.getLogger(ControllerPage.class.getName());
 
     
 }

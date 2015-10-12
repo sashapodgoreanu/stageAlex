@@ -413,6 +413,7 @@ $.extend(Table.prototype, {
 var ObjProperties = function (idMenu, idProp) {
     this.idMenu = idMenu;
     this.idProp = idProp;
+    this.idObj = "";
     this.panels = [];
 };
 $.extend(ObjProperties.prototype, {
@@ -436,9 +437,11 @@ $.extend(ObjProperties.prototype, {
         });
 
         //Listener that close Properties-rightclickMenu
-        $(this.idMenu).on("click", ".glyphicon-remove-circle", function () {
+        $(this.idMenu).on("click", ".glyphicon-remove-circle", function (e) {
+            e.preventDefault();
             thiz.hide();
             thiz.destroyPanels();
+            thiz.closeAllPanels(0);
         });
 
         /*
@@ -500,18 +503,19 @@ $.extend(ObjProperties.prototype, {
         });
         $("body").on("mousedown", "#propBar", function (event, ui) {
             thiz.closeAllPanels(0);
-        });
+        })/*.children().on("mousedown",function(){return false;})*/;
+
         $(this.idMenu).on("dragstop", function (event, ui) {
             thiz.position = ui.position.top;
         });
 
     },
-    addPanel: function(panel) {
+    addPanel: function (panel) {
         this.panels.push(panel);
     },
     loadPanels: function () {
         for (var i = 0; i < this.panels.length; i++) {
-            this.panels[i].load();
+            this.panels[i].load(this.idObj);
         }
     },
     destroyPanels: function () {
@@ -544,32 +548,67 @@ $.extend(ObjProperties.prototype, {
                 spanArrow.attr("class", "glyphicon glyphicon-triangle-right triangle");
             });
         }
+    },
+    setIdObject: function (idObj) {
+        this.idObj = idObj;
     }
 
 });
 
 //Object of discourse
-var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, tagsUrl) {
+var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, personalTagsUrl, sharedTagsUrl) {
     this.personalContainerId = personalContainerId;
     this.sharedContainerId = sharedContainerId;
-    this.tagsUrl = tagsUrl;
+    this.personalTagsUrl = personalTagsUrl;
+    this.sharedTagsUrl = sharedTagsUrl;
     this.personalTags = [];
-    this.otherTags = [];
+    this.sharedTags = [];
     this.init = function () {
         var thiz = this;
     };
-    this.load = function () {
+    this.load = function (objId) {
         var thiz = this;
+        var completed = 0;
+        var ok = false;
         //ajax call
         $.ajax({
-            url: thiz.tagsUrl,
+            url: thiz.personalTagsUrl,
             type: 'POST',
             contentType: 'application/json',
             dataType: 'json',
             //data to be sent
-            data: JSON.stringify({'value': "request.term"}),
-            success: function (data) {
-                thiz.response(data);
+            data: JSON.stringify({'id': objId}),
+            success: function (response) {
+                ok = true;
+                thiz.personalTags = response;
+            },
+            complete: function () {
+                if (ok) {
+
+                    completed++;
+                }
+                if (completed == 2)
+                    thiz.complete();
+            }
+        });
+        ok = false;
+        $.ajax({
+            url: thiz.sharedTagsUrl,
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            //data to be sent
+            data: JSON.stringify({'id': objId}),
+            success: function (response) {
+                ok = true;
+                thiz.sharedTags = response;
+            },
+            complete: function () {
+                if (ok) {
+                    completed++;
+                }
+                if (completed == 2)
+                    thiz.complete();
             }
         });
     };
@@ -579,10 +618,72 @@ var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, tagsUr
         $(this.personalContainerId).empty();
         $(this.sharedContainerId).empty();
     };
-    this.complete = function (response) {
-        alert(response);
+    this.complete = function () {
+        this.addTags();
     };
+    this.addTags = function () {
+        for (var i = 0; i < this.personalTags.length; i++) {
+            var idUserDetails = this.personalTags[i].ownerId;
+            var color;
+            $(".semtUsers").each(function () {
+                if ($(this).attr("data-user-id") == idUserDetails)
+                    color = $(this).css("color");
+            });
+            var span = document.createElement("span");
+            var spanC1 = document.createElement("span");
+            var spanC2 = document.createElement("span");
+            var a = document.createElement("a");
+            $(spanC1).addClass("wtag");
+            $(spanC1).append(this.personalTags[i].value);
+            $(spanC2).addClass("ctag");
+            $(spanC2).append(a);
+            $(a).append("x");
+            $(span).addClass("atag");
+            $(span).css({"background": color});
+            $(span).css({"color": "white"});
+            $(span).append(spanC1);
+            $(span).append(spanC2);
+            $(this.personalContainerId).append(span);
+        }
+        for (var i = 0; i < this.sharedTags.length; i++) {
+            var idUserDetails = this.sharedTags[i].ownerId;
+            var color;
+            $(".semtUsers").each(function () {
+                if ($(this).attr("data-user-id") == idUserDetails)
+                    color = $(this).css("color");
+            });
+            var span = document.createElement("span");
+            var spanC1 = document.createElement("span");
+            var spanC2 = document.createElement("span");
+            var a = document.createElement("a");
+            $(spanC1).addClass("wtag");
+            $(spanC1).append(this.sharedTags[i].value);
+            $(spanC2).addClass("ctag");
+            $(spanC2).append(a);
+            $(a).append("x");
+            $(span).addClass("atag");
+            $(span).css({"background": color});
+            $(span).css({"color": "white"});
+            $(span).append(spanC1);
+            $(span).append(spanC2);
+            $(this.sharedContainerId).append(span);
+        }
+    };
+
 }
+/*
+function invertColor(rgb) {
+    rgb = [].slice.call(arguments).join(",").replace(/rgb\(|\)|rgba\(|\)|\s/gi, '').split(',');
+    for (var i = 0; i < rgb.length; i++)
+        rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+    var retVal = "rgb(";
+    for (var i = 0; i < rgb.length - 1; i++)
+        retVal += rgb[i] + ", ";
+    retVal += rgb[2]+")";
+    return retVal;
+}*/
+
+
 
 var availableTags = [
     "ActionScript",

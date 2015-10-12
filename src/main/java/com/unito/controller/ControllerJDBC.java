@@ -6,6 +6,7 @@
 package com.unito.controller;
 
 import com.unito.repository.JDBCDbInit;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,12 @@ import org.springframework.web.servlet.ModelAndView;
  * @author SashaAlexandru
  */
 @Controller
-public class JDBCController {
+public class ControllerJDBC {
 
     @Autowired
     private JDBCDbInit jDBCDbInit;
-    private static final Logger LOG = Logger.getLogger(JDBCController.class.getName());
-
+    private static final Logger LOG = Logger.getLogger(ControllerJDBC.class.getName());
+    HashMap<String,String> a;
     @RequestMapping(value = "/adminjdbc", method = GET)
     public ModelAndView working_area(@RequestParam(required = false) Map<String, String> params) {
         LOG.info("/adminjdbc");

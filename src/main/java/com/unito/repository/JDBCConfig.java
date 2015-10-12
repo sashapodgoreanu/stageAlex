@@ -5,6 +5,7 @@
  */
 package com.unito.repository;
 
+import com.unito.model.repository.UserDetailsRepositoryJDBC;
 import com.unito.UserDetailsRepository;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +41,7 @@ public class JDBCConfig {
     
     @Bean 
     public UserDetailsRepository userDetailsRepository(JdbcTemplate jdbcTemplate) {
-        return new JDBCUserDetailsRepository(jdbcTemplate);
+        return new UserDetailsRepositoryJDBC(jdbcTemplate);
     }
     
     

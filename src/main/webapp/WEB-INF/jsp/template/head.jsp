@@ -10,7 +10,8 @@
 --%>
 <s:url value ="/save-table" var="savetable" scope="application"/>
 <s:url value ="/workingarea/" var="workingarea" scope="application"/>
-<s:url value ="/getTagsForObj" var="getTagsForObj" scope="application"/>
+<s:url value ="/getPersonalTagsForObj" var="getPersonalTagsForObj" scope="application"/>
+<s:url value ="/getSharedTagsForObj" var="getSharedTagsForObj" scope="application"/>
 <s:url value ="/tag" var="tag" scope="application"/>
 <s:url value ="/login" var="login" scope="application"/>
 <s:url value ="/tagPost" var="tagPost" scope="application"/>
@@ -31,24 +32,24 @@
 
 
     <script src="${pageContext.request.getContextPath()}/js/jquery-2.1.3.min.js" type="text/javascript"></script>
-    
-   
-    
-    
+
+
+
+
     <!-- Bootstrap -->
     <link href="${pageContext.request.getContextPath()}/css/bootstrap.min.css" rel="stylesheet">
     <script src="${pageContext.request.getContextPath()}/js/bootstrap.min.js" type="text/javascript"></script>
-    
+
     <!--SemT CSS -->
     <link href="${pageContext.request.getContextPath()}/css/semtpp-style.css" rel="stylesheet">
     <link href="${pageContext.request.getContextPath()}/css/object-of-discourse.css" rel="stylesheet">
     <script src="${pageContext.request.getContextPath()}/js/functions.js" type="text/javascript"></script>
     <script src="${pageContext.request.getContextPath()}/js/object-of-discourse.js" type="text/javascript"></script>
-    
+
     <!-- jQuery UI Autocomplete -->
     <script src="${pageContext.request.getContextPath()}/jquery-ui/jquery-ui.js"></script>
     <link href="${pageContext.request.getContextPath()}/jquery-ui/jquery-ui.min.css" rel="stylesheet">
-    
+
     <style>
         .ui-autocomplete-loading {
             background: white url("${pageContext.request.getContextPath()}/jquery-ui/images/ui-anim_basic_16x16.gif") right center no-repeat;
@@ -56,21 +57,27 @@
     </style>
     <script>
         $(function () {
-            initTablesNav("${savetable}","${closetable}","${workingarea}");
-            var instanceTable = new Table("${savetable}","${closetable}","${workingarea}");
+            initTablesNav("${savetable}", "${closetable}", "${workingarea}");
+            var instanceTable = new Table("${savetable}", "${closetable}", "${workingarea}");
             var gui_ood = new GUI_ood("#showTags", "#contextMenuShowHideTagsv1");
-            
+
             instanceTable.init();
             gui_ood.init();
-            //performTagging();
+            
+            var objProperties1 = new ObjProperties("#hiddenMenu", "#propertiesMenu");
+            objProperties1.init();
+
+            var ood = new ObjectOfDiscourse("#personalContainer", "#sharedContainer", "${getPersonalTagsForObj}", "${getSharedTagsForObj}");
+            ood.init();
+            objProperties1.addPanel(ood);
 
             //Menu for right click
             var rightclickMenu = $("#contextMenu");
-            
+
             //listener for right click for elements
             //jquery.on(event = "contextmenu","...")
             //contextmenu = rightclick
-            $("body").on("contextmenu",".tipo1", function (e) {
+            $("body").on("contextmenu", ".tipo1", function (e) {
                 var thiz = this;
                 //prevent default menu on right click
                 e.preventDefault();
@@ -81,23 +88,17 @@
                     display: "block"
                 });
                 $(rightclickMenu).position({
-                my: "right top",
-                at: "right bottom",
-                of: thiz
-            });
+                    my: "right top",
+                    at: "right bottom",
+                    of: thiz
+                });
+                objProperties1.setIdObject($(this).attr("id"));
             });
 
             //listener that hides #contextMenu
             $("body").on("click", function (e) {
                 rightclickMenu.hide();
             });
-
-            var objProperties1 = new ObjProperties("#hiddenMenu","#propertiesMenu");
-            objProperties1.init();
-            
-            var ood = new ObjectOfDiscourse("#autocompleteContainer","#autocompleteOthers","${getTagsForObj}");
-            ood.init();
-            objProperties1.addPanel(ood);
         });
     </script>
 
