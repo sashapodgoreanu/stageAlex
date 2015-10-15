@@ -31,3 +31,24 @@
     </div>
 </form>
 
+<!----------------- click show/hide tags v1 -------------------------------->
+<div id="contextMenuShowHideTagsv1" class="dropdown clearfix" style="z-index: 51;">
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display:block;position:static;margin-bottom:5px; text-align: right;">
+        <li><a><label for="seeSharedv1">
+                    <input id ="seeSharedv1" type="checkbox" value ="">
+                    See Shared &nbsp;&nbsp;<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                </label></a>
+        </li>
+        <li><a><label for="seePersonalv1">
+                    <input id ="seePersonalv1" type="checkbox" value ="">
+                    See Personal &nbsp;&nbsp;<span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
+                </label></a>
+        </li>
+        <li><a><label for="seeTrash">
+                    <input id ="seeTrash" type="checkbox" value ="">
+                    See Trash &nbsp;&nbsp;<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </label></a>
+        </li>
+    </ul>
+</div>
+

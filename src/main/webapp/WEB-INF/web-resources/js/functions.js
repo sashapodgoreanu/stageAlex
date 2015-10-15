@@ -624,6 +624,8 @@ var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, person
     this.addTags = function () {
         for (var i = 0; i < this.personalTags.length; i++) {
             var idUserDetails = this.personalTags[i].ownerId;
+            var shared = this.personalTags[i].shared;
+            var deleted = this.personalTags[i].in_r_bin;
             var color;
             $(".semtUsers").each(function () {
                 if ($(this).attr("data-user-id") == idUserDetails)
@@ -640,9 +642,18 @@ var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, person
             $(a).append("x");
             $(span).addClass("atag");
             $(span).css({"background": color});
-            $(span).css({"color": "white"});
+            $(span).css({"color": getContrastYIQ(color)});
             $(span).append(spanC1);
             $(span).append(spanC2);
+            if (!deleted) {
+                if (shared)
+                    $(span).addClass("sharedtag");
+                else
+                    $(span).addClass("personaltag");
+            }
+            else
+                $(span).addClass("deletedtag");
+            
             $(this.personalContainerId).append(span);
         }
         for (var i = 0; i < this.sharedTags.length; i++) {
@@ -663,7 +674,7 @@ var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, person
             $(a).append("x");
             $(span).addClass("atag");
             $(span).css({"background": color});
-            $(span).css({"color": "white"});
+            $(span).css({"color": getContrastYIQ(color)});
             $(span).append(spanC1);
             $(span).append(spanC2);
             $(this.sharedContainerId).append(span);
@@ -672,16 +683,54 @@ var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, person
 
 }
 /*
-function invertColor(rgb) {
-    rgb = [].slice.call(arguments).join(",").replace(/rgb\(|\)|rgba\(|\)|\s/gi, '').split(',');
-    for (var i = 0; i < rgb.length; i++)
-        rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
-    var retVal = "rgb(";
-    for (var i = 0; i < rgb.length - 1; i++)
-        retVal += rgb[i] + ", ";
-    retVal += rgb[2]+")";
-    return retVal;
-}*/
+ function invertColor(rgb) {
+ rgb = [].slice.call(arguments).join(",").replace(/rgb\(|\)|rgba\(|\)|\s/gi, '').split(',');
+ for (var i = 0; i < rgb.length; i++)
+ rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
+ var retVal = "rgb(";
+ for (var i = 0; i < rgb.length - 1; i++)
+ retVal += rgb[i] + ", ";
+ retVal += rgb[2]+")";
+ return retVal;
+ }*/
+
+
+/*
+ * This function returns black or white depending on backgroundcolor that the 
+ * combination color - backgroundcolor to be more easy readeable
+ * @param {type} color background color 
+ * @returns {String} black or white
+ */
+function getContrastYIQ(color) {
+
+    /**
+     * Converts a color to hex color format
+     * @param {type} color in rgb or hex format
+     * @returns {String} color in hex format
+     */
+    function colorToHex(color) {
+        if (color.substr(0, 1) === '#') {
+            return color.substr(1, color.length - 1);
+        }
+        var digits = /(.*?)rgb\((\d+), (\d+), (\d+)\)/.exec(color);
+
+        var red = parseInt(digits[2]);
+        var green = parseInt(digits[3]);
+        var blue = parseInt(digits[4]);
+
+        var rgb = blue | (green << 8) | (red << 16);
+        return digits[1] + rgb.toString(16);
+    }
+    ;
+
+    var hexcolor = colorToHex(color);
+    var r = parseInt(hexcolor.substr(0, 2), 16);
+    var g = parseInt(hexcolor.substr(2, 2), 16);
+    var b = parseInt(hexcolor.substr(4, 2), 16);
+    var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    return (yiq >= 128) ? 'black' : 'white';
+}
+
 
 
 

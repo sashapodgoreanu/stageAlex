@@ -1,11 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, choose License Headers in Project Propertie.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.unito.model.repository;
 
-import com.unito.model.Properties;
+import com.unito.model.Propertie;
 import com.unito.model.SemTElem;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,8 +43,8 @@ public class PropertiesRepository {
      * @param idObj id of current opened table
      * @return list of properties
      */
-    public List<Properties> getPersonalPropertiesForObj(String idUser, String idObj) {
-        List<Properties> retVal = jdbcTemplate.query(
+    public List<Propertie> getPersonalPropertiesForObj(String idUser, String idObj) {
+        List<Propertie> retVal = jdbcTemplate.query(
                 SELECT_ALL_PERSONAL_PROPERTIES_OF_OBJECT,
                 (new PropertiesRepository.PropertiesMapper<>()),
                 idUser, idObj);
@@ -52,8 +52,8 @@ public class PropertiesRepository {
         return retVal;
     }
 
-    public List<Properties> getSharedPropertiesForObj(String idUser, String idObj) {
-        List<Properties> retVal = jdbcTemplate.query(
+    public List<Propertie> getSharedPropertiesForObj(String idUser, String idObj) {
+        List<Propertie> retVal = jdbcTemplate.query(
                 SELECT_ALL_PERSONAL_PROPERTIES_OF_OBJECT,
                 (new PropertiesRepository.PropertiesMapper<>()),
                 idUser, idObj);
@@ -64,8 +64,8 @@ public class PropertiesRepository {
     class PropertiesMapper<T> implements RowMapper {
 
         @Override
-        public Properties mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Properties p = new Properties();
+        public Propertie mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Propertie p = new Propertie();
             p.setId(rs.getInt("ID"));
             p.setOwnerId(rs.getString("ID_USERDETAILS"));
             p.setValue(rs.getString("VALUE"));

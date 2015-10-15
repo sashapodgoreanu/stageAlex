@@ -1,5 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, choose License Headers in Project Propertie.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -9,7 +9,7 @@ package com.unito.model;
  *
  * @author Alexandru Podgoreanu
  */
-public class Properties {
+public class Propertie {
     private int id;
     private String value;
     private boolean in_r_bin;
@@ -56,7 +56,7 @@ public class Properties {
         this.shared = shared;
     }
 
-    public Properties() {
+    public Propertie() {
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, choose License Headers in Project Propertie.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -8,7 +8,7 @@ package com.unito.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.unito.UserDetailsRepository;
-import com.unito.model.Properties;
+import com.unito.model.Propertie;
 import com.unito.model.SemTElem;
 import com.unito.model.Table;
 import com.unito.model.Tag;
@@ -66,7 +66,7 @@ public class ControllerAjaxRequests {
         LOG.info("received "+data);
         Gson gson = new Gson();
         HashMap<String,String> myTag = gson.fromJson(data, HashMap.class);
-        List<Properties> retVal = userSession.getPersonalTagsForObj(myTag.get("id"));
+        List<Propertie> retVal = userSession.getPersonalTagsForObj(myTag.get("id"));
 
         System.out.println(myTag.toString());
         return gson.toJson(retVal);
@@ -77,7 +77,7 @@ public class ControllerAjaxRequests {
         LOG.info("received "+data);
         Gson gson = new Gson();
         HashMap<String,String> myTag = gson.fromJson(data, HashMap.class);
-        List<Properties> retVal = userSession.getSharedTagsForObj(myTag.get("id"));
+        List<Propertie> retVal = userSession.getSharedTagsForObj(myTag.get("id"));
 
         System.out.println(myTag.toString());
         return gson.toJson(retVal);

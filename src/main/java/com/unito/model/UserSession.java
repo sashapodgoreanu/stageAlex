@@ -1,5 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
+ * To change this license header, choose License Headers in Project Propertie.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -121,15 +121,15 @@ public class UserSession implements Serializable {
 
     }
 
-    public List<Properties> getPersonalTagsForObj(String idObj) {
-        List<Properties> retVal;
+    public List<Propertie> getPersonalTagsForObj(String idObj) {
+        List<Propertie> retVal;
         retVal = propertiesRepository.getPersonalPropertiesForObj(userDetails.getId(), idObj);
         return retVal;
     }
 
-    public List<Properties> getSharedTagsForObj(String idObj) {
+    public List<Propertie> getSharedTagsForObj(String idObj) {
         List<UserDetails> users = userDetailsRepositoryJDBC.getUsersOnTable(openTableId);
-        List<Properties> retVal = new ArrayList<>();
+        List<Propertie> retVal = new ArrayList<>();
         for (UserDetails u : users) {
             //get all tags for this object that are not mine
             if (!u.getId().equals(userDetails.getId())) {
