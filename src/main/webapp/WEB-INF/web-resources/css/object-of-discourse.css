@@ -68,5 +68,6 @@
 .deletedtag {
     opacity: 0.6;
     filter: alpha(opacity=60); /* For IE8 and earlier */
+    border: 1px dashed #000000 !important;
 }
 

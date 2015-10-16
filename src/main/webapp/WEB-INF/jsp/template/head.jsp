@@ -63,7 +63,13 @@
 
             instanceTable.init();
             gui_ood.init();
-            
+
+            var showHidePSDtags = new ShowHidePSDtags(
+                            "#contextMenuShowHideTagsv1",
+                            "#seeSharedv1",
+                            "#seePersonalv1",
+                            "#seeTrashv1");
+            showHidePSDtags.init();
             var objProperties1 = new ObjProperties("#hiddenMenu", "#propertiesMenu");
             objProperties1.init();
 

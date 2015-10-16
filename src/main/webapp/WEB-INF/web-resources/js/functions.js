@@ -659,6 +659,10 @@ var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, person
         for (var i = 0; i < this.sharedTags.length; i++) {
             var idUserDetails = this.sharedTags[i].ownerId;
             var color;
+            /****/
+            var shared = this.personalTags[i].shared;
+            var deleted = this.personalTags[i].in_r_bin;
+            /****/
             $(".semtUsers").each(function () {
                 if ($(this).attr("data-user-id") == idUserDetails)
                     color = $(this).css("color");
@@ -677,6 +681,18 @@ var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, person
             $(span).css({"color": getContrastYIQ(color)});
             $(span).append(spanC1);
             $(span).append(spanC2);
+            
+            
+            /****/
+            if (!deleted) {
+                if (shared)
+                    $(span).addClass("sharedtag");
+                else
+                    $(span).addClass("personaltag");
+            }
+            else
+                $(span).addClass("deletedtag");
+            /*****/
             $(this.sharedContainerId).append(span);
         }
     };
