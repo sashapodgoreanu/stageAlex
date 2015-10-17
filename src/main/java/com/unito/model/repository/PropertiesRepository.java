@@ -26,19 +26,25 @@ public class PropertiesRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private final String SELECT_ALL_PERSONAL_PROPERTIES_OF_OBJECT =   " select * "
-                                                                    + " from PROPERTIES  "
-                                                                    + " where ID_USERDETAILS = ? and ID_OBJECT = ?";
-    private final String SELECT_ALL_SHARED_PROPERTIES_OF_OBJECT = " select * "
-                                                                + " from PROPERTIES  "
-                                                                + " where ID_USERDETAILS = ? and ID_OBJECT = ? and SHARED = 1";
+    private final String SELECT_ALL_PERSONAL_PROPERTIES_OF_OBJECT
+            = " select * "
+            + " from PROPERTIES  "
+            + " where ID_USERDETAILS = ? and ID_OBJECT = ?";
+    /*private final String SELECT_ALL_SHARED_PROPERTIES_OF_OBJECT
+            = " select * "
+            + " from PROPERTIES  "
+            + " where ID_USERDETAILS = ? and ID_OBJECT = ? and SHARED = 1";*/
+    private final String SELECT_ALL_SHARED_PROPERTIES_OF_OBJECT
+            = " select * "
+            + " from PROPERTIES  "
+            + " where ID_USERDETAILS = ? and ID_OBJECT = ?";
 
     public PropertiesRepository() {
     }
 
     /**
      * Gets all Personal properties of an object
-     * 
+     *
      * @param idUser id of Logged in user
      * @param idObj id of current opened table
      * @return list of properties
