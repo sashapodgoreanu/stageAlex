@@ -37,8 +37,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         super.onStartup(servletContext);
         servletContext.addListener(new SessionConfig());
         
-        //servletContext.setInitParameter("spring.profiles.active", "development");
-        servletContext.setInitParameter("spring.profiles.active", "production");
+        servletContext.setInitParameter("spring.profiles.active", "development");
+        //servletContext.setInitParameter("spring.profiles.active", "production");
         
     }
 

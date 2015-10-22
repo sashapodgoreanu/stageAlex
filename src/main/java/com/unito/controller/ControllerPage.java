@@ -7,7 +7,7 @@ package com.unito.controller;
 
 import com.unito.UserDetailsRepository;
 import com.unito.model.UserDetails.UserDetails;
-import com.unito.model.UserSession;
+import com.unito.model.TableManager;
 import java.security.Principal;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +36,7 @@ public class ControllerPage {
     @Autowired
     private UserDetailsRepository userDetailsRepository;
     @Autowired
-    private UserSession userSession;
+    private TableManager tableManager;
     private final String REVOKE_URL = "https://accounts.google.com/o/oauth2/revoke?token=";
     
     
@@ -51,12 +51,12 @@ public class ControllerPage {
     @RequestMapping(value = {"/processlogin"}, method = GET)
     public String processlogin(HttpServletRequest request, @AuthenticationPrincipal User customUser) {
         //get UserDetails from Db 
-        //Set UserSession with UserDetails
+        //Set TableManager with UserDetails
         System.out.println("userDetailsRepository"+userDetailsRepository);
-        System.out.println("UserSession"+userSession);
+        System.out.println("tableManager"+tableManager);
         UserDetails ud = userDetailsRepository.find(customUser.getUsername());
         
-        userSession.setUserdetails(ud);
+        tableManager.setUserdetails(ud);
         return "redirect:/workingarea/0";
     }
 
@@ -87,15 +87,14 @@ public class ControllerPage {
 
         mvc = new ModelAndView("working_area");
         title = "Working Area";
-        userSession.setOpenTableId(idTable);
+        tableManager.setOpenTableId(idTable);
         LOG.info("Id table: " + idTable);
-        LOG.info(userSession.toString());
-        LOG.info(userSession.getOpenedTables().toString());
+        LOG.info(tableManager.toString());
+        //LOG.info(tableManager.getOpenedTables().toString());
 
-        mvc.addObject("openedTables", userSession.getOpenedTables());
-        mvc.addObject("elementsOnTable", userSession.getElementsOnTable(idTable));
-        //TO DO add idTable 
-        mvc.addObject("usersOnTable", userDetailsRepository.getUsersOnTable(idTable));   
+        mvc.addObject("openedTables", tableManager.getOpenedTables());
+        mvc.addObject("elementsOnTable", tableManager.getElementsOnTable());
+        mvc.addObject("usersOnTable", tableManager.getUsersOnTable());
         mvc.addObject("idTable", idTable);
         mvc.addObject("title", title);
 

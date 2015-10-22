@@ -78,7 +78,8 @@ public class JDBCDbInit {
             + "                     ID_USERDETAILS varchar(1024),"
             + "                     ID_OBJECT varchar(1024) not null,"
             + "                     IN_R_BIN TINYINT(1) NOT NULL DEFAULT '0',"
-            + "                     SHARED TINYINT(1) NOT NULL DEFAULT '0'"
+            + "                     SHARED TINYINT(1) NOT NULL DEFAULT '0',"
+            + "                     LIKED_BY ID_USERDETAILS varchar(1024) DEFAULT NULL"
             + "                    )";
     private final String DROP_PROPERTIES = "drop table " + PROPERTIES;
 

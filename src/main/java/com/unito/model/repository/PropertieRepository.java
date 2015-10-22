@@ -1,0 +1,116 @@
+/*
+ * To change this license header, choose License Headers in Project Propertie.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.unito.model.repository;
+
+import com.unito.model.Propertie;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+/**
+ *
+ * @author SashaAlexandru
+ */
+@Repository
+public class PropertieRepository {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    private final String SELECT_ALL_PERSONAL_PROPERTIES_OF_OBJECT
+            = " select * "
+            + " from PROPERTIES  "
+            + " where (ID_USERDETAILS = ? and ID_OBJECT = ?)";
+
+    private final String SELECT_LIKED_PROPERTIES_OF_OBJECT_OF_USER
+            = "select 0 as DELETED, p.ID as ID, p.ID_USERDETAILS as ID_USERDETAILS, p.value as VALUE, p.ID_OBJECT as ID_OBJECT, p.shared as SHARED, pp.ID_USERDETAILS as ID_USERDETAILS_ACTION, pp.LIKED as LIKED\n"
+            + "from PROPERTIES p join PROPERTIES_PREFERENCE pp on (p.id = pp.id_propertie)\n"
+            + "where pp.ID_USERDETAILS = ? and p.ID_OBJECT = ? and pp.LIKED = 1";
+    
+    private final String SELECT_UNLIKED_PROPERTIES_OF_OBJECT_OF_USER
+            = "select p.ID as ID, p.ID_USERDETAILS as ID_USERDETAILS, p.value as VALUE, p.ID_OBJECT as ID_OBJECT, p.shared as SHARED, pp.ID_USERDETAILS as ID_USERDETAILS_ACTION, pp.LIKED as LIKED\n"
+            + "from PROPERTIES p join PROPERTIES_PREFERENCE pp on (p.id = pp.id_propertie)\n"
+            + "where pp.ID_USERDETAILS = ? and p.ID_OBJECT = ? and pp.LIKED = 0";
+
+    private final String SELECT_ALL_SHARED_PROPERTIES_OF_OBJECT
+            = " select * "
+            + " from PROPERTIES  "
+            + " where ID_USERDETAILS = ? and ID_OBJECT = ? and SHARED = TRUE and "
+            + " (LIKED_BY is NULL or (liked_by <> ? and LIKED_BY is not null) )";
+
+    public PropertieRepository() {
+    }
+
+    /**
+     * Gets all Personal properties of an object
+     *
+     * @param idUser id of Logged in user
+     * @param idObj id of current opened table
+     * @return list of properties
+     */
+    public List<Propertie> getPersonalProperties(String idUser, String idObj) {
+        List<Propertie> retVal = jdbcTemplate.query(SELECT_ALL_PERSONAL_PROPERTIES_OF_OBJECT,
+                (new PropertieRepository.PropertieMapper<>()),
+                idUser, idObj);
+        LOG.info(retVal.toString());
+        return retVal;
+    }
+
+    public List<Propertie> getSharedPropertiesForObj(String idUser, String idObj, String conectedUser) {
+        System.out.format(SELECT_ALL_SHARED_PROPERTIES_OF_OBJECT, idUser, idObj, conectedUser);
+        List<Propertie> retVal = jdbcTemplate.query(SELECT_ALL_SHARED_PROPERTIES_OF_OBJECT,
+                (new PropertieRepository.PropertieMapper<>()),
+                idUser, idObj, conectedUser);
+        LOG.info(retVal.toString());
+        return retVal;
+    }
+
+    public List<Propertie> getLikedPropertiesForObj(String idUser, String idObj) {
+        System.out.format(SELECT_LIKED_PROPERTIES_OF_OBJECT_OF_USER, idUser, idObj);
+        List<Propertie> retVal = jdbcTemplate.query(SELECT_LIKED_PROPERTIES_OF_OBJECT_OF_USER,
+                (new PropertieRepository.PropertieMapper<>()),
+                idUser, idObj);
+        LOG.info(retVal.toString());
+        return retVal;
+    }
+    public List<Propertie> getUnLikedPropertiesForObj(String idUser, String idObj) {
+        System.out.format(SELECT_UNLIKED_PROPERTIES_OF_OBJECT_OF_USER, idUser, idObj);
+        List<Propertie> retVal = jdbcTemplate.query(SELECT_UNLIKED_PROPERTIES_OF_OBJECT_OF_USER,
+                (new PropertieRepository.PropertieMapper<>()),
+                idUser, idObj);
+        LOG.info(retVal.toString());
+        return retVal;
+    }
+
+    class PropertieMapper<T> implements RowMapper {
+
+        @Override
+        public Propertie mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Propertie p = new Propertie();
+            p.setId(rs.getInt("ID"));
+            p.setOwnerId(rs.getString("ID_USERDETAILS"));
+
+            try {
+                p.setOwnerActionId(rs.getString("ID_USERDETAILS_ACTION"));
+                p.setLiked(rs.getBoolean("LIKED"));
+            } catch (SQLException e) {
+                LOG.info(e.getMessage());
+            }
+
+            p.setValue(rs.getString("VALUE"));
+            p.setShared(rs.getBoolean("SHARED"));
+            return p;
+        }
+    }
+
+    private static final Logger LOG = Logger.getLogger(PropertieRepository.class.getName());
+
+}

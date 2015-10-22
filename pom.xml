@@ -52,8 +52,19 @@
                     </execution>
                 </executions>
             </plugin>
-           
+            <!--Tomcat config for deploy application on a remote server-->
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <url>http://podgoreanu.dlinkddns.com/manager/text</url>
+                    <server>apache-tomcat</server>
+                    <path>/Stage-2.1</path>
+                </configuration>
+            </plugin>
         </plugins>
+        
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

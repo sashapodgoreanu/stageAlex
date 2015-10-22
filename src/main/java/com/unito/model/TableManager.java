@@ -6,7 +6,7 @@
 package com.unito.model;
 
 import com.unito.model.UserDetails.UserDetails;
-import com.unito.model.repository.PropertiesRepository;
+import com.unito.model.repository.PropertieRepository;
 import com.unito.model.repository.SemTElemRepository;
 import com.unito.model.repository.TableRepository;
 import com.unito.model.repository.UserDetailsRepositoryJDBC;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(value = "session",
         proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class UserSession implements Serializable {
+public class TableManager implements Serializable {
 
     @Autowired
     private UserDetailsRepositoryJDBC userDetailsRepositoryJDBC;
@@ -30,7 +30,14 @@ public class UserSession implements Serializable {
     @Autowired
     private SemTElemRepository semTElemRepository;
     @Autowired
-    private PropertiesRepository propertiesRepository;
+    private TagLiked tl;
+    @Autowired
+    private TagUnLiked tul;
+    @Autowired
+    private TagPersonal tp;
+    @Autowired
+    private TagShared ts;
+    private PropertieRepository propertiesRepository;
     private UserDetails userDetails;
     //set on open table
     private int openTableId;
@@ -38,7 +45,7 @@ public class UserSession implements Serializable {
     private List<Table> tables;
     private List<Table> openTables;
 
-    public UserSession() {
+    public TableManager() {
     }
 
     public int getOpenTableId() {
@@ -87,13 +94,12 @@ public class UserSession implements Serializable {
     }
 
     //TODO
-    public List<SemTElem> getElementsOnTable(int idTable) {
-        List<SemTElem> retVal = semTElemRepository.getElementsOnTable(idTable);
+    public List<SemTElem> getElementsOnTable() {
+        List<SemTElem> retVal = semTElemRepository.getElementsOnTable(openTableId);
         return retVal;
     }
 
     //TODO
-
     public boolean addElement(SemTElem semTElem, Table table) {
         semTElemRepository.addelementOnTable(semTElem, table);
         return true;
@@ -101,7 +107,7 @@ public class UserSession implements Serializable {
 
     /*@Override
      public String toString() {
-     return "UserSession{" + "userdetails=" + userDetails.toString() + '}';
+     return "TableManager{" + "userdetails=" + userDetails.toString() + '}';
      }*/
     public int registerNewTable(Table newTable) {
         newTable.setOwner(this.getUserdetails().getId());
@@ -123,8 +129,17 @@ public class UserSession implements Serializable {
 
     public List<Propertie> getPersonalTagsForObj(String idObj) {
         List<Propertie> retVal;
-        retVal = propertiesRepository.getPersonalPropertiesForObj(userDetails.getId(), idObj);
+        setupTags(idObj);
+        retVal = tp.getTags();
         return retVal;
+    }
+    private void setupTags(String idObj){
+        tp.setObjId(idObj);
+        tp.setForUserId(userDetails.getId());
+        tl.setObjId(idObj);
+        tl.setForUserId(userDetails.getId());
+        tul.setObjId(idObj);
+        tul.setForUserId(userDetails.getId());
     }
 
     public List<Propertie> getSharedTagsForObj(String idObj) {
@@ -133,10 +148,14 @@ public class UserSession implements Serializable {
         for (UserDetails u : users) {
             //get all tags for this object that are not mine
             if (!u.getId().equals(userDetails.getId())) {
-                retVal.addAll(propertiesRepository.getSharedPropertiesForObj(u.getId(), idObj));
+                retVal.addAll(propertiesRepository.getSharedPropertiesForObj(u.getId(), idObj, userDetails.getId()));
             }
         }
         return retVal;
+    }
+
+    public List<UserDetails> getUsersOnTable() {
+        return userDetailsRepositoryJDBC.getUsersOnTable(openTableId);
     }
 
 }

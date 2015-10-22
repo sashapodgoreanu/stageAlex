@@ -587,12 +587,12 @@ var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, person
 
                     completed++;
                 }
-                if (completed == 2)
+                /*if (completed == 2)*/
                     thiz.complete();
             }
         });
         ok = false;
-        $.ajax({
+        /*$.ajax({
             url: thiz.sharedTagsUrl,
             type: 'POST',
             contentType: 'application/json',
@@ -610,7 +610,7 @@ var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, person
                 if (completed == 2)
                     thiz.complete();
             }
-        });
+        });*/
     };
     this.destroy = function () {
         this.personalTags = [];
@@ -625,7 +625,7 @@ var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, person
         for (var i = 0; i < this.personalTags.length; i++) {
             var idUserDetails = this.personalTags[i].ownerId;
             var shared = this.personalTags[i].shared;
-            var deleted = this.personalTags[i].in_r_bin;
+            var deleted = this.personalTags[i].liked;
             var color;
             $(".semtUsers").each(function () {
                 if ($(this).attr("data-user-id") == idUserDetails)
@@ -639,6 +639,7 @@ var ObjectOfDiscourse = function (personalContainerId, sharedContainerId, person
             $(spanC1).append(this.personalTags[i].value);
             $(spanC2).addClass("ctag");
             $(spanC2).append(a);
+            $(a).css({"color": getContrastYIQ(color)});
             $(a).append("x");
             $(span).addClass("atag");
             $(span).css({"background": color});

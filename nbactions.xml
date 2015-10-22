@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>CUSTOM-deploy to server raspbery</actionName>
+        <displayName>deploy to server raspbery</displayName>
+        <goals>
+            <goal>clean</goal>
+            <goal>install</goal>
+            <goal>tomcat7:deploy</goal>
+        </goals>
+    </action>
+</actions>

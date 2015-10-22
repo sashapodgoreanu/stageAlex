@@ -12,8 +12,7 @@ import com.unito.model.Propertie;
 import com.unito.model.SemTElem;
 import com.unito.model.Table;
 import com.unito.model.Tag;
-import com.unito.model.TagRepository;
-import com.unito.model.UserSession;
+import com.unito.model.TableManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
@@ -40,25 +39,21 @@ public class ControllerAjaxRequests {
     private static final Logger LOG = Logger.getLogger(ControllerAjaxRequests.class.getName());
 
     private static final String VALIDATE_HTTPS = "https://www.googleapis.com/oauth2/v1/tokeninfo?id_token=";
-    @EJB
-    TagRepository tagRep;
     @Autowired
-    private UserSession userSession;
+    private TableManager tableManager;
 
     @Autowired
     AuthenticationManager authenticationManager;
-    @Autowired
-    private UserDetailsRepository userDetailsRepository;
 
     @RequestMapping(value = "tag", method = RequestMethod.POST)
     public String getShopInJSON(@RequestBody String data) {
 
         Gson gson = new Gson();
         Tag myTag = gson.fromJson(data, Tag.class);
-
+/*
         String json = gson.toJson(tagRep.getChilds(myTag.getValue()));
-        System.out.println(tagRep.getChilds(myTag.getValue()).toString() + "   " + json);
-        return json;
+        System.out.println(tagRep.getChilds(myTag.getValue()).toString() + "   " + json);*/
+        return null;
     }
 
     @RequestMapping(value = "getPersonalTagsForObj", method = RequestMethod.POST)
@@ -66,9 +61,9 @@ public class ControllerAjaxRequests {
         LOG.info("received "+data);
         Gson gson = new Gson();
         HashMap<String,String> myTag = gson.fromJson(data, HashMap.class);
-        List<Propertie> retVal = userSession.getPersonalTagsForObj(myTag.get("id"));
+        List<Propertie> retVal = tableManager.getPersonalTagsForObj(myTag.get("id"));
 
-        System.out.println(myTag.toString());
+        LOG.info("Personal Tags:" + myTag.toString());
         return gson.toJson(retVal);
     }
     
@@ -77,7 +72,7 @@ public class ControllerAjaxRequests {
         LOG.info("received "+data);
         Gson gson = new Gson();
         HashMap<String,String> myTag = gson.fromJson(data, HashMap.class);
-        List<Propertie> retVal = userSession.getSharedTagsForObj(myTag.get("id"));
+        List<Propertie> retVal = tableManager.getSharedTagsForObj(myTag.get("id"));
 
         System.out.println(myTag.toString());
         return gson.toJson(retVal);
@@ -103,7 +98,7 @@ public class ControllerAjaxRequests {
         Table newTable = gson.fromJson(data, Table.class);
 
         LOG.info("new table to register: " + newTable.toString());
-        int newTableId = userSession.registerNewTable(newTable);
+        int newTableId = tableManager.registerNewTable(newTable);
         LOG.info("new table id: " + newTableId);
         System.out.println(data);
         Assoc response = new Assoc(newTableId != -1, newTableId);
@@ -127,7 +122,7 @@ public class ControllerAjaxRequests {
 
         LOG.info("new Element to register: " + semTElem.toString());
         LOG.info("On table with id" + table.toString());
-        userSession.addElement(semTElem, table);
+        tableManager.addElement(semTElem, table);
         /*LOG.info("new table id: "+newTableId);
          System.out.println(data);
          Assoc response = new Assoc(newTableId != -1,newTableId);
@@ -143,7 +138,7 @@ public class ControllerAjaxRequests {
         Table closeTable = gson.fromJson(data, Table.class);
 
         LOG.info("table to close: " + closeTable.toString());
-        userSession.closeTable(closeTable);
+        tableManager.closeTable(closeTable);
         System.out.println(data);
         return gson.toJson(ok);//json;
     }
