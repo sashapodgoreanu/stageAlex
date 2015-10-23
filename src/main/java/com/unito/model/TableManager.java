@@ -37,7 +37,7 @@ public class TableManager implements Serializable {
     private TagPersonal tp;
     @Autowired
     private TagShared ts;
-    private PropertieRepository propertiesRepository;
+    @Autowired
     private UserDetails userDetails;
     //set on open table
     private int openTableId;

@@ -7,13 +7,17 @@ package com.unito.model.UserDetails;
 
 import java.util.Arrays;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 /**
  *
  * @author SashaAlexandru
  */
-
+@Component
+@Scope(value = "session",
+        proxyMode = ScopedProxyMode.TARGET_CLASS)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDetails {
 

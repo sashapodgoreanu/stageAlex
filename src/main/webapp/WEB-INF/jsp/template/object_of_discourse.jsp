@@ -1,10 +1,12 @@
 <%-- 
-    Document   : resource_properties
+    Document   : object_of_discourse.jsp
     Created on : Oct 7, 2015, 3:35:38 PM
     Author     : Sasha
 --%>
-<!-- Tags Panel -->
 
+<!-- object_of_discourse.jsp -->
+
+<!-- Tags Panel -->
 <form class="form-horizontal tag-container margin-20-right">
     <div class="row padding-top-15 padding-bottom-15">
         <button id ="showTags" type="button" class="btn btn-default tipo2 pull-right btn-sm">
@@ -22,10 +24,25 @@
         <div id="searchTagContainer" class="searchTag">
             <input id="searchTag" class="autocomplete-hidden input-tag form-control">
         </div>
-        <div>
-            <a href="#" class="btn btn-default disabled pull-left" role="button">Search Shared &nbsp;&nbsp;<span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
-            <div class="pull-right"><a href="#" class="btn btn-default disabled" role="button">Add to Shared &nbsp;&nbsp;<span class="glyphicon glyphicon-user" aria-hidden="true"></span></a> 
-                &nbsp;&nbsp;<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        <div class="" >
+            <div data-toggle="buttons">
+                <label class="btn btn-default active pull-left">
+                    <input id="searchSharedTags" type="checkbox" autocomplete="off" checked> 
+                    <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                    &nbsp;&nbsp;
+                    Search Shared 
+                    &nbsp;&nbsp;<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                </label></div>
+
+            <div class="pull-right" data-toggle="buttons">
+                <label class="btn btn-default active">
+                    <input id="addToSharedTags" type="checkbox" autocomplete="off" checked> 
+                    <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                    &nbsp;&nbsp;
+                    Add to Shared &nbsp;&nbsp;<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                </label>
+                &nbsp;&nbsp;
+                <span id="addTaggButton" class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             </div>
         </div>
     </div>
@@ -53,7 +70,7 @@
 </div>
 
 
-<div id="cloneableTagHtml" class="row atag" style="display: hidden;">
+<div id="cloneableTagHtml" class="row" style="display: hidden;">
     <div id="valueTag" class="col-md-8 wtag"></div>
     <div class="col-md-4 ctag">
         <div id="remTag"></div>

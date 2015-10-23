@@ -73,9 +73,14 @@
             var objProperties1 = new ObjProperties("#hiddenMenu", "#propertiesMenu");
             objProperties1.init();
 
-            var ood = new ObjectOfDiscourse("${UserDetails.id}","#personalContainer", "#sharedContainer", "${getPersonalTagsForObj}", "${getSharedTagsForObj}");
+            var ood = new ObjectOfDiscourse("${UserDetails.id}", "#personalContainer", "#sharedContainer", "${getPersonalTagsForObj}", "${getSharedTagsForObj}");
             ood.init();
             objProperties1.addPanel(ood);
+
+            var inputTgAdder = new InputTagAdder("#searchSharedTagsId",
+                    "#addToSharedTagsId", "#addTaggButtonId",
+                    "#autocompleteTagId", ood);
+            inputTgAdder.init();
 
             //Menu for right click
             var rightclickMenu = $("#contextMenu");

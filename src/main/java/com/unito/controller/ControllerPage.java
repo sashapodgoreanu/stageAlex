@@ -34,6 +34,8 @@ public class ControllerPage {
     private ModelAndView mvc;
 
     @Autowired
+    UserDetails userDetails;
+    @Autowired
     private UserDetailsRepository userDetailsRepository;
     @Autowired
     private TableManager tableManager;
@@ -55,9 +57,11 @@ public class ControllerPage {
         System.out.println("userDetailsRepository"+userDetailsRepository);
         System.out.println("tableManager"+tableManager);
         UserDetails ud = userDetailsRepository.find(customUser.getUsername());
-        request.getSession().setAttribute("UserDetails", ud);
-        tableManager.setUserdetails(ud);
-        //return "redirect:/workingarea/0";
+        userDetails.setId(ud.getId());
+        request.getSession().setAttribute("UserDetails", userDetails);
+        //tableManager.setUserdetails(ud);
+        //return "redirect:/workingarea/0"
+        ;
         return "redirect:/workingarea/32";
     }
 

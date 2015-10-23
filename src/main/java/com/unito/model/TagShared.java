@@ -70,20 +70,21 @@ public class TagShared implements TagView {
         //List<Propertie> unLikedTags = pr.getUnLikedPropertiesForObj(forUserId, objId);
         Iterator<Propertie> i = sharedTags.iterator();
         while (i.hasNext()) {
+            int idShared = i.next().getId();
             for (Propertie l : likedTags) {
-                if (i.next().getId() == l.getId()) {
+                if (idShared == l.getId()) {
                     i.remove();
                 }
             }
         }
 
-        Iterator<Propertie> j = sharedTags2.iterator();
-        while (j.hasNext()) {
-            System.out.println("shared " + j.next().getId());
+        i = sharedTags.iterator();
+        while (i.hasNext()) {
+            int idShared = i.next().getId();
             for (Propertie p : personalTags) {
-                System.out.println("personal " + p.getId());
-                if (j.next().getId() == p.getId()) {
-                    j.remove();
+                //System.out.println("personal " + p.getId());
+                if (idShared == p.getId()) {
+                    i.remove();
                 }
             }
 

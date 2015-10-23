@@ -8,6 +8,8 @@ package com.unito.model;
 import com.unito.TagView;
 import com.unito.model.repository.PropertieRepository;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -67,6 +69,15 @@ public class TagPersonal implements TagView {
             }
         }
         return personal;
+    }
+    
+    @PostConstruct
+    public void post(){
+        System.out.println("POST CONSTRUCT TAG PERSONAL");
+    }
+    @PreDestroy
+    public void pre(){
+        System.out.println("PRE CONSTRUCT TAG PERSONAL");
     }
 
 }

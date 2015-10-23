@@ -623,34 +623,51 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
         this.addTags();
     };
     this.addTags = function () {
+        //for every personal tag, add buttons, add tag to view
         for (var i = 0; i < this.personalTags.length; i++) {
             var idUserDetails = this.personalTags[i].ownerId;
             var shared = this.personalTags[i].shared;
             var deleted = this.personalTags[i].deleted;
             var color;
+            //tag color is the color of tag owner
             $(".semtUsers").each(function () {
                 if ($(this).attr("data-user-id") == idUserDetails)
                     color = $(this).css("color");
             });
+
+            //clone this div
             var divTag = $("#cloneableTagHtml").clone().removeAttr("id style").css({
                 "background": color,
                 "color": getContrastYIQ(color)
-            });
+            }).addClass("atag");
+            ;
+            //add Tag value to cloned div to the specific div
             $(divTag).find("#valueTag").append(this.personalTags[i].value).attr("id", this.personalTags[i].id);
 
+            //Add remove button if is not deleted
             var rem = document.createElement("span");
-            $(rem).addClass("glyphicon glyphicon-remove");
+            if (!deleted)
+                $(rem).addClass("glyphicon glyphicon-remove");
+            else
+                $(rem).addClass("glyphicon glyphicon-repeat");
             $(divTag).find("#remTag")
                     .append(rem)
                     .attr("data-idDelete", this.personalTags[i].id)
                     .removeAttr("id");
-            //if (this.personalTags[i].ownerId == this.conectedUserId) {
+
+
+            //add share button if is not shared
             var span = document.createElement("span");
-            $(span).addClass("glyphicon glyphicon-user");
+            if (!shared)
+                $(span).addClass("glyphicon glyphicon-share-alt");
+            else
+                $(span).addClass("glyphicon glyphicon-user");
             $(divTag).find("#ldTag")
                     .append(span)
                     .attr("data-idShare", this.personalTags[i].id)
                     .removeAttr("id");
+
+            //add class to tag depending what tipe of tag it is
             if (!deleted) {
                 if (shared)
                     $(divTag).addClass("sharedtag");
@@ -659,89 +676,84 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
             }
             else
                 $(divTag).addClass("deletedtag");
-            /*} else {
-             var span = document.createElement("span");
-             $(span).addClass("glyphicon glyphicon-heart");
-             $(divTag).find("#ldTag")
-             .append(span)
-             .attr("data-idShare", this.personalTags[i].id)
-             .removeAttr("id");
-             }*/
-            /*****/
-
-            /*
-             var span = document.createElement("span");
-             var spanC1 = document.createElement("span");
-             var spanC2 = document.createElement("span");
-             var a = document.createElement("a");
-             $(spanC1).addClass("wtag");
-             $(spanC1).append(this.personalTags[i].value);
-             $(spanC2).addClass("ctag");
-             $(spanC2).append(a);
-             $(a).css({"color": getContrastYIQ(color)});
-             $(a).append("x");
-             $(span).addClass("atag");
-             $(span).css({"background": color});
-             $(span).css({"color": getContrastYIQ(color)});
-             $(span).append(spanC1);
-             $(span).append(spanC2);
-             
-             */
+            //append cloned div to view
             $(this.personalContainerId).append(divTag);
         }
+
+        //for every shared tag, add buttons, add tag to view
         for (var i = 0; i < this.sharedTags.length; i++) {
             var idUserDetails = this.sharedTags[i].ownerId;
-            var color;
-            /****/
             var shared = this.sharedTags[i].shared;
-            var deleted = this.sharedTags[i].in_r_bin;
-            /****/
+            var deleted = this.sharedTags[i].deleted;
+            var color;
+            //tag color is the color of tag owner
             $(".semtUsers").each(function () {
                 if ($(this).attr("data-user-id") == idUserDetails)
                     color = $(this).css("color");
             });
+
+            //clone this div
+            var divTag = $("#cloneableTagHtml").clone().removeAttr("id style").css({
+                "background": color,
+                "color": getContrastYIQ(color)
+            }).addClass("atag");
+            //add Tag value to cloned div to the specific div
+            $(divTag).find("#valueTag").append(this.sharedTags[i].value).attr("id", this.sharedTags[i].id);
+
+            //Add remove button if is not deleted
+            var rem = document.createElement("span");
+            if (!deleted)
+                $(rem).addClass("glyphicon glyphicon-remove");
+            else
+                $(rem).addClass("glyphicon glyphicon-repeat");
+            $(divTag).find("#remTag")
+                    .append(rem)
+                    .attr("data-idDelete", this.sharedTags[i].id)
+                    .removeAttr("id");
+
+
+            //add share button if is not shared
             var span = document.createElement("span");
-            var spanC1 = document.createElement("span");
-            var spanC2 = document.createElement("span");
-            var a = document.createElement("a");
-            $(spanC1).addClass("wtag");
-            $(spanC1).append(this.sharedTags[i].value);
-            $(spanC2).addClass("ctag");
-            $(spanC2).append(a);
-            $(a).append("x");
-            $(span).addClass("atag");
-            $(span).css({"background": color});
-            $(span).css({"color": getContrastYIQ(color)});
-            $(span).append(spanC1);
-            $(span).append(spanC2);
+            $(span).addClass("glyphicon glyphicon-heart");
+            $(divTag).find("#ldTag")
+                    .append(span)
+                    .attr("data-idShare", this.sharedTags[i].id)
+                    .removeAttr("id");
 
-
-            /****/
+            //add class to tag depending what tipe of tag it is
             if (!deleted) {
                 if (shared)
-                    $(span).addClass("sharedtag");
+                    $(divTag).addClass("sharedtag");
                 else
-                    $(span).addClass("personaltag");
+                    $(divTag).addClass("personaltag");
             }
             else
-                $(span).addClass("deletedtag");
-            /*****/
-            $(this.sharedContainerId).append(span);
+                $(divTag).addClass("deletedtag");
+            //append cloned div to view
+            $(this.sharedContainerId).append(divTag);
         }
+    };
+}
+
+var InputTagAdder = function (
+        searchSharedTagsId, addToSharedTagsId, addTaggButtonId,
+        autocompleteTagId, tagViewObj) {
+    this.searchSharedTagsId = searchSharedTagsId;
+    this.addToSharedTagsId = addToSharedTagsId;
+    this.addTaggButtonId = addTaggButtonId;
+    this.autocompleteTagId = autocompleteTagId;
+    this.$personalTagsContainer = $(tagViewObj.personalContainerId);
+    this.$sharedTagsContainer = $(tagViewObj.personalContainerId);
+    
+    this.init = function(){
+        $("body").on("change",this.searchSharedTagsId,function(){
+            alert("changed");
+        });
+        
     };
 
 }
-/*
- function invertColor(rgb) {
- rgb = [].slice.call(arguments).join(",").replace(/rgb\(|\)|rgba\(|\)|\s/gi, '').split(',');
- for (var i = 0; i < rgb.length; i++)
- rgb[i] = (i === 3 ? 1 : 255) - rgb[i];
- var retVal = "rgb(";
- for (var i = 0; i < rgb.length - 1; i++)
- retVal += rgb[i] + ", ";
- retVal += rgb[2]+")";
- return retVal;
- }*/
+
 
 
 /*
@@ -779,83 +791,49 @@ function getContrastYIQ(color) {
     var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
     return (yiq >= 128) ? 'black' : 'white';
 }
+/*
+ $.extend(TagArea.prototype, {
+ init: function () {
+ var thiz = this;
+ //when click tagContainer i focus input
+ $("body").on("click", this.idTagContainer, function () {
+ $(thiz.idAutocomplete).focus();
+ });
+ 
+ $(thiz.idAutocomplete).autocomplete({
+ source: availableTags
+ });
+ }
+ });*/a
+        (function ($) {
+
+            var APP = {
+                Elements: {
+                    // elementi DOM
+
+                },
+                Utils: {
+                    // metodi helper o di utility
+
+                },
+                fn: {
+                    // il core
+
+                },
+                init: function () {
+
+                    // metodo di inizializzazione
+
+                }
+
+            };
+
+            $(document).ready(function () {
+
+                APP.init(); // esegue tutto
 
 
+            });
 
-
-var availableTags = [
-    "ActionScript",
-    "AppleScript",
-    "Asp",
-    "BASIC",
-    "C",
-    "C++",
-    "Clojure",
-    "COBOL",
-    "ColdFusion",
-    "Erlang",
-    "Fortran",
-    "Groovy",
-    "Haskell",
-    "Java",
-    "JavaScript",
-    "Lisp",
-    "Perl",
-    "PHP",
-    "Python",
-    "Ruby",
-    "Scala",
-    "Scheme"
-];
-//TODO  OBJECT OF DISCOURSE
-var TagArea = function (idTagContainer, idAutocomplete, url) {
-    this.idTagContainer = idTagContainer;
-    this.idAutocomplete = idAutocomplete;
-    this.url = url;
-};
-
-$.extend(TagArea.prototype, {
-    init: function () {
-        var thiz = this;
-        //when click tagContainer i focus input
-        $("body").on("click", this.idTagContainer, function () {
-            $(thiz.idAutocomplete).focus();
-        });
-
-        $(thiz.idAutocomplete).autocomplete({
-            source: availableTags
-        });
-    }
-});
-(function ($) {
-
-    var APP = {
-        Elements: {
-            // elementi DOM
-
-        },
-        Utils: {
-            // metodi helper o di utility
-
-        },
-        fn: {
-            // il core
-
-        },
-        init: function () {
-
-            // metodo di inizializzazione
-
-        }
-
-    };
-
-    $(document).ready(function () {
-
-        APP.init(); // esegue tutto
-
-
-    });
-
-})(jQuery);
+        })(jQuery);
 //ajax call
