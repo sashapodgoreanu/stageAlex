@@ -73,7 +73,7 @@
             var objProperties1 = new ObjProperties("#hiddenMenu", "#propertiesMenu");
             objProperties1.init();
 
-            var ood = new ObjectOfDiscourse("#personalContainer", "#sharedContainer", "${getPersonalTagsForObj}", "${getSharedTagsForObj}");
+            var ood = new ObjectOfDiscourse("${UserDetails.id}","#personalContainer", "#sharedContainer", "${getPersonalTagsForObj}", "${getSharedTagsForObj}");
             ood.init();
             objProperties1.addPanel(ood);
 

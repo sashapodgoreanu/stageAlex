@@ -14,8 +14,18 @@ public class Propertie {
     private String value;
     private boolean liked;
     private boolean shared;
+    private boolean deleted;
     private String ownerId;
     private String ownerActionId;
+
+    
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     public String getOwnerId() {
         return ownerId;

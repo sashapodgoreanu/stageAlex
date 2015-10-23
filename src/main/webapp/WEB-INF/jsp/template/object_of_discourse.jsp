@@ -15,7 +15,7 @@
         <label for="personalContainer" class="col-sm-3 control-label label-tag">Mine: </label>
         <div id="personalContainer" class="autocompleteContainer">
         </div>
-        
+
         <label for="tagContainer" class="col-sm-3 control-label label-tag">Others: </label>
         <div id="sharedContainer" class="tagContainer">
         </div>
@@ -52,3 +52,11 @@
     </ul>
 </div>
 
+
+<div id="cloneableTagHtml" class="row atag" style="display: hidden;">
+    <div id="valueTag" class="col-md-8 wtag"></div>
+    <div class="col-md-4 ctag">
+        <div id="remTag"></div>
+        <div id="ldTag"></div>
+    </div>
+</div>

@@ -6,7 +6,6 @@
 package com.unito.model;
 
 import com.unito.TagView;
-import com.unito.model.UserDetails.UserDetails;
 import com.unito.model.repository.PropertieRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

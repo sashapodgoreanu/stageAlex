@@ -31,7 +31,10 @@ public class PropertieRepository {
             + " where (ID_USERDETAILS = ? and ID_OBJECT = ?)";
 
     private final String SELECT_LIKED_PROPERTIES_OF_OBJECT_OF_USER
-            = "select 0 as DELETED, p.ID as ID, p.ID_USERDETAILS as ID_USERDETAILS, p.value as VALUE, p.ID_OBJECT as ID_OBJECT, p.shared as SHARED, pp.ID_USERDETAILS as ID_USERDETAILS_ACTION, pp.LIKED as LIKED\n"
+            = "select p.ID as ID, p.ID_USERDETAILS as ID_USERDETAILS, p.value as VALUE,"
+            + " p.ID_OBJECT as ID_OBJECT, p.shared as SHARED,"
+            + " p.DELETED as DELETED,"
+            + " pp.ID_USERDETAILS as ID_USERDETAILS_ACTION, pp.LIKED as LIKED\n"
             + "from PROPERTIES p join PROPERTIES_PREFERENCE pp on (p.id = pp.id_propertie)\n"
             + "where pp.ID_USERDETAILS = ? and p.ID_OBJECT = ? and pp.LIKED = 1";
     
@@ -43,8 +46,7 @@ public class PropertieRepository {
     private final String SELECT_ALL_SHARED_PROPERTIES_OF_OBJECT
             = " select * "
             + " from PROPERTIES  "
-            + " where ID_USERDETAILS = ? and ID_OBJECT = ? and SHARED = TRUE and "
-            + " (LIKED_BY is NULL or (liked_by <> ? and LIKED_BY is not null) )";
+            + " where ID_OBJECT = ? and SHARED = 1";
 
     public PropertieRepository() {
     }
@@ -64,11 +66,10 @@ public class PropertieRepository {
         return retVal;
     }
 
-    public List<Propertie> getSharedPropertiesForObj(String idUser, String idObj, String conectedUser) {
-        System.out.format(SELECT_ALL_SHARED_PROPERTIES_OF_OBJECT, idUser, idObj, conectedUser);
+    public List<Propertie> getSharedPropertiesForObj(String idObj) {
+        System.out.format(SELECT_ALL_SHARED_PROPERTIES_OF_OBJECT,idObj);
         List<Propertie> retVal = jdbcTemplate.query(SELECT_ALL_SHARED_PROPERTIES_OF_OBJECT,
-                (new PropertieRepository.PropertieMapper<>()),
-                idUser, idObj, conectedUser);
+                (new PropertieRepository.PropertieMapper<>()), idObj);
         LOG.info(retVal.toString());
         return retVal;
     }
@@ -96,17 +97,19 @@ public class PropertieRepository {
         public Propertie mapRow(ResultSet rs, int rowNum) throws SQLException {
             Propertie p = new Propertie();
             p.setId(rs.getInt("ID"));
+            p.setValue(rs.getString("VALUE"));
             p.setOwnerId(rs.getString("ID_USERDETAILS"));
-
+            
+            //Questo serve per liked and unliked 
             try {
                 p.setOwnerActionId(rs.getString("ID_USERDETAILS_ACTION"));
                 p.setLiked(rs.getBoolean("LIKED"));
             } catch (SQLException e) {
                 LOG.info(e.getMessage());
             }
-
-            p.setValue(rs.getString("VALUE"));
+            
             p.setShared(rs.getBoolean("SHARED"));
+            p.setDeleted(rs.getBoolean("DELETED"));
             return p;
         }
     }

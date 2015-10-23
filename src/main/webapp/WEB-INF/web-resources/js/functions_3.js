@@ -556,7 +556,7 @@ $.extend(ObjProperties.prototype, {
 });
 
 //Object of discourse
-var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedContainerId, personalTagsUrl, sharedTagsUrl) {
+var ObjectOfDiscourse = function (conectedUserId,personalContainerId, sharedContainerId, personalTagsUrl, sharedTagsUrl) {
     this.conectedUserId = conectedUserId;
     this.personalContainerId = personalContainerId;
     this.sharedContainerId = sharedContainerId;
@@ -588,12 +588,12 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
 
                     completed++;
                 }
-                if (completed == 2)
+                /*if (completed == 2)*/
                     thiz.complete();
             }
         });
         ok = false;
-        $.ajax({
+        /*$.ajax({
             url: thiz.sharedTagsUrl,
             type: 'POST',
             contentType: 'application/json',
@@ -611,7 +611,7 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
                 if (completed == 2)
                     thiz.complete();
             }
-        });
+        });*/
     };
     this.destroy = function () {
         this.personalTags = [];
@@ -626,68 +626,37 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
         for (var i = 0; i < this.personalTags.length; i++) {
             var idUserDetails = this.personalTags[i].ownerId;
             var shared = this.personalTags[i].shared;
-            var deleted = this.personalTags[i].deleted;
+            var deleted = this.personalTags[i].liked;
             var color;
             $(".semtUsers").each(function () {
                 if ($(this).attr("data-user-id") == idUserDetails)
                     color = $(this).css("color");
             });
-            var divTag = $("#cloneableTagHtml").clone().removeAttr("id style").css({
-                "background": color,
-                "color": getContrastYIQ(color)
-            });
-            $(divTag).find("#valueTag").append(this.personalTags[i].value).attr("id", this.personalTags[i].id);
-
-            var rem = document.createElement("span");
-            $(rem).addClass("glyphicon glyphicon-remove");
-            $(divTag).find("#remTag")
-                    .append(rem)
-                    .attr("data-idDelete", this.personalTags[i].id)
-                    .removeAttr("id");
-            //if (this.personalTags[i].ownerId == this.conectedUserId) {
             var span = document.createElement("span");
-            $(span).addClass("glyphicon glyphicon-user");
-            $(divTag).find("#ldTag")
-                    .append(span)
-                    .attr("data-idShare", this.personalTags[i].id)
-                    .removeAttr("id");
+            var spanC1 = document.createElement("span");
+            var spanC2 = document.createElement("span");
+            var a = document.createElement("a");
+            $(spanC1).addClass("wtag");
+            $(spanC1).append(this.personalTags[i].value);
+            $(spanC2).addClass("ctag");
+            $(spanC2).append(a);
+            $(a).css({"color": getContrastYIQ(color)});
+            $(a).append("x");
+            $(span).addClass("atag");
+            $(span).css({"background": color});
+            $(span).css({"color": getContrastYIQ(color)});
+            $(span).append(spanC1);
+            $(span).append(spanC2);
             if (!deleted) {
                 if (shared)
-                    $(divTag).addClass("sharedtag");
+                    $(span).addClass("sharedtag");
                 else
-                    $(divTag).addClass("personaltag");
+                    $(span).addClass("personaltag");
             }
             else
-                $(divTag).addClass("deletedtag");
-            /*} else {
-             var span = document.createElement("span");
-             $(span).addClass("glyphicon glyphicon-heart");
-             $(divTag).find("#ldTag")
-             .append(span)
-             .attr("data-idShare", this.personalTags[i].id)
-             .removeAttr("id");
-             }*/
-            /*****/
-
-            /*
-             var span = document.createElement("span");
-             var spanC1 = document.createElement("span");
-             var spanC2 = document.createElement("span");
-             var a = document.createElement("a");
-             $(spanC1).addClass("wtag");
-             $(spanC1).append(this.personalTags[i].value);
-             $(spanC2).addClass("ctag");
-             $(spanC2).append(a);
-             $(a).css({"color": getContrastYIQ(color)});
-             $(a).append("x");
-             $(span).addClass("atag");
-             $(span).css({"background": color});
-             $(span).css({"color": getContrastYIQ(color)});
-             $(span).append(spanC1);
-             $(span).append(spanC2);
-             
-             */
-            $(this.personalContainerId).append(divTag);
+                $(span).addClass("deletedtag");
+            
+            $(this.personalContainerId).append(span);
         }
         for (var i = 0; i < this.sharedTags.length; i++) {
             var idUserDetails = this.sharedTags[i].ownerId;
@@ -714,8 +683,8 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
             $(span).css({"color": getContrastYIQ(color)});
             $(span).append(spanC1);
             $(span).append(spanC2);
-
-
+            
+            
             /****/
             if (!deleted) {
                 if (shared)

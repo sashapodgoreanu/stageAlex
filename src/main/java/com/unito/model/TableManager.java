@@ -128,30 +128,27 @@ public class TableManager implements Serializable {
     }
 
     public List<Propertie> getPersonalTagsForObj(String idObj) {
-        List<Propertie> retVal;
         setupTags(idObj);
-        retVal = tp.getTags();
+        List<Propertie> retVal = tp.getTags();
         return retVal;
     }
+    
+    public List<Propertie> getSharedTagsForObj(String idObj) {
+        setupTags(idObj);
+        //List<UserDetails> users = userDetailsRepositoryJDBC.getUsersOnTable(openTableId);
+        List<Propertie> retVal = ts.getTags();
+        return retVal;
+    }
+    
     private void setupTags(String idObj){
         tp.setObjId(idObj);
         tp.setForUserId(userDetails.getId());
+        ts.setObjId(idObj);
+        ts.setForUserId(userDetails.getId());
         tl.setObjId(idObj);
         tl.setForUserId(userDetails.getId());
         tul.setObjId(idObj);
         tul.setForUserId(userDetails.getId());
-    }
-
-    public List<Propertie> getSharedTagsForObj(String idObj) {
-        List<UserDetails> users = userDetailsRepositoryJDBC.getUsersOnTable(openTableId);
-        List<Propertie> retVal = new ArrayList<>();
-        for (UserDetails u : users) {
-            //get all tags for this object that are not mine
-            if (!u.getId().equals(userDetails.getId())) {
-                retVal.addAll(propertiesRepository.getSharedPropertiesForObj(u.getId(), idObj, userDetails.getId()));
-            }
-        }
-        return retVal;
     }
 
     public List<UserDetails> getUsersOnTable() {

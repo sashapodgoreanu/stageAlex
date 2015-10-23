@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class TestImplementationControler {
     
-    @RequestMapping(value="/hidden-menu")
+    @RequestMapping(value="/test1")
     public String hiddenMenu(){
-        return "/template/hidden_menu";
+        return "/test/test1";
     }
 }
