@@ -744,12 +744,30 @@ var InputTagAdder = function (
     this.autocompleteTagId = autocompleteTagId;
     this.$personalTagsContainer = $(tagViewObj.personalContainerId);
     this.$sharedTagsContainer = $(tagViewObj.personalContainerId);
-    
-    this.init = function(){
-        $("body").on("change",this.searchSharedTagsId,function(){
-            alert("changed");
+
+    this.init = function () {
+        $("body").on("change", this.searchSharedTagsId, function () {
+            var $checked = $( ".sschecked1",$(this).parent());
+            if($(this).is(":checked")){
+                $checked.addClass("glyphicon-ok-circle");
+                $checked.removeClass("glyphicon-search");
+            } else {
+                $checked.removeClass("glyphicon-ok-circle");
+                $checked.addClass("glyphicon-search");
+            }
         });
         
+        $("body").on("change", this.addToSharedTagsId, function () {
+            var $checked = $( ".sschecked1",$(this).parent());
+            if($(this).is(":checked")){
+                $checked.addClass("glyphicon-ok-circle");
+                $checked.removeClass("glyphicon-share-alt");
+            } else {
+                $checked.removeClass("glyphicon-ok-circle");
+                $checked.addClass("glyphicon-share-alt");
+            }
+        });
+
     };
 
 }
@@ -791,49 +809,3 @@ function getContrastYIQ(color) {
     var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
     return (yiq >= 128) ? 'black' : 'white';
 }
-/*
- $.extend(TagArea.prototype, {
- init: function () {
- var thiz = this;
- //when click tagContainer i focus input
- $("body").on("click", this.idTagContainer, function () {
- $(thiz.idAutocomplete).focus();
- });
- 
- $(thiz.idAutocomplete).autocomplete({
- source: availableTags
- });
- }
- });*/a
-        (function ($) {
-
-            var APP = {
-                Elements: {
-                    // elementi DOM
-
-                },
-                Utils: {
-                    // metodi helper o di utility
-
-                },
-                fn: {
-                    // il core
-
-                },
-                init: function () {
-
-                    // metodo di inizializzazione
-
-                }
-
-            };
-
-            $(document).ready(function () {
-
-                APP.init(); // esegue tutto
-
-
-            });
-
-        })(jQuery);
-//ajax call

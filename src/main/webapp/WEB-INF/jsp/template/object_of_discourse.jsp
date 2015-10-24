@@ -24,11 +24,11 @@
         <div id="searchTagContainer" class="searchTag">
             <input id="searchTag" class="autocomplete-hidden input-tag form-control">
         </div>
-        <div class="" >
+        <div>
             <div data-toggle="buttons">
                 <label class="btn btn-default active pull-left">
                     <input id="searchSharedTags" type="checkbox" autocomplete="off" checked> 
-                    <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-ok-circle sschecked1" aria-glyphicon-ok-circlehidden="true"></span>
                     &nbsp;&nbsp;
                     Search Shared 
                     &nbsp;&nbsp;<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
@@ -37,7 +37,7 @@
             <div class="pull-right" data-toggle="buttons">
                 <label class="btn btn-default active">
                     <input id="addToSharedTags" type="checkbox" autocomplete="off" checked> 
-                    <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-ok-circle sschecked1" aria-hidden="true"></span>
                     &nbsp;&nbsp;
                     Add to Shared &nbsp;&nbsp;<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                 </label>

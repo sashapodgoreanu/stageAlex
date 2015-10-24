@@ -13,6 +13,9 @@
     margin-bottom: 20px;
     overflow-y: scroll;
 }
+.searchTag {
+    overflow-y: hidden;
+}
 
 .autocompleteContainer{
     height:80px  

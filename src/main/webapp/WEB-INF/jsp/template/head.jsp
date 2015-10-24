@@ -77,9 +77,9 @@
             ood.init();
             objProperties1.addPanel(ood);
 
-            var inputTgAdder = new InputTagAdder("#searchSharedTagsId",
-                    "#addToSharedTagsId", "#addTaggButtonId",
-                    "#autocompleteTagId", ood);
+            var inputTgAdder = new InputTagAdder("#searchSharedTags",
+                    "#addToSharedTags", "#addTaggButton",
+                    "#autocompleteTag", ood);
             inputTgAdder.init();
 
             //Menu for right click
