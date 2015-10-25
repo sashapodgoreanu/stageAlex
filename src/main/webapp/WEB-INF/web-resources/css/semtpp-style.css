@@ -156,20 +156,9 @@ main #addElement {
     cursor: pointer;
 }
 
-.autocomplete-hidden{
-    border: none!important;
-    width: 100px;
-    margin-left:5px;
-    
-    
+.autocomplete-tag{
+    margin-bottom:15px;
 }
-
-.autocomplete-hidden:focus{
-    border-color: #cccccc !important;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-}
-
 .userIcon1 {font-size: 24px}
 
 #userOnTable .media:first-child{margin-top: 15px!important;}

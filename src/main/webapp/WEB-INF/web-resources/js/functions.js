@@ -746,9 +746,10 @@ var InputTagAdder = function (
     this.$sharedTagsContainer = $(tagViewObj.personalContainerId);
 
     this.init = function () {
+        
         $("body").on("change", this.searchSharedTagsId, function () {
-            var $checked = $( ".sschecked1",$(this).parent());
-            if($(this).is(":checked")){
+            var $checked = $(".sschecked1", $(this).parent());
+            if ($(this).is(":checked")) {
                 $checked.addClass("glyphicon-ok-circle");
                 $checked.removeClass("glyphicon-search");
             } else {
@@ -756,10 +757,10 @@ var InputTagAdder = function (
                 $checked.addClass("glyphicon-search");
             }
         });
-        
+
         $("body").on("change", this.addToSharedTagsId, function () {
-            var $checked = $( ".sschecked1",$(this).parent());
-            if($(this).is(":checked")){
+            var $checked = $(".sschecked1", $(this).parent());
+            if ($(this).is(":checked")) {
                 $checked.addClass("glyphicon-ok-circle");
                 $checked.removeClass("glyphicon-share-alt");
             } else {
@@ -767,10 +768,15 @@ var InputTagAdder = function (
                 $checked.addClass("glyphicon-share-alt");
             }
         });
-
+        
+        //autocomplete tag
+        $(this.autocompleteTagId).autocomplete({
+            source :["aaaa","aaa","aaa"]
+        });
+        
     };
 
-}
+};
 
 
 

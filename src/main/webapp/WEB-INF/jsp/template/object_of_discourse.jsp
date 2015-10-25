@@ -21,9 +21,7 @@
         <label for="tagContainer" class="col-sm-3 control-label label-tag">Others: </label>
         <div id="sharedContainer" class="tagContainer">
         </div>
-        <div id="searchTagContainer" class="searchTag">
-            <input id="searchTag" class="autocomplete-hidden input-tag form-control">
-        </div>
+        <input id="searchTag" class="autocomplete-tag input-tag form-control">
         <div>
             <div data-toggle="buttons">
                 <label class="btn btn-default active pull-left">

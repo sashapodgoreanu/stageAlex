@@ -79,7 +79,7 @@
 
             var inputTgAdder = new InputTagAdder("#searchSharedTags",
                     "#addToSharedTags", "#addTaggButton",
-                    "#autocompleteTag", ood);
+                    "#searchTag", ood);
             inputTgAdder.init();
 
             //Menu for right click
