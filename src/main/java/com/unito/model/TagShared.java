@@ -22,8 +22,7 @@ import org.springframework.stereotype.Component;
         proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class TagShared extends TagView {
 
-    @Autowired
-    PropertieRepository pr;
+    
     @Autowired
     TagLiked tl;
     @Autowired
@@ -37,10 +36,10 @@ public class TagShared extends TagView {
 
     @Override
     public List<Propertie> getTagsForObj() {
-        List<Propertie> sharedTags = pr.getSharedPropertiesForObj(objId);
-        List<Propertie> likedTags = pr.getLikedPropertiesForObj(forUserId, objId);
-        List<Propertie> personalTags = pr.getPersonalProperties(forUserId, objId);
-        //List<Propertie> unLikedTags = pr.getUnLikedPropertiesForObj(forUserId, objId);
+        List<Propertie> sharedTags = propertyRepository.getSharedPropertiesForObj(objId);
+        List<Propertie> likedTags = propertyRepository.getLikedPropertiesForObj(forUserId, objId);
+        List<Propertie> personalTags = propertyRepository.getPersonalProperties(forUserId, objId);
+        //List<Propertie> unLikedTags = propertyRepository.getUnLikedPropertiesForObj(forUserId, objId);
         Iterator<Propertie> i = sharedTags.iterator();
         while (i.hasNext()) {
             int idShared = i.next().getId();
@@ -68,7 +67,10 @@ public class TagShared extends TagView {
 
     @Override
     List<Propertie> getTagsForTable(String candidate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Propertie> sharedTags = propertyRepository.getSharedCandidateTagsForTable(getTableId(), getObjId(), candidate);
+        List<Propertie> likedTags = tl.getTagsForTable(candidate);
+        List<Propertie> personalTags = propertyRepository.getPersonalProperties(forUserId, objId);
+        List<Propertie> personalTags = propertyRepository.getPersonalProperties(forUserId, objId);
     }
 
 
