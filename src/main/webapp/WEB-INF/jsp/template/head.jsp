@@ -21,6 +21,7 @@
 <s:url value ="/discoversemt" var="discoversemt"  scope="application"/>
 <s:url value ="/about" var="about"  scope="application"/>
 <s:url value ="/close-table" var="closetable" scope="application"/>
+<s:url value ="/tag-manager/get-tags/" var="tagManager" scope="application"/>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -77,10 +78,10 @@
             ood.init();
             objProperties1.addPanel(ood);
 
-            var inputTgAdder = new InputTagAdder("#searchSharedTags",
+            var inputTagAdder = new InputTagAdder("#searchSharedTags",
                     "#addToSharedTags", "#addTaggButton",
-                    "#searchTag", ood);
-            inputTgAdder.init();
+                    "#searchTag","${tagManager}", ood);
+            inputTagAdder.init();
 
             //Menu for right click
             var rightclickMenu = $("#contextMenu");
@@ -104,6 +105,7 @@
                     of: thiz
                 });
                 objProperties1.setIdObject($(this).attr("id"));
+                inputTagAdder.setIdObject($(this).attr("id"));
             });
 
             //listener that hides #contextMenu

@@ -37,7 +37,7 @@ public class PropertieRepository {
             + " pp.ID_USERDETAILS as ID_USERDETAILS_ACTION, pp.LIKED as LIKED\n"
             + "from PROPERTIES p join PROPERTIES_PREFERENCE pp on (p.id = pp.id_propertie)\n"
             + "where pp.ID_USERDETAILS = ? and p.ID_OBJECT = ? and pp.LIKED = 1";
-    
+
     private final String SELECT_UNLIKED_PROPERTIES_OF_OBJECT_OF_USER
             = "select p.ID as ID, p.ID_USERDETAILS as ID_USERDETAILS, p.value as VALUE, p.ID_OBJECT as ID_OBJECT, p.shared as SHARED, pp.ID_USERDETAILS as ID_USERDETAILS_ACTION, pp.LIKED as LIKED\n"
             + "from PROPERTIES p join PROPERTIES_PREFERENCE pp on (p.id = pp.id_propertie)\n"
@@ -47,6 +47,15 @@ public class PropertieRepository {
             = " select * "
             + " from PROPERTIES  "
             + " where ID_OBJECT = ? and SHARED = 1";
+
+    private final String SELECT_ALL_CANDIDATES_PROPERTIES_OF_USER_OF_TABLE_NOT_OF_OBJECT_NOT_DELETED
+            = "select p.*\n"
+            + "from PROPERTIES p join SEMTELEMS_ON_TABLE sot on (p.ID_OBJECT = sot.URL)\n"
+            + "where p.ID_USERDETAILS = ? \n"
+            + "and sot.ID_TABLE = ? \n"
+            + "and p.ID_OBJECT <> ? \n"
+            + "and p.Value like '%?%'\n"
+            + "and p.DELETED = 0";
 
     public PropertieRepository() {
     }
@@ -67,7 +76,7 @@ public class PropertieRepository {
     }
 
     public List<Propertie> getSharedPropertiesForObj(String idObj) {
-        System.out.format(SELECT_ALL_SHARED_PROPERTIES_OF_OBJECT,idObj);
+        System.out.format(SELECT_ALL_SHARED_PROPERTIES_OF_OBJECT, idObj);
         List<Propertie> retVal = jdbcTemplate.query(SELECT_ALL_SHARED_PROPERTIES_OF_OBJECT,
                 (new PropertieRepository.PropertieMapper<>()), idObj);
         LOG.info(retVal.toString());
@@ -82,11 +91,20 @@ public class PropertieRepository {
         LOG.info(retVal.toString());
         return retVal;
     }
+
     public List<Propertie> getUnLikedPropertiesForObj(String idUser, String idObj) {
         System.out.format(SELECT_UNLIKED_PROPERTIES_OF_OBJECT_OF_USER, idUser, idObj);
         List<Propertie> retVal = jdbcTemplate.query(SELECT_UNLIKED_PROPERTIES_OF_OBJECT_OF_USER,
                 (new PropertieRepository.PropertieMapper<>()),
                 idUser, idObj);
+        LOG.info(retVal.toString());
+        return retVal;
+    }
+
+    public List<Propertie> getPersonalCandidateTagsForTable(String idUser, int tableId, String objectId, String candidate) {
+        LOG.info(SELECT_ALL_CANDIDATES_PROPERTIES_OF_USER_OF_TABLE_NOT_OF_OBJECT_NOT_DELETED);
+        List<Propertie> retVal = jdbcTemplate.query(SELECT_ALL_CANDIDATES_PROPERTIES_OF_USER_OF_TABLE_NOT_OF_OBJECT_NOT_DELETED,
+                (new PropertieRepository.PropertieMapper<>()), idUser, tableId, objectId, candidate);
         LOG.info(retVal.toString());
         return retVal;
     }
@@ -99,7 +117,7 @@ public class PropertieRepository {
             p.setId(rs.getInt("ID"));
             p.setValue(rs.getString("VALUE"));
             p.setOwnerId(rs.getString("ID_USERDETAILS"));
-            
+
             //Questo serve per liked and unliked 
             try {
                 p.setOwnerActionId(rs.getString("ID_USERDETAILS_ACTION"));
@@ -107,7 +125,7 @@ public class PropertieRepository {
             } catch (SQLException e) {
                 LOG.info(e.getMessage());
             }
-            
+
             p.setShared(rs.getBoolean("SHARED"));
             p.setDeleted(rs.getBoolean("DELETED"));
             return p;

@@ -6,7 +6,6 @@
 package com.unito.model;
 
 import com.unito.model.UserDetails.UserDetails;
-import com.unito.model.repository.PropertieRepository;
 import com.unito.model.repository.SemTElemRepository;
 import com.unito.model.repository.TableRepository;
 import com.unito.model.repository.UserDetailsRepositoryJDBC;
@@ -41,6 +40,7 @@ public class TableManager implements Serializable {
     private UserDetails userDetails;
     //set on open table
     private int openTableId;
+    private String lastObjectOpened;
 
     private List<Table> tables;
     private List<Table> openTables;
@@ -48,6 +48,14 @@ public class TableManager implements Serializable {
     public TableManager() {
     }
 
+    public String getLastObjectOpened() {
+        return lastObjectOpened;
+    }
+
+    public void setLastObjectOpened(String lastObjectOpened) {
+        this.lastObjectOpened = lastObjectOpened;
+    }
+    
     public int getOpenTableId() {
         return openTableId;
     }
@@ -129,14 +137,14 @@ public class TableManager implements Serializable {
 
     public List<Propertie> getPersonalTagsForObj(String idObj) {
         setupTags(idObj);
-        List<Propertie> retVal = tp.getTags();
+        List<Propertie> retVal = tp.getTagsForObj();
         return retVal;
     }
     
     public List<Propertie> getSharedTagsForObj(String idObj) {
-        setupTags(idObj);
+        this.setLastObjectOpened(idObj);
         //List<UserDetails> users = userDetailsRepositoryJDBC.getUsersOnTable(openTableId);
-        List<Propertie> retVal = ts.getTags();
+        List<Propertie> retVal = ts.getTagsForObj();
         return retVal;
     }
     

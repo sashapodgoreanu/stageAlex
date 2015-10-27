@@ -737,16 +737,20 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
 
 var InputTagAdder = function (
         searchSharedTagsId, addToSharedTagsId, addTaggButtonId,
-        autocompleteTagId, tagViewObj) {
+        autocompleteTagId, tagManagerURL, tagViewObj) {
     this.searchSharedTagsId = searchSharedTagsId;
     this.addToSharedTagsId = addToSharedTagsId;
     this.addTaggButtonId = addTaggButtonId;
     this.autocompleteTagId = autocompleteTagId;
+    this.tagManagerURL = tagManagerURL;
     this.$personalTagsContainer = $(tagViewObj.personalContainerId);
     this.$sharedTagsContainer = $(tagViewObj.personalContainerId);
-
+    this.objId = $(tagViewObj);
+    this.idObj = "";
+    this.tagToBeAdded = {};
+    
     this.init = function () {
-        
+
         $("body").on("change", this.searchSharedTagsId, function () {
             var $checked = $(".sschecked1", $(this).parent());
             if ($(this).is(":checked")) {
@@ -757,7 +761,6 @@ var InputTagAdder = function (
                 $checked.addClass("glyphicon-search");
             }
         });
-
         $("body").on("change", this.addToSharedTagsId, function () {
             var $checked = $(".sschecked1", $(this).parent());
             if ($(this).is(":checked")) {
@@ -768,14 +771,58 @@ var InputTagAdder = function (
                 $checked.addClass("glyphicon-share-alt");
             }
         });
-        
+
+        var thiz = this;
         //autocomplete tag
         $(this.autocompleteTagId).autocomplete({
-            source :["aaaa","aaa","aaa"]
+            source: function (request, response) {
+                thiz._getTagsAutocomplete(request.term, response);
+            },
+            select: function(event, ui){
+                event.preventDefault();
+                $(thiz.autocompleteTagId).val(ui.item.value.value);
+                thiz.tagToBeAdded = ui.item.value;
+            }
         });
-        
+
     };
 
+    this._setAutocompleteSource = function (data) {
+        $(this.autocompleteTagId).autocomplete("option", "source", availableTags);
+    };
+
+    this._getTagsAutocomplete = function (term, response) {
+        var searchInShared = $(this.searchSharedTagsId).is(":checked") ? "shared" : "personal";
+        this._getTagsURL(term, searchInShared, this.idObj, response);
+
+    };
+
+    this._getTagsURL = function (term, searchInShared, objId, response) {
+        //alert("autocompl");
+        var thiz = this;
+        $.when($.ajax({
+            url: this.tagManagerURL + "" + term + "/" + objId,
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            success: function (response) {
+            },
+            complete: function () {
+            }
+        })).then(
+                function (data, textStatus, jqXHR) {
+                    response($.map(data, function (item) {
+                        return {
+                            label: item.value,
+                            value: item
+                        }
+                    }));
+                });
+    };
+
+    this.setIdObject = function (idObj) {
+        this.idObj = idObj;
+    };
 };
 
 
@@ -815,3 +862,28 @@ function getContrastYIQ(color) {
     var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
     return (yiq >= 128) ? 'black' : 'white';
 }
+
+var availableTags = [
+    "ActionScript",
+    "AppleScript",
+    "Asp",
+    "BASIC",
+    "C",
+    "C++",
+    "Clojure",
+    "COBOL",
+    "ColdFusion",
+    "Erlang",
+    "Fortran",
+    "Groovy",
+    "Haskell",
+    "Java",
+    "JavaScript",
+    "Lisp",
+    "Perl",
+    "PHP",
+    "Python",
+    "Ruby",
+    "Scala",
+    "Scheme"
+];

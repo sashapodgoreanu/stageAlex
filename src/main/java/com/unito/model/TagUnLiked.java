@@ -5,7 +5,6 @@
  */
 package com.unito.model;
 
-import com.unito.TagView;
 import com.unito.model.repository.PropertieRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,35 +19,25 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(value = "request",
         proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class TagUnLiked implements TagView {
+public class TagUnLiked extends TagView {
 
     
     @Autowired PropertieRepository pr; 
-    private String objId;//Object ID
-    private String forUserId;//UserDetails ID
-
-    public String getObjId() {
-        return objId;
-    }
-
-    public void setObjId(String objId) {
-        this.objId = objId;
-    }
-
-    public String getForUserId() {
-        return forUserId;
-    }
-
-    public void setForUserId(String forUserId) {
-        this.forUserId = forUserId;
-    }
+    
     public TagUnLiked() {
-        
+        super();
     }
     
     @Override
-    public List<Propertie> getTags() {
+    public List<Propertie> getTagsForObj() {
         return pr.getUnLikedPropertiesForObj(forUserId, objId);
     }
+
+    @Override
+    List<Propertie> getTagsForTable(String candidate) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
     
 }

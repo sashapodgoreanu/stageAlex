@@ -24,18 +24,18 @@
         <input id="searchTag" class="autocomplete-tag input-tag form-control">
         <div>
             <div data-toggle="buttons">
-                <label class="btn btn-default active pull-left">
-                    <input id="searchSharedTags" type="checkbox" autocomplete="off" checked> 
-                    <span class="glyphicon glyphicon-ok-circle sschecked1" aria-glyphicon-ok-circlehidden="true"></span>
+                <label class="btn btn-default pull-left">
+                    <input id="searchSharedTags" type="checkbox" autocomplete="off" value="searchSheared">  
+                    <span class="glyphicon glyphicon-search sschecked1" aria-glyphicon-ok-circlehidden="true"></span>
                     &nbsp;&nbsp;
                     Search Shared 
                     &nbsp;&nbsp;<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                 </label></div>
 
             <div class="pull-right" data-toggle="buttons">
-                <label class="btn btn-default active">
-                    <input id="addToSharedTags" type="checkbox" autocomplete="off" checked> 
-                    <span class="glyphicon glyphicon-ok-circle sschecked1" aria-hidden="true"></span>
+                <label class="btn btn-default">
+                    <input id="addToSharedTags" type="checkbox" autocomplete="off" value="addToSheared"> 
+                    <span class="glyphicon glyphicon-share-alt sschecked1" aria-hidden="true"></span>
                     &nbsp;&nbsp;
                     Add to Shared &nbsp;&nbsp;<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                 </label>

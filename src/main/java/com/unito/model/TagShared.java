@@ -5,7 +5,6 @@
  */
 package com.unito.model;
 
-import com.unito.TagView;
 import com.unito.model.repository.PropertieRepository;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +20,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(value = "request",
         proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class TagShared implements TagView {
+public class TagShared extends TagView {
 
     @Autowired
     PropertieRepository pr;
@@ -30,41 +29,15 @@ public class TagShared implements TagView {
     @Autowired
     TagUnLiked tul;
 
-    private String objId;//Object ID
-    private String forUserId;//UserDetails ID
-    private List<String> userOnTableIds;//UserDetails ID
 
     public TagShared() {
+        super();
     }
 
-    public String getObjId() {
-        return objId;
-    }
-
-    public void setObjId(String objId) {
-        this.objId = objId;
-    }
-
-    public String getForUserId() {
-        return forUserId;
-    }
-
-    public void setForUserId(String forUserId) {
-        this.forUserId = forUserId;
-    }
-
-    public List<String> getUserOnTableIds() {
-        return userOnTableIds;
-    }
-
-    public void setUserOnTableIds(List<String> userOnTableIds) {
-        this.userOnTableIds = userOnTableIds;
-    }
 
     @Override
-    public List<Propertie> getTags() {
+    public List<Propertie> getTagsForObj() {
         List<Propertie> sharedTags = pr.getSharedPropertiesForObj(objId);
-        List<Propertie> sharedTags2 = pr.getSharedPropertiesForObj(objId);
         List<Propertie> likedTags = pr.getLikedPropertiesForObj(forUserId, objId);
         List<Propertie> personalTags = pr.getPersonalProperties(forUserId, objId);
         //List<Propertie> unLikedTags = pr.getUnLikedPropertiesForObj(forUserId, objId);
@@ -92,5 +65,11 @@ public class TagShared implements TagView {
 
         return sharedTags;
     }
+
+    @Override
+    List<Propertie> getTagsForTable(String candidate) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 
 }
