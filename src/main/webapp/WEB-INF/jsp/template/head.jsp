@@ -21,7 +21,7 @@
 <s:url value ="/discoversemt" var="discoversemt"  scope="application"/>
 <s:url value ="/about" var="about"  scope="application"/>
 <s:url value ="/close-table" var="closetable" scope="application"/>
-<s:url value ="/tag-manager/get-tags/" var="tagManager" scope="application"/>
+<s:url value ="/tag-manager/get-tags/" var="tagManagerURL" scope="application"/>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -77,11 +77,14 @@
             var ood = new ObjectOfDiscourse("${UserDetails.id}", "#personalContainer", "#sharedContainer", "${getPersonalTagsForObj}", "${getSharedTagsForObj}");
             ood.init();
             objProperties1.addPanel(ood);
+            
 
             var inputTagAdder = new InputTagAdder("#searchSharedTags",
                     "#addToSharedTags", "#addTaggButton",
-                    "#searchTag","${tagManager}", ood);
+                    "#searchTag","${tagManagerURL}", ood);
             inputTagAdder.init();
+            
+            objProperties1.addPanel(inputTagAdder);
 
             //Menu for right click
             var rightclickMenu = $("#contextMenu");

@@ -23,12 +23,9 @@ import org.springframework.stereotype.Component;
 public class TagPersonal extends TagView {
 
     @Autowired
-    PropertieRepository pr;
-    
+    TagLiked tagLiked;
     @Autowired
-    TagLiked tl;
-    @Autowired
-    TagUnLiked tul;
+    TagUnLiked tagUnliked;
 
     public TagPersonal() {
         super();
@@ -36,8 +33,8 @@ public class TagPersonal extends TagView {
 
     @Override
     public List<Propertie> getTagsForObj() {
-        List<Propertie> personal = pr.getPersonalProperties(getForUserId(), getObjId());
-        List<Propertie> liked = tl.getTagsForObj();
+        List<Propertie> personal = propertyRepository.getPersonalProperties(getForUserId(), getObjId());
+        List<Propertie> liked = tagLiked.getTagsForObj();
         //add to personal tags all liked tags
         for (Propertie l : liked) {
             boolean trovato = false;
@@ -52,18 +49,25 @@ public class TagPersonal extends TagView {
         }
         return personal;
     }
-    
-   
 
     @Override
     public List<Propertie> getTagsForTable(String candidate) {
-        return pr.getPersonalCandidateTagsForTable(getForUserId(),getTableId(), getObjId(),candidate);
+        List<Propertie> liked = tagLiked.getTagsForTable(candidate);
+        List<Propertie> personal = propertyRepository.getPersonalCandidateTagsForTable(getForUserId(), getTableId(), getObjId(), candidate);
+
+        //TO DO delete repeated values. 
+        for (Propertie l : liked) {
+            boolean trovato = false;
+            for (Propertie p : personal) {
+                if (p.getId() == l.getId()) {
+                    trovato = true;
+                }
+            }
+            if (!trovato) {
+                personal.add(l);
+            }
+        }
+        return personal;
     }
-    
-    
-    
-    
-    
-    
 
 }

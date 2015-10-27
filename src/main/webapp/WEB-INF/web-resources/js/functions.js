@@ -748,7 +748,7 @@ var InputTagAdder = function (
     this.objId = $(tagViewObj);
     this.idObj = "";
     this.tagToBeAdded = {};
-    
+
     this.init = function () {
 
         $("body").on("change", this.searchSharedTagsId, function () {
@@ -776,9 +776,24 @@ var InputTagAdder = function (
         //autocomplete tag
         $(this.autocompleteTagId).autocomplete({
             source: function (request, response) {
-                thiz._getTagsAutocomplete(request.term, response);
+                var type = $(thiz.searchSharedTagsId).is(":checked") ? "shared" : "personal";
+                $.when($.ajax({
+                    url: thiz.tagManagerURL + "" + type + "/" + request.term,
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json'
+                })).then(
+                        function (data, textStatus, jqXHR) {
+                            response($.map(data, function (item) {
+                                return {
+                                    label: item.value,
+                                    value: item
+                                };
+                            }));
+                        });
+
             },
-            select: function(event, ui){
+            select: function (event, ui) {
                 event.preventDefault();
                 $(thiz.autocompleteTagId).val(ui.item.value.value);
                 thiz.tagToBeAdded = ui.item.value;
@@ -787,41 +802,12 @@ var InputTagAdder = function (
 
     };
 
-    this._setAutocompleteSource = function (data) {
-        $(this.autocompleteTagId).autocomplete("option", "source", availableTags);
-    };
-
-    this._getTagsAutocomplete = function (term, response) {
-        var searchInShared = $(this.searchSharedTagsId).is(":checked") ? "shared" : "personal";
-        this._getTagsURL(term, searchInShared, this.idObj, response);
-
-    };
-
-    this._getTagsURL = function (term, searchInShared, objId, response) {
-        //alert("autocompl");
-        var thiz = this;
-        $.when($.ajax({
-            url: this.tagManagerURL + "" + term + "/" + objId,
-            type: 'POST',
-            contentType: 'application/json',
-            dataType: 'json',
-            success: function (response) {
-            },
-            complete: function () {
-            }
-        })).then(
-                function (data, textStatus, jqXHR) {
-                    response($.map(data, function (item) {
-                        return {
-                            label: item.value,
-                            value: item
-                        }
-                    }));
-                });
-    };
-
     this.setIdObject = function (idObj) {
         this.idObj = idObj;
+    };
+
+    this.destroy = function () {
+        $(this.autocompleteTagId).val("");
     };
 };
 

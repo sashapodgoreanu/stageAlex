@@ -136,7 +136,7 @@ public class TableManager implements Serializable {
     }
 
     public List<Propertie> getPersonalTagsForObj(String idObj) {
-        setupTags(idObj);
+        this.setLastObjectOpened(idObj);
         List<Propertie> retVal = tp.getTagsForObj();
         return retVal;
     }

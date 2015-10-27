@@ -54,8 +54,36 @@ public class PropertieRepository {
             + "where p.ID_USERDETAILS = ? \n"
             + "and sot.ID_TABLE = ? \n"
             + "and p.ID_OBJECT <> ? \n"
-            + "and p.Value like '%?%'\n"
+            + "and p.Value like ?\n"
             + "and p.DELETED = 0";
+    private final String SELECT_ALL_CANDIDATES_PROPERTIES_liked_OF_USER_OF_TABLE
+            = "select p.*, pp.ID_USERDETAILS as ID_USERDETAILS_ACTION, pp.LIKED as LIKED\n"
+            + "from PROPERTIES p join PROPERTIES_PREFERENCE pp join semtelems_on_table sot \n"
+            + "on (p.id = pp.id_propertie and p.id_object = sot.url)\n"
+            + "where pp.ID_USERDETAILS = ? and \n"
+            + "p.ID_OBJECT <> ? and \n"
+            + "pp.LIKED = 1 and \n"
+            + "sot.ID_TABLE = ? and \n"
+            + "p.value like ?";
+
+    private final String SELECT_ALL_CANDIDATES_PROPERTIES_shared_OF_TABLE
+            = "select *\n"
+            + "from PROPERTIES p join SEMTELEMS_ON_TABLE sot on(p.ID_OBJECT = sot.URL)\n"
+            + "where ID_OBJECT <> ? \n"
+            + "and sot.ID_TABLE = ? \n"
+            + "and VALUE like ?\n"
+            + "and SHARED = 1  \n"
+            + "and DELETED = 0";
+
+    private final String SELECT_ALL_CANDIDATES_PROPERTIES_UNLIKED_OF_TABLE_FOR_USER
+            = "select p.*, pp.ID_USERDETAILS as ID_USERDETAILS_ACTION, pp.LIKED as LIKED\n"
+            + "from PROPERTIES p join PROPERTIES_PREFERENCE pp join SEMTELEMS_ON_TABLE sot \n"
+            + "on (p.id = pp.id_propertie and p.ID_OBJECT = sot.URL)\n"
+            + "where pp.ID_USERDETAILS = ?\n"
+            + "and p.ID_OBJECT = ?\n"
+            + "and sot.ID_TABLE = ?\n"
+            + "and p.VALUE like ?\n"
+            + "and pp.LIKED = 0";
 
     public PropertieRepository() {
     }
@@ -104,7 +132,31 @@ public class PropertieRepository {
     public List<Propertie> getPersonalCandidateTagsForTable(String idUser, int tableId, String objectId, String candidate) {
         LOG.info(SELECT_ALL_CANDIDATES_PROPERTIES_OF_USER_OF_TABLE_NOT_OF_OBJECT_NOT_DELETED);
         List<Propertie> retVal = jdbcTemplate.query(SELECT_ALL_CANDIDATES_PROPERTIES_OF_USER_OF_TABLE_NOT_OF_OBJECT_NOT_DELETED,
-                (new PropertieRepository.PropertieMapper<>()), idUser, tableId, objectId, candidate);
+                (new PropertieRepository.PropertieMapper<>()), idUser, tableId, objectId, "%" + candidate + "%");
+        LOG.info(retVal.toString());
+        return retVal;
+    }
+
+    public List<Propertie> getLikedCandidateTagsForTable(String idUser, int tableId, String objId, String candidate) {
+        LOG.info(SELECT_ALL_CANDIDATES_PROPERTIES_liked_OF_USER_OF_TABLE);
+        List<Propertie> retVal = jdbcTemplate.query(SELECT_ALL_CANDIDATES_PROPERTIES_liked_OF_USER_OF_TABLE,
+                (new PropertieRepository.PropertieMapper<>()), idUser, objId, tableId, "%" + candidate + "%");
+        LOG.info(retVal.toString());
+        return retVal;
+    }
+
+    public List<Propertie> getSharedCandidateTagsForTable(int tableId, String objId, String candidate) {
+        LOG.info(SELECT_ALL_CANDIDATES_PROPERTIES_shared_OF_TABLE);
+        List<Propertie> retVal = jdbcTemplate.query(SELECT_ALL_CANDIDATES_PROPERTIES_shared_OF_TABLE,
+                (new PropertieRepository.PropertieMapper<>()), objId, tableId, "%" + candidate + "%");
+        LOG.info(retVal.toString());
+        return retVal;
+    }
+
+    public List<Propertie> getUnlikedCandidateTagsForTable(String idUser, int tableId, String objId, String candidate) {
+        LOG.info(SELECT_ALL_CANDIDATES_PROPERTIES_UNLIKED_OF_TABLE_FOR_USER);
+        List<Propertie> retVal = jdbcTemplate.query(SELECT_ALL_CANDIDATES_PROPERTIES_UNLIKED_OF_TABLE_FOR_USER,
+                (new PropertieRepository.PropertieMapper<>()),idUser, objId, tableId, "%" + candidate + "%");
         LOG.info(retVal.toString());
         return retVal;
     }

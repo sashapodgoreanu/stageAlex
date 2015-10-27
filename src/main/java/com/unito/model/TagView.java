@@ -7,6 +7,7 @@ package com.unito.model;
 
 import com.unito.model.Propertie;
 import com.unito.model.TableManager;
+import com.unito.model.repository.PropertieRepository;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,13 +19,17 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author Alexandru Podgoreanu
  */
 public abstract class TagView {
-    
-    @Autowired TableManager tm;
+
+    @Autowired
+    public TableManager tm;
+    @Autowired
+    public PropertieRepository propertyRepository;
     public String objId;//Object ID
     public String forUserId;//UserDetails ID
     public int tableId;//table ID
-    
+
     abstract List<Propertie> getTagsForObj();
+
     abstract List<Propertie> getTagsForTable(String candidate);
 
     public String getObjId() {
@@ -52,13 +57,12 @@ public abstract class TagView {
     }
 
     @PostConstruct
-    public void post(){
+    public void post() {
         LOG.log(Level.INFO, "Setting up {0} ...", this.getClass().getSimpleName());
         this.tableId = tm.getOpenTableId();
         this.forUserId = tm.getUserdetails().getId();
         this.objId = tm.getLastObjectOpened();
     }
     private static final Logger LOG = Logger.getLogger(TagView.class.getName());
-    
-    
+
 }

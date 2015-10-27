@@ -23,8 +23,7 @@ import org.springframework.stereotype.Component;
         proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class TagLiked extends TagView {
     
-    @Autowired PropertieRepository pr; 
-
+    
     public TagLiked() {
         super();
     }
@@ -32,11 +31,12 @@ public class TagLiked extends TagView {
     
     @Override
     public List<Propertie> getTagsForObj() {
-        return pr.getLikedPropertiesForObj(this.getForUserId(), this.getObjId());
+        return propertyRepository.getLikedPropertiesForObj(this.getForUserId(), this.getObjId());
     }
 
     @Override
-    public List<Propertie> getTagsForTable(String Candidate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Propertie> getTagsForTable(String candidate) {
+        return propertyRepository.getLikedCandidateTagsForTable(getForUserId(),getTableId(), getObjId(),candidate);
+        
     }
 }
