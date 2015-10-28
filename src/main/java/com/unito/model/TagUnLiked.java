@@ -22,21 +22,20 @@ import org.springframework.stereotype.Component;
 public class TagUnLiked extends TagView {
 
     
-    @Autowired PropertieRepository pr; 
-    
     public TagUnLiked() {
         super();
     }
     
     @Override
     public List<Propertie> getTagsForObj() {
-        return pr.getUnLikedPropertiesForObj(forUserId, objId);
+        return propertyRepository.getUnLikedPropertiesForObj(forUserId, objId);
     }
 
     @Override
     List<Propertie> getTagsForTable(String candidate) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return propertyRepository.getUnlikedCandidateTagsForTable(forUserId, tableId, objId, candidate);
     }
+        
 
 
     

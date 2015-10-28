@@ -83,3 +83,7 @@
     border: 2px dashed #000000 !important;
 }
 
+.glyphicon-plus {
+    cursor: pointer;
+}
+

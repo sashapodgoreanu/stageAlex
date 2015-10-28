@@ -21,7 +21,7 @@
         <label for="tagContainer" class="col-sm-3 control-label label-tag">Others: </label>
         <div id="sharedContainer" class="tagContainer">
         </div>
-        <input id="searchTag" class="autocomplete-tag input-tag form-control">
+        <input id="searchTag" class="autocomplete-tag input-tag form-control" title="">
         <div>
             <div data-toggle="buttons">
                 <label class="btn btn-default pull-left">
@@ -34,7 +34,7 @@
 
             <div class="pull-right" data-toggle="buttons">
                 <label class="btn btn-default">
-                    <input id="addToSharedTags" type="checkbox" autocomplete="off" value="addToSheared"> 
+                    <input id="addToSharedTags" type="checkbox" autocomplete="off"> 
                     <span class="glyphicon glyphicon-share-alt sschecked1" aria-hidden="true"></span>
                     &nbsp;&nbsp;
                     Add to Shared &nbsp;&nbsp;<span class="glyphicon glyphicon-user" aria-hidden="true"></span>

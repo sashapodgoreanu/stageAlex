@@ -28,11 +28,18 @@ public class ControllerTag {
     @Autowired
     TagManager tagManager;
 
-    @RequestMapping(value = "/get-tags/{tagType}/{candidate}")
+    @RequestMapping(value = "get-tags/{tagType}/{candidate}")
     public String getTags(@PathVariable String tagType, @PathVariable String candidate) {
         LOG.info("Received" + tagType + " " + candidate);
         List<Propertie> retVal = tagManager.getCandidatesTags(tagType,candidate);
         return gson.toJson(retVal );
+
+    }
+    @RequestMapping(value = "add-tag/{tagType}/{tag}")
+    public String addTag(@PathVariable String tagType, @PathVariable String tag) {
+        LOG.info("Received" + tagType + " " + tag);
+        //List<Propertie> retVal = tagManager.getCandidatesTags(tagType,tag);
+        return gson.toJson(null);
 
     }
 

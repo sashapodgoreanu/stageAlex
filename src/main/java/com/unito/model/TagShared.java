@@ -22,11 +22,10 @@ import org.springframework.stereotype.Component;
         proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class TagShared extends TagView {
 
-    
-    @Autowired
-    TagLiked tl;
     @Autowired
     TagUnLiked tul;
+    @Autowired
+    TagPersonal tp;
 
 
     public TagShared() {
@@ -37,20 +36,9 @@ public class TagShared extends TagView {
     @Override
     public List<Propertie> getTagsForObj() {
         List<Propertie> sharedTags = propertyRepository.getSharedPropertiesForObj(objId);
-        List<Propertie> likedTags = propertyRepository.getLikedPropertiesForObj(forUserId, objId);
-        List<Propertie> personalTags = propertyRepository.getPersonalProperties(forUserId, objId);
+        List<Propertie> personalTags = tp.getTagsForObj();
         //List<Propertie> unLikedTags = propertyRepository.getUnLikedPropertiesForObj(forUserId, objId);
         Iterator<Propertie> i = sharedTags.iterator();
-        while (i.hasNext()) {
-            int idShared = i.next().getId();
-            for (Propertie l : likedTags) {
-                if (idShared == l.getId()) {
-                    i.remove();
-                }
-            }
-        }
-
-        i = sharedTags.iterator();
         while (i.hasNext()) {
             int idShared = i.next().getId();
             for (Propertie p : personalTags) {
@@ -68,9 +56,19 @@ public class TagShared extends TagView {
     @Override
     List<Propertie> getTagsForTable(String candidate) {
         List<Propertie> sharedTags = propertyRepository.getSharedCandidateTagsForTable(getTableId(), getObjId(), candidate);
-        List<Propertie> likedTags = tl.getTagsForTable(candidate);
-        List<Propertie> personalTags = propertyRepository.getPersonalProperties(forUserId, objId);
-        List<Propertie> personalTags = propertyRepository.getPersonalProperties(forUserId, objId);
+        List<Propertie> unLikedTags = tul.getTagsForTable(candidate);
+        
+        Iterator<Propertie> i = sharedTags.iterator();
+        while (i.hasNext()) {
+            int idShared = i.next().getId();
+            for (Propertie l : unLikedTags) {
+                if (idShared == l.getId()) {
+                    i.remove();
+                }
+            }
+        }
+        
+        return sharedTags;
     }
 
 

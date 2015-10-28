@@ -555,6 +555,18 @@ $.extend(ObjProperties.prototype, {
 
 });
 
+var Panel = function () {
+    this.hide = function () {
+    };
+    this.show = function () {
+    };
+    this.load = function () {
+    };
+    this.destroy = function () {
+    };
+};
+
+
 //Object of discourse
 var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedContainerId, personalTagsUrl, sharedTagsUrl) {
     this.conectedUserId = conectedUserId;
@@ -734,6 +746,9 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
         }
     };
 }
+//implements Panel
+ObjectOfDiscourse.prototype = Panel.prototype;
+ObjectOfDiscourse.prototype.constructor = ObjectOfDiscourse;
 
 var InputTagAdder = function (
         searchSharedTagsId, addToSharedTagsId, addTaggButtonId,
@@ -778,8 +793,8 @@ var InputTagAdder = function (
             source: function (request, response) {
                 var type = $(thiz.searchSharedTagsId).is(":checked") ? "shared" : "personal";
                 $.when($.ajax({
-                    url: thiz.tagManagerURL + "" + type + "/" + request.term,
-                    type: 'POST',
+                    url: thiz.tagManagerURL + "/get-tags/" + type + "/" + request.term,
+                    type: 'GET',
                     contentType: 'application/json',
                     dataType: 'json'
                 })).then(
@@ -800,6 +815,34 @@ var InputTagAdder = function (
             }
         });
 
+        //Sends to server the new tag
+        //it can be personal or shared
+        $("body").on("click", this.addTaggButtonId, function () {
+            var addToShared = $(thiz.addToSharedTagsId).is(":checked") ? "shared" : "personal";
+            var empty = $(thiz.autocompleteTagId).val().length === 0 ? true : false;
+            thiz.load();
+            if (empty) {
+                var tooltips = $(thiz.autocompleteTagId).tooltip({
+                    content: "Cannot add an empty Tag!",
+                    position: {
+                        my: "left bottom-5",
+                        at: "left top"
+                    }
+                });
+                tooltips.tooltip("open");
+            } else {
+                $.when($.ajax({
+                    url: thiz.tagManagerURL + "/add-tag/" + addToShared + "/" + $(thiz.autocompleteTagId).val(),
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json'
+                })).then(
+                        function (data, textStatus, jqXHR) {
+                            
+                        });
+            }
+        });
+
     };
 
     this.setIdObject = function (idObj) {
@@ -808,9 +851,16 @@ var InputTagAdder = function (
 
     this.destroy = function () {
         $(this.autocompleteTagId).val("");
+        $(this.autocompleteTagId).tooltip( "option", "content", "" );
+    };
+
+    this.load = function () {
     };
 };
 
+//implements Panel
+InputTagAdder.prototype = Panel.prototype;
+InputTagAdder.prototype.constructor = InputTagAdder;
 
 
 /*

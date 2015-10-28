@@ -21,7 +21,7 @@
 <s:url value ="/discoversemt" var="discoversemt"  scope="application"/>
 <s:url value ="/about" var="about"  scope="application"/>
 <s:url value ="/close-table" var="closetable" scope="application"/>
-<s:url value ="/tag-manager/get-tags/" var="tagManagerURL" scope="application"/>
+<s:url value ="/tag-manager" var="tagManagerURL" scope="application"/>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
