@@ -14,11 +14,11 @@
         </button>
     </div>
     <div class="form-group cloneable">
-        <label for="personalContainer" class="col-sm-3 control-label label-tag">Mine: </label>
+        <label for="personalContainer" class="col-sm-3 control-label label-tag">Personal: </label>
         <div id="personalContainer" class="autocompleteContainer">
         </div>
 
-        <label for="tagContainer" class="col-sm-3 control-label label-tag">Others: </label>
+        <label for="tagContainer" class="col-sm-3 control-label label-tag">Shared: </label>
         <div id="sharedContainer" class="tagContainer">
         </div>
         <input id="searchTag" class="autocomplete-tag input-tag form-control" title="">

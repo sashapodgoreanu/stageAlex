@@ -717,10 +717,10 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
             if (!deleted)
                 $(rem).addClass("glyphicon glyphicon-remove");
             else
-                $(rem).addClass("glyphicon glyphicon-repeat");
+                $(rem).addClass("glyphicon glyphicon-ban-circle");
             $(divTag).find("#remTag")
                     .append(rem)
-                    .attr("data-idDelete", this.sharedTags[i].id)
+                    .attr({"data-idDelete":this.sharedTags[i].id,"data-idOwner":this.sharedTags[i].ownerId})
                     .removeAttr("id");
 
 
@@ -745,7 +745,7 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
             $(this.sharedContainerId).append(divTag);
         }
     };
-}
+};
 //implements Panel
 ObjectOfDiscourse.prototype = Panel.prototype;
 ObjectOfDiscourse.prototype.constructor = ObjectOfDiscourse;
@@ -760,7 +760,7 @@ var InputTagAdder = function (
     this.tagManagerURL = tagManagerURL;
     this.$personalTagsContainer = $(tagViewObj.personalContainerId);
     this.$sharedTagsContainer = $(tagViewObj.personalContainerId);
-    this.objId = $(tagViewObj);
+    this.ood = tagViewObj;
     this.idObj = "";
     this.tagToBeAdded = {};
 
@@ -786,7 +786,6 @@ var InputTagAdder = function (
                 $checked.addClass("glyphicon-share-alt");
             }
         });
-
         var thiz = this;
         //autocomplete tag
         $(this.autocompleteTagId).autocomplete({
@@ -815,31 +814,40 @@ var InputTagAdder = function (
             }
         });
 
+        $(thiz.autocompleteTagId).tooltip({
+            position: {
+                my: "left bottom-5",
+                at: "left top"
+            }
+        });
+
+
         //Sends to server the new tag
         //it can be personal or shared
         $("body").on("click", this.addTaggButtonId, function () {
             var addToShared = $(thiz.addToSharedTagsId).is(":checked") ? "shared" : "personal";
             var empty = $(thiz.autocompleteTagId).val().length === 0 ? true : false;
-            thiz.load();
             if (empty) {
-                var tooltips = $(thiz.autocompleteTagId).tooltip({
-                    content: "Cannot add an empty Tag!",
-                    position: {
-                        my: "left bottom-5",
-                        at: "left top"
-                    }
-                });
-                tooltips.tooltip("open");
+                $(thiz.autocompleteTagId).attr("title", "Insert a value!");
+                $(thiz.autocompleteTagId).tooltip("open");
             } else {
                 $.when($.ajax({
                     url: thiz.tagManagerURL + "/add-tag/" + addToShared + "/" + $(thiz.autocompleteTagId).val(),
                     type: 'POST',
                     contentType: 'application/json',
                     dataType: 'json'
-                })).then(
-                        function (data, textStatus, jqXHR) {
-                            
-                        });
+                })).then(function (ok, textStatus, jqXHR) {
+                    if (ok) {
+                        thiz.ood.destroy();
+                        thiz.ood.load(thiz.idObj);
+                        thiz.destroy();
+                    } else {
+                        $(thiz.autocompleteTagId).attr("title", "Canot add this tag!");
+                        $(thiz.autocompleteTagId).tooltip("open");
+                    }
+                }).fail(function (data, textStatus, jqXHR) {
+                    alert("No tag was added");
+                });
             }
         });
 
@@ -851,7 +859,7 @@ var InputTagAdder = function (
 
     this.destroy = function () {
         $(this.autocompleteTagId).val("");
-        $(this.autocompleteTagId).tooltip( "option", "content", "" );
+        $(this.autocompleteTagId).attr("title", "");
     };
 
     this.load = function () {
@@ -898,28 +906,3 @@ function getContrastYIQ(color) {
     var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
     return (yiq >= 128) ? 'black' : 'white';
 }
-
-var availableTags = [
-    "ActionScript",
-    "AppleScript",
-    "Asp",
-    "BASIC",
-    "C",
-    "C++",
-    "Clojure",
-    "COBOL",
-    "ColdFusion",
-    "Erlang",
-    "Fortran",
-    "Groovy",
-    "Haskell",
-    "Java",
-    "JavaScript",
-    "Lisp",
-    "Perl",
-    "PHP",
-    "Python",
-    "Ruby",
-    "Scala",
-    "Scheme"
-];

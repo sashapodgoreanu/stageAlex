@@ -7,7 +7,7 @@ package com.unito.model;
 
 import com.unito.model.Propertie;
 import com.unito.model.TableManager;
-import com.unito.model.repository.PropertieRepository;
+import com.unito.model.repository.PropertyRepository;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +23,7 @@ public abstract class TagView {
     @Autowired
     public TableManager tm;
     @Autowired
-    public PropertieRepository propertyRepository;
+    public PropertyRepository propertyRepository;
     public String objId;//Object ID
     public String forUserId;//UserDetails ID
     public int tableId;//table ID

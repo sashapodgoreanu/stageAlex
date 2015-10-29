@@ -5,6 +5,7 @@
  */
 package com.unito.model;
 
+import com.unito.model.repository.PropertyRepository;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,8 @@ public class TagManager implements Serializable {
     private TagShared tagShared;
     @Autowired
     private TableManager tableManager;
+    @Autowired
+    PropertyRepository propertyRepository;
 
     public TagManager() {
     }
@@ -39,6 +42,13 @@ public class TagManager implements Serializable {
                 break;
         }
         return retVal;
+    }
+
+    public boolean addTag(String tagType, String tag) {
+        if (propertyRepository.findTag(tableManager.getLastObjectOpened(), tag).isEmpty()) {
+            return propertyRepository.addTag(tableManager.getUserdetails().getId(),
+                    tableManager.getLastObjectOpened(),tag, ("shared".equals(tagType)) ? 1 : 0);
+        } else return false;
     }
 
 }

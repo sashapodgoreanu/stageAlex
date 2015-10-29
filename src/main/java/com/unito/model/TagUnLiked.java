@@ -5,7 +5,7 @@
  */
 package com.unito.model;
 
-import com.unito.model.repository.PropertieRepository;
+import com.unito.model.repository.PropertyRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;

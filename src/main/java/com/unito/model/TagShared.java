@@ -5,7 +5,7 @@
  */
 package com.unito.model;
 
-import com.unito.model.repository.PropertieRepository;
+import com.unito.model.repository.PropertyRepository;
 import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,14 +38,14 @@ public class TagShared extends TagView {
         List<Propertie> sharedTags = propertyRepository.getSharedPropertiesForObj(objId);
         List<Propertie> personalTags = tp.getTagsForObj();
         //List<Propertie> unLikedTags = propertyRepository.getUnLikedPropertiesForObj(forUserId, objId);
-        Iterator<Propertie> i = sharedTags.iterator();
+        Iterator<Propertie> i = personalTags.iterator();
         while (i.hasNext()) {
-            int idShared = i.next().getId();
-            for (Propertie p : personalTags) {
-                //System.out.println("personal " + p.getId());
-                if (idShared == p.getId()) {
-                    i.remove();
-                }
+            Propertie shared = i.next();
+            Iterator<Propertie> j = sharedTags.iterator();
+            while (j.hasNext()){
+                Propertie personal = j.next();
+                if(shared.getId() == personal.getId() || shared.getValue().equalsIgnoreCase(personal.getValue()))
+                    j.remove();
             }
 
         }

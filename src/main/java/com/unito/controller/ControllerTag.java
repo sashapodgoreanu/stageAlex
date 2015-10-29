@@ -38,8 +38,7 @@ public class ControllerTag {
     @RequestMapping(value = "add-tag/{tagType}/{tag}")
     public String addTag(@PathVariable String tagType, @PathVariable String tag) {
         LOG.info("Received" + tagType + " " + tag);
-        //List<Propertie> retVal = tagManager.getCandidatesTags(tagType,tag);
-        return gson.toJson(null);
+        return gson.toJson(tagManager.addTag(tagType,tag));
 
     }
 

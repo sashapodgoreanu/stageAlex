@@ -24,6 +24,8 @@
 <s:url value ="/tag-manager" var="tagManagerURL" scope="application"/>
 <head>
     <meta charset="utf-8">
+    <!--Refresh Page-->
+    <meta http-equiv="refresh" content="1800">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--Bootstrap: The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->

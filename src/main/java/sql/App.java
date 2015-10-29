@@ -5,9 +5,9 @@
  */
 package sql;
 
-import com.google.gson.Gson;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 ;
 
@@ -18,10 +18,16 @@ import java.util.Map;
 public class App {
 
     public static void main(String args[]) {
-        Map<String,String> gs = new HashMap<>();
-        gs.put("keysss", "valuess");
-        Gson gson = new Gson();
-        
-        System.out.println(gson.toJson(gs));;
+        List<Integer> a = new ArrayList<Integer>();
+        a.add(1);
+        a.add(2);
+        a.add(3);
+        a.add(4);
+        Iterator i = a.iterator();
+        i.next();
+        i.remove();
+        i.next();
+        i.remove();
+
     }
 }
