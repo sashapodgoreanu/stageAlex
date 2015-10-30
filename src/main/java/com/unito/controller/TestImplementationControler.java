@@ -5,8 +5,10 @@
  */
 package com.unito.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -15,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class TestImplementationControler {
     
-    @RequestMapping(value="/test1")
+    @ResponseBody @RequestMapping(value="/test1.js",headers="Accept=application/json" ,produces= MediaType.APPLICATION_JSON_VALUE)
+    
     public String hiddenMenu(){
         return "/test/test1";
     }

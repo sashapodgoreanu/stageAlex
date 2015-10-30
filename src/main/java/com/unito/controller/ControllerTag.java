@@ -41,6 +41,12 @@ public class ControllerTag {
         return gson.toJson(tagManager.addTag(tagType,tag));
 
     }
+    @RequestMapping(value = "doAction/{action}/{idTag}")
+    public String doAction(@PathVariable String action, @PathVariable int idTag) {
+        LOG.info("Received" + action + " " + idTag);
+        return gson.toJson(null/*tagManager.addTag(tagType,tag)*/);
+
+    }
 
     private static final Logger LOG = Logger.getLogger(ControllerTag.class.getName());
 

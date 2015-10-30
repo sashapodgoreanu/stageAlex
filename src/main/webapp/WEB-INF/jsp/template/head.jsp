@@ -59,6 +59,8 @@
         }
     </style>
     <script>
+        //TO DO. REDISIGN ALL URLS
+        var $tagManagerURL = "${tagManagerURL}";
         $(function () {
             initTablesNav("${savetable}", "${closetable}", "${workingarea}");
             var instanceTable = new Table("${savetable}", "${closetable}", "${workingarea}");

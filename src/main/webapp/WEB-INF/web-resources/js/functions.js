@@ -578,6 +578,35 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
     this.sharedTags = [];
     this.init = function () {
         var thiz = this;
+        $(this.sharedContainerId + ", " + this.personalContainerId)
+                .on("click", ".actionTagRRSD", function () {
+                    
+                    var action;
+                    var idTag = $(this).parents(".atag").attr("data-idtag");
+                    if ($(this).hasClass("glyphicon-repeat"))
+                        action = "restore";
+                    else if ($(this).hasClass("glyphicon-remove"))
+                        action = "delete";
+                    else if ($(this).hasClass("glyphicon-share-alt"))
+                        action = "share";
+                    else if ($(this).hasClass("glyphicon-heart"))
+                        action = "like";
+                    $.when($.ajax({
+                        url: $tagManagerURL + "/doAction/" + action + "/" + idTag,
+                        type: 'GET',
+                        contentType: 'application/json',
+                        dataType: 'json'
+                    })).then(
+                            function (data, textStatus, jqXHR) {
+                                response($.map(data, function (item) {
+                                    return {
+                                        label: item.value,
+                                        value: item
+                                    };
+                                }));
+                            });
+
+                });
     };
     this.load = function (objId) {
         var thiz = this;
@@ -635,13 +664,20 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
         this.addTags();
     };
     this.addTags = function () {
+        this._addToViewPersonalTags();
+        this._addToViewSharedTags();
+
+
+    };
+
+    this._addToViewPersonalTags = function () {
         //for every personal tag, add buttons, add tag to view
         for (var i = 0; i < this.personalTags.length; i++) {
             var idUserDetails = this.personalTags[i].ownerId;
             var shared = this.personalTags[i].shared;
             var deleted = this.personalTags[i].deleted;
             var color;
-            //tag color is the color of tag owner
+            //color of this tag is the color of tag owner user icon
             $(".semtUsers").each(function () {
                 if ($(this).attr("data-user-id") == idUserDetails)
                     color = $(this).css("color");
@@ -651,32 +687,30 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
             var divTag = $("#cloneableTagHtml").clone().removeAttr("id style").css({
                 "background": color,
                 "color": getContrastYIQ(color)
-            }).addClass("atag");
+            }).addClass("atag").attr("data-idTag", this.personalTags[i].id);
             ;
             //add Tag value to cloned div to the specific div
-            $(divTag).find("#valueTag").append(this.personalTags[i].value).attr("id", this.personalTags[i].id);
+            $(divTag).find("#valueTag").append(this.personalTags[i].value);
 
             //Add remove button if is not deleted
-            var rem = document.createElement("span");
+            var rem = $(document.createElement("span")).addClass("actionTagRRSD");
             if (!deleted)
                 $(rem).addClass("glyphicon glyphicon-remove");
             else
                 $(rem).addClass("glyphicon glyphicon-repeat");
             $(divTag).find("#remTag")
                     .append(rem)
-                    .attr("data-idDelete", this.personalTags[i].id)
                     .removeAttr("id");
 
 
             //add share button if is not shared
-            var span = document.createElement("span");
-            if (!shared)
+            var span = $(document.createElement("span")).addClass("actionTagRRSD");
+            if (!shared && !deleted)
                 $(span).addClass("glyphicon glyphicon-share-alt");
             else
-                $(span).addClass("glyphicon glyphicon-user");
+                $(span).addClass("glyphicon");
             $(divTag).find("#ldTag")
                     .append(span)
-                    .attr("data-idShare", this.personalTags[i].id)
                     .removeAttr("id");
 
             //add class to tag depending what tipe of tag it is
@@ -691,7 +725,8 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
             //append cloned div to view
             $(this.personalContainerId).append(divTag);
         }
-
+    };
+    this._addToViewSharedTags = function () {
         //for every shared tag, add buttons, add tag to view
         for (var i = 0; i < this.sharedTags.length; i++) {
             var idUserDetails = this.sharedTags[i].ownerId;
@@ -708,36 +743,36 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
             var divTag = $("#cloneableTagHtml").clone().removeAttr("id style").css({
                 "background": color,
                 "color": getContrastYIQ(color)
-            }).addClass("atag");
+            }).addClass("atag").attr("data-idTag", this.sharedTags[i].id);
             //add Tag value to cloned div to the specific div
-            $(divTag).find("#valueTag").append(this.sharedTags[i].value).attr("id", this.sharedTags[i].id);
+            $(divTag).find("#valueTag").append(this.sharedTags[i].value);
 
             //Add remove button if is not deleted
-            var rem = document.createElement("span");
+            var rem = $(document.createElement("span")).addClass("actionTagRRSD");
             if (!deleted)
-                $(rem).addClass("glyphicon glyphicon-remove");
+                $(rem).addClass("glyphicon glyphicon-remove ");
             else
-                $(rem).addClass("glyphicon glyphicon-ban-circle");
+                $(rem).addClass("glyphicon glyphicon-repeat");
             $(divTag).find("#remTag")
                     .append(rem)
-                    .attr({"data-idDelete":this.sharedTags[i].id,"data-idOwner":this.sharedTags[i].ownerId})
+                    .attr({"data-idTag": this.sharedTags[i].id, "data-idOwner": this.sharedTags[i].ownerId})
                     .removeAttr("id");
 
 
-            //add share button if is not shared
-            var span = document.createElement("span");
-            $(span).addClass("glyphicon glyphicon-heart");
-            $(divTag).find("#ldTag")
-                    .append(span)
-                    .attr("data-idShare", this.sharedTags[i].id)
-                    .removeAttr("id");
+            //add like button if is not deleted
+            if (!deleted) {
+
+            }
 
             //add class to tag depending what tipe of tag it is
             if (!deleted) {
-                if (shared)
-                    $(divTag).addClass("sharedtag");
-                else
-                    $(divTag).addClass("personaltag");
+                $(divTag).addClass("sharedtag");
+                var span = $(document.createElement("span")).addClass("actionTagRRSD");
+                $(span).addClass("glyphicon glyphicon-heart");
+                $(divTag).find("#ldTag")
+                        .append(span)
+                        .attr("data-idShare", this.sharedTags[i].id)
+                        .removeAttr("id");
             }
             else
                 $(divTag).addClass("deletedtag");
