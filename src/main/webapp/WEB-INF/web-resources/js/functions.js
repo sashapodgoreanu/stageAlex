@@ -576,11 +576,18 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
     this.sharedTagsUrl = sharedTagsUrl;
     this.personalTags = [];
     this.sharedTags = [];
+    this.idObj;
     this.init = function () {
         var thiz = this;
+
         $(this.sharedContainerId + ", " + this.personalContainerId)
                 .on("click", ".actionTagRRSD", function () {
-                    
+                    $(this).tooltip({
+                        position: {
+                            my: "left bottom-5",
+                            at: "left top"
+                        }
+                    });
                     var action;
                     var idTag = $(this).parents(".atag").attr("data-idtag");
                     if ($(this).hasClass("glyphicon-repeat"))
@@ -591,19 +598,21 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
                         action = "share";
                     else if ($(this).hasClass("glyphicon-heart"))
                         action = "like";
+                    var clicked = this;
                     $.when($.ajax({
                         url: $tagManagerURL + "/doAction/" + action + "/" + idTag,
                         type: 'GET',
                         contentType: 'application/json',
                         dataType: 'json'
                     })).then(
-                            function (data, textStatus, jqXHR) {
-                                response($.map(data, function (item) {
-                                    return {
-                                        label: item.value,
-                                        value: item
-                                    };
-                                }));
+                            function (ok, textStatus, jqXHR) {
+                                if (ok) {
+                                    thiz.destroy();
+                                    thiz.load(thiz.idObj);
+                                } else {
+                                    $(clicked).attr("title", "Work in Progress:: "+action+"ing!");
+                                    $(clicked).tooltip("open");
+                                }
                             });
 
                 });
@@ -779,6 +788,9 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
             //append cloned div to view
             $(this.sharedContainerId).append(divTag);
         }
+    };
+    this.setIdObject = function (idObj) {
+        this.idObj = idObj;
     };
 };
 //implements Panel

@@ -112,6 +112,7 @@
                     of: thiz
                 });
                 objProperties1.setIdObject($(this).attr("id"));
+                ood.setIdObject($(this).attr("id"));
                 inputTagAdder.setIdObject($(this).attr("id"));
             });
 
