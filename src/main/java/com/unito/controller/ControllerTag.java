@@ -35,16 +35,18 @@ public class ControllerTag {
         return gson.toJson(retVal );
 
     }
+    
     @RequestMapping(value = "add-tag/{tagType}/{tag}")
     public String addTag(@PathVariable String tagType, @PathVariable String tag) {
         LOG.info("Received" + tagType + " " + tag);
         return gson.toJson(tagManager.addTag(tagType,tag));
 
     }
+    
     @RequestMapping(value = "doAction/{action}/{idTag}")
     public String doAction(@PathVariable String action, @PathVariable int idTag) {
         LOG.info("Received" + action + " " + idTag);
-        return gson.toJson(null/*tagManager.addTag(tagType,tag)*/);
+        return gson.toJson(tagManager.doAction(action,idTag) );
 
     }
 

@@ -22,17 +22,11 @@ public class SemTElem {
     @Expose
     private String url;
     @Expose
-    private List<ElemProperty> properties;
-
-    public SemTElem(String name, String url, List<ElemProperty> properties) {
-        this.name = name;
-        this.url = url;
-        this.properties = new ArrayList<>();
-    }
+    private boolean inWardrobe;
 
     public SemTElem() {
-        this.properties = new ArrayList<>();
     }
+    
     public String getName() {
         return name;
     }
@@ -49,12 +43,12 @@ public class SemTElem {
         this.url = url;
     }
 
-    public List<ElemProperty> getProperties() {
-        return properties;
+    public boolean isInWardrobe() {
+        return inWardrobe;
     }
 
-    public void setProperties(List<ElemProperty> properties) {
-        this.properties = properties;
+    public void setInWardrobe(boolean inWardrobe) {
+        this.inWardrobe = inWardrobe;
     }
 
     @Override
@@ -80,17 +74,9 @@ public class SemTElem {
         }
         return true;
     }
-    
-    
 
     @Override
     public String toString() {
-        return "SemTElem{" + "name=" + name + ", url=" + url + '}';
+        return "SemTElem{" + "name=" + name + ", url=" + url + ", inWardrobe=" + inWardrobe + '}';
     }
-
-    
-    
-    
-    
-    
 }

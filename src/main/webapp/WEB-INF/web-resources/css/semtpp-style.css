@@ -41,6 +41,7 @@ main{
 #hiddenMenu{
     position: fixed;
     border: 0px !important;
+    z-index: 9999!important;
 
 }
 /*
@@ -301,4 +302,8 @@ main #addElement {
 }
 .no-margin-right{
     margin-right: 0px !important;
+}
+
+#tableTagContainer p{
+    cursor: move;
 }

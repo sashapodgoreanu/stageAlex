@@ -5,6 +5,7 @@
  */
 //Globals
 $.rightCliked = new Object();
+$.URLs = {};
 
 //Functions
 //
@@ -582,25 +583,40 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
 
         $(this.sharedContainerId + ", " + this.personalContainerId)
                 .on("click", ".actionTagRRSD", function () {
+                    var action;
+                    var idTag = $(this).parents(".atag").attr("data-idtag");
+                    var ownerId = $(this).parents(".atag").attr("data-idowner");
+                    var deleted = $(this).parents(".atag").attr("data-deleted") === "true" ? true : false;
+
                     $(this).tooltip({
                         position: {
                             my: "left bottom-5",
                             at: "left top"
                         }
                     });
-                    var action;
-                    var idTag = $(this).parents(".atag").attr("data-idtag");
-                    if ($(this).hasClass("glyphicon-repeat"))
-                        action = "restore";
-                    else if ($(this).hasClass("glyphicon-remove"))
-                        action = "delete";
+                    if ($(this).hasClass("glyphicon-repeat")) {
+                        if (thiz.conectedUserId === ownerId)
+                            action = "restore";
+                        else
+                        if (deleted)
+                            action = "like"
+                        else
+                            action = "default";
+                    }
+
+                    else if ($(this).hasClass("glyphicon-remove")) {
+                        if (thiz.conectedUserId === ownerId)
+                            action = "delete";
+                        else
+                            action = "unlike";
+                    }
                     else if ($(this).hasClass("glyphicon-share-alt"))
                         action = "share";
-                    else if ($(this).hasClass("glyphicon-heart"))
+                    else if ($(this).hasClass("glyphicon-thumbs-up"))
                         action = "like";
                     var clicked = this;
                     $.when($.ajax({
-                        url: $tagManagerURL + "/doAction/" + action + "/" + idTag,
+                        url: $.URLs.tagManagerURL + "/doAction/" + action + "/" + idTag,
                         type: 'GET',
                         contentType: 'application/json',
                         dataType: 'json'
@@ -610,7 +626,7 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
                                     thiz.destroy();
                                     thiz.load(thiz.idObj);
                                 } else {
-                                    $(clicked).attr("title", "Work in Progress:: "+action+"ing!");
+                                    $(clicked).attr("title", "Work in Progress:: " + action + "ing!");
                                     $(clicked).tooltip("open");
                                 }
                             });
@@ -685,6 +701,7 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
             var idUserDetails = this.personalTags[i].ownerId;
             var shared = this.personalTags[i].shared;
             var deleted = this.personalTags[i].deleted;
+            var liked = this.personalTags[i].liked;
             var color;
             //color of this tag is the color of tag owner user icon
             $(".semtUsers").each(function () {
@@ -693,17 +710,24 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
             });
 
             //clone this div
-            var divTag = $("#cloneableTagHtml").clone().removeAttr("id style").css({
-                "background": color,
-                "color": getContrastYIQ(color)
-            }).addClass("atag").attr("data-idTag", this.personalTags[i].id);
-            ;
+            var divTag = $("#cloneableTagHtml")
+                    .clone()
+                    .removeAttr("id style")
+                    .css({
+                        "background": color,
+                        "color": getContrastYIQ(color)
+                    })
+                    .addClass("atag")
+                    .attr({
+                        "data-idTag": this.personalTags[i].id,
+                        "data-idOwner": this.personalTags[i].ownerId
+                    });
             //add Tag value to cloned div to the specific div
             $(divTag).find("#valueTag").append(this.personalTags[i].value);
 
-            //Add remove button if is not deleted
+            //Add/remove button for deleted/not deleted
             var rem = $(document.createElement("span")).addClass("actionTagRRSD");
-            if (!deleted)
+            if (!deleted || liked == 1)
                 $(rem).addClass("glyphicon glyphicon-remove");
             else
                 $(rem).addClass("glyphicon glyphicon-repeat");
@@ -723,7 +747,7 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
                     .removeAttr("id");
 
             //add class to tag depending what tipe of tag it is
-            if (!deleted) {
+            if (!deleted || liked == 1) {
                 if (shared)
                     $(divTag).addClass("sharedtag");
                 else
@@ -739,7 +763,7 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
         //for every shared tag, add buttons, add tag to view
         for (var i = 0; i < this.sharedTags.length; i++) {
             var idUserDetails = this.sharedTags[i].ownerId;
-            var shared = this.sharedTags[i].shared;
+            var liked = this.sharedTags[i].liked;
             var deleted = this.sharedTags[i].deleted;
             var color;
             //tag color is the color of tag owner
@@ -749,42 +773,51 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
             });
 
             //clone this div
-            var divTag = $("#cloneableTagHtml").clone().removeAttr("id style").css({
-                "background": color,
-                "color": getContrastYIQ(color)
-            }).addClass("atag").attr("data-idTag", this.sharedTags[i].id);
+            var divTag = $("#cloneableTagHtml")
+                    .clone()
+                    .removeAttr("id style")
+                    .css({
+                        "background": color,
+                        "color": getContrastYIQ(color)
+                    })
+                    .addClass("atag")
+                    .attr({
+                        "data-idTag": this.sharedTags[i].id,
+                        "data-idOwner": this.sharedTags[i].ownerId,
+                        "data-deleted": this.sharedTags[i].deleted,
+                        "data-shared": this.sharedTags[i].shared,
+                        "data-liked": this.sharedTags[i].liked
+                    });
             //add Tag value to cloned div to the specific div
             $(divTag).find("#valueTag").append(this.sharedTags[i].value);
 
             //Add remove button if is not deleted
             var rem = $(document.createElement("span")).addClass("actionTagRRSD");
-            if (!deleted)
-                $(rem).addClass("glyphicon glyphicon-remove ");
-            else
+            if (deleted || liked == 0) {
                 $(rem).addClass("glyphicon glyphicon-repeat");
+            } else {
+                $(rem).addClass("glyphicon glyphicon-remove ");
+            }
             $(divTag).find("#remTag")
                     .append(rem)
-                    .attr({"data-idTag": this.sharedTags[i].id, "data-idOwner": this.sharedTags[i].ownerId})
                     .removeAttr("id");
 
 
-            //add like button if is not deleted
-            if (!deleted) {
-
-            }
-
             //add class to tag depending what tipe of tag it is
-            if (!deleted) {
-                $(divTag).addClass("sharedtag");
-                var span = $(document.createElement("span")).addClass("actionTagRRSD");
+            var span = $(document.createElement("span")).addClass("actionTagRRSD");
+            if ((liked == 0 || liked == -1)) {
+                $(span).addClass("glyphicon glyphicon-thumbs-up");
+            } else {
                 $(span).addClass("glyphicon glyphicon-heart");
-                $(divTag).find("#ldTag")
-                        .append(span)
-                        .attr("data-idShare", this.sharedTags[i].id)
-                        .removeAttr("id");
             }
-            else
+            if (deleted || liked == 0)
                 $(divTag).addClass("deletedtag");
+            else
+                $(divTag).addClass("sharedtag");
+            $(divTag).find("#ldTag")
+                    .append(span)
+                    .removeAttr("id");
+
             //append cloned div to view
             $(this.sharedContainerId).append(divTag);
         }
@@ -952,4 +985,59 @@ function getContrastYIQ(color) {
     var b = parseInt(hexcolor.substr(4, 2), 16);
     var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
     return (yiq >= 128) ? 'black' : 'white';
+}
+var z_index = 100;
+setup1 = function () {
+    $("p, li", "#tableTagContainer, #wardrobeList").draggable({
+        containment: "document",
+        revert: "invalid",
+        drag: function (event, ui) {
+            var a = ui;
+            var p = event.target;
+            $(p).css({
+                "z-index": "" + z_index++
+            }).removeClass("tipo1");
+        }
+    });
+    $(".droppable, #centerTable").droppable({
+        drop: function (event, ui) {
+            var $draged = $(ui.draggable.context);
+            //in wardrobe
+            if ($(this).hasClass("droppable")) {
+                $draged.removeClass("tipo1");
+                $.when($.ajax({
+                    url: $.URLs.tableManagerURL + "/change/to-wardrobe/" + $draged.attr("id"),
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json'
+                })).then(function (ok, textStatus, jqXHR) {
+                    if (ok) {
+                    } else {
+                        $draged.attr("title", "Canot add to wardrobe!");
+                        $draged.tooltip("open");
+                    }
+                }).fail(function (data, textStatus, jqXHR) {
+                    alert("Canot add to wardrobe");
+                });
+            } else { //on working table
+                $draged.addClass("tipo1");
+                //to working table
+                $.when($.ajax({
+                    url: $.URLs.tableManagerURL + "/change/to-working-table/" + $draged.attr("id"),
+                    type: 'POST',
+                    contentType: 'application/json',
+                    dataType: 'json'
+                })).then(function (ok, textStatus, jqXHR) {
+                    if (ok) {
+                    } else {
+                        $draged.attr("title", "Canot add to working table!");
+                        $draged.tooltip("open");
+                    }
+                }).fail(function (data, textStatus, jqXHR) {
+                    alert("Canot add to working table");
+                });
+
+            }
+        }
+    });
 }

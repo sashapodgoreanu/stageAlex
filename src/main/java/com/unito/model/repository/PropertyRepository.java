@@ -8,9 +8,12 @@ package com.unito.model.repository;
 import com.unito.model.Propertie;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -31,15 +34,13 @@ public class PropertyRepository {
             + " where (ID_USERDETAILS = ? and ID_OBJECT = ?)";
 
     private final String SELECT_LIKED_PROPERTIES_OF_OBJECT_OF_USER
-            = "select p.ID as ID, p.ID_USERDETAILS as ID_USERDETAILS, p.value as VALUE,"
-            + " p.ID_OBJECT as ID_OBJECT, p.shared as SHARED,"
-            + " 0 as DELETED,"
-            + " pp.ID_USERDETAILS as ID_USERDETAILS_ACTION, pp.LIKED as LIKED\n"
+            = "select p.*, "
+            + "pp.ID_USERDETAILS as ID_USERDETAILS_ACTION, pp.LIKED as LIKED\n"
             + "from PROPERTIES p join PROPERTIES_PREFERENCE pp on (p.id = pp.id_propertie)\n"
             + "where pp.ID_USERDETAILS = ? and p.ID_OBJECT = ? and pp.LIKED = 1";
 
     private final String SELECT_UNLIKED_PROPERTIES_OF_OBJECT_OF_USER
-            = "select p.ID as ID, p.ID_USERDETAILS as ID_USERDETAILS, p.value as VALUE, p.ID_OBJECT as ID_OBJECT, p.shared as SHARED, pp.ID_USERDETAILS as ID_USERDETAILS_ACTION, pp.LIKED as LIKED\n"
+            = "select p.*, pp.ID_USERDETAILS as ID_USERDETAILS_ACTION, pp.LIKED as LIKED\n"
             + "from PROPERTIES p join PROPERTIES_PREFERENCE pp on (p.id = pp.id_propertie)\n"
             + "where pp.ID_USERDETAILS = ? and p.ID_OBJECT = ? and pp.LIKED = 0";
 
@@ -94,6 +95,36 @@ public class PropertyRepository {
     private final String INSERT_TAG
             = "insert into PROPERTIES(VALUE,ID_USERDETAILS,ID_OBJECT,SHARED) "
             + "values (?,?,?,?)";
+
+    private final String RESTORE_TAG
+            = "update PROPERTIES \n"
+            + "set DELETED = 0\n"
+            + "where id = ?";
+    private final String DELETE_TAG
+            = "update PROPERTIES \n"
+            + "set DELETED = 1\n"
+            + "where id = ?";
+    private final String SHARE_TAG
+            = "update PROPERTIES \n"
+            + "set SHARED = 1\n"
+            + "where id = ?";
+
+    private final String SELECT_LIKE_TAG
+            = "select * from PROPERTIES_PREFERENCE \n"
+            + "where ID_PROPERTIE = ? and ID_USERDETAILS = ?";
+
+    private final String UPDATE_LIKE_TAG
+            = "update PROPERTIES_PREFERENCE \n"
+            + "set LIKED = ?\n"
+            + "where ID_PROPERTIE = ? and ID_USERDETAILS = ?";
+
+    private final String INSERT_LIKE_TAG
+            = "insert into PROPERTIES_PREFERENCE(LIKED, ID_PROPERTIE, ID_USERDETAILS) \n"
+            + "values(?,?,?)";
+    
+    private final String DELETE_LIKE_TAG
+            = "delete from PROPERTIES_PREFERENCE\n"
+            + "where ID_PROPERTIE = ? and ID_USERDETAILS = ?";
 
     public PropertyRepository() {
     }
@@ -179,9 +210,52 @@ public class PropertyRepository {
         return retVal;
     }
 
-
     public boolean addTag(String idUser, String lastObjectOpened, String tag, int tagType) {
-        return jdbcTemplate.update(INSERT_TAG, tag, idUser,lastObjectOpened,tagType) == 1;
+        return jdbcTemplate.update(INSERT_TAG, tag, idUser, lastObjectOpened, tagType) == 1;
+    }
+
+    public boolean doRestore(int idTag) {
+        return jdbcTemplate.update(RESTORE_TAG, idTag) == 1;
+    }
+
+    public boolean doDelete(int idTag) {
+        return jdbcTemplate.update(DELETE_TAG, idTag) == 1;
+    }
+
+    public boolean doShare(int idTag) {
+        return jdbcTemplate.update(SHARE_TAG, idTag) == 1;
+    }
+
+    public boolean doLike(int idTag, String idUser) {
+        LOG.info(SELECT_LIKE_TAG);
+        Map retSel = new HashMap();
+        try {
+            retSel = jdbcTemplate.queryForMap(SELECT_LIKE_TAG, idTag, idUser);
+        } catch (EmptyResultDataAccessException e) {
+        }
+        if (retSel.isEmpty()) {
+            return jdbcTemplate.update(INSERT_LIKE_TAG, 1, idTag, idUser) == 1;
+        } else {
+            return jdbcTemplate.update(UPDATE_LIKE_TAG, 1, idTag, idUser) == 1;
+        }
+    }
+
+    public boolean doUnLike(int idTag, String idUser) {
+        LOG.info(SELECT_LIKE_TAG);
+        Map retSel = new HashMap();
+        try {
+            retSel = jdbcTemplate.queryForMap(SELECT_LIKE_TAG, idTag, idUser);
+        } catch (EmptyResultDataAccessException e) {
+        }
+        if (retSel.isEmpty()) {
+            return jdbcTemplate.update(INSERT_LIKE_TAG, 0, idTag, idUser) == 1;
+        } else {
+            return jdbcTemplate.update(UPDATE_LIKE_TAG, 0, idTag, idUser) == 1;
+        }
+    }
+
+    public boolean doDefault(int idTag, String idUser) {
+        return jdbcTemplate.update(DELETE_LIKE_TAG, idTag, idUser) == 1;
     }
 
     class PropertieMapper<T> implements RowMapper {
@@ -196,7 +270,7 @@ public class PropertyRepository {
             //Questo serve per liked and unliked 
             try {
                 p.setOwnerActionId(rs.getString("ID_USERDETAILS_ACTION"));
-                p.setLiked(rs.getBoolean("LIKED"));
+                p.setLiked(rs.getInt("LIKED"));
             } catch (SQLException e) {
                 LOG.info(e.getMessage());
             }

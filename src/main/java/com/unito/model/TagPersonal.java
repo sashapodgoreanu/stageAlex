@@ -35,16 +35,10 @@ public class TagPersonal extends TagView {
     public List<Propertie> getTagsForObj() {
         List<Propertie> personal = propertyRepository.getPersonalProperties(getForUserId(), getObjId());
         List<Propertie> liked = tagLiked.getTagsForObj();
-        //add to personal tags all liked tags
+        //add to personal tags all liked deleted tags
         for (Propertie l : liked) {
-            boolean trovato = false;
-            for (Propertie p : personal) {
-                if (p.getId() == l.getId()) {
-                    trovato = true;
-                }
-            }
-            if (!trovato) {
-                personal.add(l);
+                if (l.isDeleted()) {
+                    personal.add(l);
             }
         }
         return personal;

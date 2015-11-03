@@ -25,6 +25,8 @@ public class TagShared extends TagView {
     @Autowired
     TagUnLiked tul;
     @Autowired
+    TagLiked tl;
+    @Autowired
     TagPersonal tp;
 
 
@@ -37,15 +39,41 @@ public class TagShared extends TagView {
     public List<Propertie> getTagsForObj() {
         List<Propertie> sharedTags = propertyRepository.getSharedPropertiesForObj(objId);
         List<Propertie> personalTags = tp.getTagsForObj();
+        List<Propertie> unlikedTags = tul.getTagsForObj();
+        List<Propertie> likedTags = tl.getTagsForObj();
         //List<Propertie> unLikedTags = propertyRepository.getUnLikedPropertiesForObj(forUserId, objId);
         Iterator<Propertie> i = personalTags.iterator();
         while (i.hasNext()) {
-            Propertie shared = i.next();
+            Propertie personal = i.next();
             Iterator<Propertie> j = sharedTags.iterator();
             while (j.hasNext()){
-                Propertie personal = j.next();
+                Propertie shared = j.next();
                 if(shared.getId() == personal.getId() || shared.getValue().equalsIgnoreCase(personal.getValue()))
                     j.remove();
+            }
+
+        }
+        
+        i = unlikedTags.iterator();
+        while (i.hasNext()) {
+            Propertie unliked = i.next();
+            Iterator<Propertie> j = sharedTags.iterator();
+            while (j.hasNext()){
+                Propertie shared = j.next();
+                if(shared.getId() == unliked.getId() )
+                    shared.setLiked(0);
+            }
+
+        }
+        
+        i = likedTags.iterator();
+        while (i.hasNext()) {
+            Propertie liked = i.next();
+            Iterator<Propertie> j = sharedTags.iterator();
+            while (j.hasNext()){
+                Propertie shared = j.next();
+                if(shared.getId() == liked.getId() )
+                    shared.setLiked(1);
             }
 
         }

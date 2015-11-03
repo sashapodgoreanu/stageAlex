@@ -22,6 +22,7 @@
 <s:url value ="/about" var="about"  scope="application"/>
 <s:url value ="/close-table" var="closetable" scope="application"/>
 <s:url value ="/tag-manager" var="tagManagerURL" scope="application"/>
+<s:url value ="/table-manager" var="tableManagerURL" scope="application"/>
 <head>
     <meta charset="utf-8">
     <!--Refresh Page-->
@@ -36,8 +37,9 @@
 
     <script src="${pageContext.request.getContextPath()}/js/jquery-2.1.3.min.js" type="text/javascript"></script>
 
-
-
+    <!-- jQuery UI Autocomplete -->
+    <script src="${pageContext.request.getContextPath()}/jquery-ui/jquery-ui.js"></script>
+    <link href="${pageContext.request.getContextPath()}/jquery-ui/jquery-ui.min.css" rel="stylesheet">
 
     <!-- Bootstrap -->
     <link href="${pageContext.request.getContextPath()}/css/bootstrap.min.css" rel="stylesheet">
@@ -48,10 +50,9 @@
     <link href="${pageContext.request.getContextPath()}/css/object-of-discourse.css" rel="stylesheet">
     <script src="${pageContext.request.getContextPath()}/js/functions.js" type="text/javascript"></script>
     <script src="${pageContext.request.getContextPath()}/js/object-of-discourse.js" type="text/javascript"></script>
+    <script src="${pageContext.request.getContextPath()}/js/widgets.js" type="text/javascript"></script>
 
-    <!-- jQuery UI Autocomplete -->
-    <script src="${pageContext.request.getContextPath()}/jquery-ui/jquery-ui.js"></script>
-    <link href="${pageContext.request.getContextPath()}/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+    
 
     <style>
         .ui-autocomplete-loading {
@@ -60,7 +61,8 @@
     </style>
     <script>
         //TO DO. REDISIGN ALL URLS
-        var $tagManagerURL = "${tagManagerURL}";
+        $.URLs.tagManagerURL = "${tagManagerURL}";
+        $.URLs.tableManagerURL = "${tableManagerURL}";
         $(function () {
             initTablesNav("${savetable}", "${closetable}", "${workingarea}");
             var instanceTable = new Table("${savetable}", "${closetable}", "${workingarea}");
@@ -81,13 +83,13 @@
             var ood = new ObjectOfDiscourse("${UserDetails.id}", "#personalContainer", "#sharedContainer", "${getPersonalTagsForObj}", "${getSharedTagsForObj}");
             ood.init();
             objProperties1.addPanel(ood);
-            
+
 
             var inputTagAdder = new InputTagAdder("#searchSharedTags",
                     "#addToSharedTags", "#addTaggButton",
-                    "#searchTag","${tagManagerURL}", ood);
+                    "#searchTag", "${tagManagerURL}", ood);
             inputTagAdder.init();
-            
+
             objProperties1.addPanel(inputTagAdder);
 
             //Menu for right click
@@ -119,6 +121,12 @@
             //listener that hides #contextMenu
             $("body").on("click", function (e) {
                 rightclickMenu.hide();
+            });
+
+            setup1();
+            
+            $("#autosugestobj").autosugest({
+                appendTo: "#wardrobeList"
             });
         });
     </script>

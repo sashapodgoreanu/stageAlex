@@ -148,19 +148,19 @@ public class TableManager implements Serializable {
         return retVal;
     }
     
-    private void setupTags(String idObj){
-        tp.setObjId(idObj);
-        tp.setForUserId(userDetails.getId());
-        ts.setObjId(idObj);
-        ts.setForUserId(userDetails.getId());
-        tl.setObjId(idObj);
-        tl.setForUserId(userDetails.getId());
-        tul.setObjId(idObj);
-        tul.setForUserId(userDetails.getId());
-    }
-
     public List<UserDetails> getUsersOnTable() {
         return userDetailsRepositoryJDBC.getUsersOnTable(openTableId);
+    }
+
+    public boolean toPlace(String place, String idObject) {
+        switch(place){
+            case "to-wardrobe":
+                return tableRepository.toWardrobe(idObject,openTableId);
+            case "to-working-table":
+                return tableRepository.toWorkingTable(idObject,openTableId);
+        }
+        //if i'm here then i didnt satisfied switch cases.
+        return false;
     }
 
 }

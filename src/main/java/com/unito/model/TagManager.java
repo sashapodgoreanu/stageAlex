@@ -51,4 +51,30 @@ public class TagManager implements Serializable {
         } else return false;
     }
 
+    public boolean doAction(String action, int idTag) {
+        boolean retVal = false;
+        switch (action) {
+            case "restore":
+                retVal = propertyRepository.doRestore(idTag);
+                break;
+            case "delete":
+                retVal = propertyRepository.doDelete(idTag);
+                break;
+            case "share":
+                retVal = propertyRepository.doShare(idTag);
+                break;
+            case "like":
+                retVal = propertyRepository.doLike(idTag, tableManager.getUserdetails().getId());
+                break;
+            case "unlike":
+                retVal = propertyRepository.doUnLike(idTag, tableManager.getUserdetails().getId());
+                break;
+            default:
+                retVal = propertyRepository.doDefault(idTag, tableManager.getUserdetails().getId());
+                break;
+            
+        }
+        return retVal;
+    }
+
 }

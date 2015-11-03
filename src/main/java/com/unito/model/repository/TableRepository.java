@@ -37,6 +37,7 @@ public class TableRepository {
             + "from W_TABLE wt join USER_W_TABLE uwt on(wt.id = uwt.W_TABLE_ID) \n"
             + "where uwt.OPENED = TRUE and uwt.USERDETAILS_ID = ?";
     private final String UPDATE_OPENED_TABLE = "update USER_W_TABLE set opened = ? where USERDETAILS_ID = ? and W_TABLE_ID =?";
+    private final String UPDATE_OBJECT_TABLE = "update semtelems_on_table set IN_WARDROBE = ? where URL = ? and ID_TABLE = ?";
     
     @Autowired
     public TableRepository(JdbcTemplate jdbcTemplate) {
@@ -86,6 +87,14 @@ public class TableRepository {
 
     public boolean closeTable(UserDetails userDetails, Table closeTable) {
         return jdbcTemplate.update(UPDATE_OPENED_TABLE,false,userDetails.getId(),closeTable.getID()) == 1;
+    }
+
+    public boolean toWardrobe(String idObject, int openTableId) {
+        return jdbcTemplate.update(UPDATE_OBJECT_TABLE, 1 ,idObject , openTableId) == 1;
+    }
+    
+    public boolean toWorkingTable(String idObject, int openTableId) {
+        return jdbcTemplate.update(UPDATE_OBJECT_TABLE, 0 ,idObject , openTableId) == 1;
     }
 
     class TableRowMapper<T> implements RowMapper {

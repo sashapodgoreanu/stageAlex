@@ -82,6 +82,23 @@ var ShowHidePSDtags = function (contextMenuShowHideTagsId, seeSharedId, seePerso
                             break;
                     }
                 });
+
+        //DOM change listener. for hide show tags 
+        $(".tag-container")
+                .on("DOMSubtreeModified", function () {
+                    if ($(thiz.seeSharedId).is(":checked"))
+                        $(".sharedtag").show();
+                    else
+                        $(".sharedtag").hide();
+                    if ($(thiz.seePersonalId).is(":checked"))
+                        $(".personaltag").show();
+                    else
+                        $(".personaltag").hide();
+                    if ($(thiz.seeDeletedId).is(":checked"))
+                        $(".deletedtag").show();
+                    else
+                        $(".deletedtag").hide();
+                });
     };
 };
 

@@ -104,6 +104,7 @@ public class SemTElemRepository {
             SemTElem c = new SemTElem();
             c.setUrl(rs.getString("URL"));
             c.setName(rs.getString("NAME"));
+            c.setInWardrobe(rs.getBoolean("IN_WARDROBE"));
             return c;
         }
     }

@@ -12,7 +12,7 @@ package com.unito.model;
 public class Propertie {
     private int id;
     private String value;
-    private boolean liked;
+    private int liked;
     private boolean shared;
     private boolean deleted;
     private String ownerId;
@@ -60,11 +60,11 @@ public class Propertie {
         this.value = value;
     }
 
-    public boolean isLiked() {
+    public int isLiked() {
         return liked;
     }
 
-    public void setLiked(boolean liked) {
+    public void setLiked(int liked) {
         this.liked = liked;
     }
 
@@ -77,6 +77,7 @@ public class Propertie {
     }
 
     public Propertie() {
+        liked = -1;
     }
 
     @Override

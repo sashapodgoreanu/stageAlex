@@ -4,6 +4,7 @@
     Author     : SashaAlexandru
 --%>
 <%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <s:url value = "/addElement" var ="addElement" scope="application"/>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -16,20 +17,22 @@
     });
 </script>
 
-<div id="wardrobe" class="panel panel-default">
+<div id="wardrobe" class="panel panel-default droppable">
     <!--panel content-->
     <div class="panel-heading">Wardrobe<span id="addElement" table-id="${idTable}" class="glyphicon glyphicon-plus" aria-hidden="true"></span></div>
     <div class="panel-body">
-        <p>Drag and drop elements to and from table</p>
+        <input id="autosugestobj" type="text" class="autocomplete-tag input-tag form-control" placeholder="Search in Wardrobe">
     </div>
 
     <!-- List group with elements-->
-    <ul class="list-group">
-        <li class="list-group-item">Cras justo odio</li>
-        <li class="list-group-item">Dapibus ac facilisis in</li>
-        <li class="list-group-item">Morbi leo risus</li>
-        <li class="list-group-item">Porta ac consectetur ac</li>
-        <li class="list-group-item">Vestibulum at eros</li>
+    <ul id ="wardrobeList" class="list-group">
+        <c:forEach items="${elementsOnTable}" var="element">
+        <c:if test="${element.inWardrobe == true}">
+            <li id="${element.url}" class="btn btn-default draggable">
+                ${element.name}
+            </li>
+        </c:if>
+    </c:forEach>
     </ul>
 </div>
 
