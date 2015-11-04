@@ -25,7 +25,7 @@
     </div>
 
     <!-- List group with elements-->
-    <ul id ="wardrobeList" class="list-group">
+    <ul id ="wardrobeList1" class="list-group">
         <c:forEach items="${elementsOnTable}" var="element">
         <c:if test="${element.inWardrobe == true}">
             <li id="${element.url}" class="btn btn-default draggable">
