@@ -612,7 +612,7 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
                     }
                     else if ($(this).hasClass("glyphicon-share-alt"))
                         action = "share";
-                    else if ($(this).hasClass("glyphicon-thumbs-up"))
+                    else if ($(this).hasClass("glyphicon-heart"))
                         action = "like";
                     var clicked = this;
                     $.when($.ajax({
@@ -701,7 +701,6 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
             var idUserDetails = this.personalTags[i].ownerId;
             var shared = this.personalTags[i].shared;
             var deleted = this.personalTags[i].deleted;
-            var liked = this.personalTags[i].liked;
             var color;
             //color of this tag is the color of tag owner user icon
             $(".semtUsers").each(function () {
@@ -725,9 +724,9 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
             //add Tag value to cloned div to the specific div
             $(divTag).find("#valueTag").append(this.personalTags[i].value);
 
-            //Add/remove button for deleted/not deleted
+            //Add remove button if is not deleted
             var rem = $(document.createElement("span")).addClass("actionTagRRSD");
-            if (!deleted || liked == 1)
+            if (!deleted)
                 $(rem).addClass("glyphicon glyphicon-remove");
             else
                 $(rem).addClass("glyphicon glyphicon-repeat");
@@ -747,7 +746,7 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
                     .removeAttr("id");
 
             //add class to tag depending what tipe of tag it is
-            if (!deleted || liked == 1) {
+            if (!deleted) {
                 if (shared)
                     $(divTag).addClass("sharedtag");
                 else
@@ -804,19 +803,17 @@ var ObjectOfDiscourse = function (conectedUserId, personalContainerId, sharedCon
 
 
             //add class to tag depending what tipe of tag it is
-            var span = $(document.createElement("span")).addClass("actionTagRRSD");
-            if ((liked == 0 || liked == -1)) {
-                $(span).addClass("glyphicon glyphicon-thumbs-up");
-            } else {
-                $(span).addClass("glyphicon glyphicon-heart");
-            }
-            if (deleted || liked == 0)
+            if (deleted || liked == 0) {
                 $(divTag).addClass("deletedtag");
-            else
+            } else {
                 $(divTag).addClass("sharedtag");
-            $(divTag).find("#ldTag")
-                    .append(span)
-                    .removeAttr("id");
+                var span = $(document.createElement("span")).addClass("actionTagRRSD");
+                $(span).addClass("glyphicon glyphicon-heart");
+                $(divTag).find("#ldTag")
+                        .append(span)
+                        .attr("data-idShare", this.sharedTags[i].id)
+                        .removeAttr("id");
+            }
 
             //append cloned div to view
             $(this.sharedContainerId).append(divTag);
@@ -988,56 +985,19 @@ function getContrastYIQ(color) {
 }
 var z_index = 100;
 setup1 = function () {
-    $("p, li", "#tableTagContainer, #wardrobeList").draggable({
+    $("p", "#tableTagContainer").draggable({
         containment: "document",
         revert: "invalid",
         drag: function (event, ui) {
             var a = ui;
             var p = event.target;
             $(p).css({
-                "z-index": "" + z_index++
+                "z-index": ""+z_index++
             }).removeClass("tipo1");
         }
     });
     $(".droppable, #centerTable").droppable({
         drop: function (event, ui) {
-            var $draged = $(ui.draggable.context);
-            //in wardrobe
-            if ($(this).hasClass("droppable")) {
-                $draged.removeClass("tipo1");
-                $.when($.ajax({
-                    url: $.URLs.tableManagerURL + "/change/to-wardrobe/" + $draged.attr("id"),
-                    type: 'POST',
-                    contentType: 'application/json',
-                    dataType: 'json'
-                })).then(function (ok, textStatus, jqXHR) {
-                    if (ok) {
-                    } else {
-                        $draged.attr("title", "Canot add to wardrobe!");
-                        $draged.tooltip("open");
-                    }
-                }).fail(function (data, textStatus, jqXHR) {
-                    alert("Canot add to wardrobe");
-                });
-            } else { //on working table
-                $draged.addClass("tipo1");
-                //to working table
-                $.when($.ajax({
-                    url: $.URLs.tableManagerURL + "/change/to-working-table/" + $draged.attr("id"),
-                    type: 'POST',
-                    contentType: 'application/json',
-                    dataType: 'json'
-                })).then(function (ok, textStatus, jqXHR) {
-                    if (ok) {
-                    } else {
-                        $draged.attr("title", "Canot add to working table!");
-                        $draged.tooltip("open");
-                    }
-                }).fail(function (data, textStatus, jqXHR) {
-                    alert("Canot add to working table");
-                });
-
-            }
         }
     });
 }

@@ -37,13 +37,13 @@
 
     <script src="${pageContext.request.getContextPath()}/js/jquery-2.1.3.min.js" type="text/javascript"></script>
 
-    <!-- jQuery UI Autocomplete -->
-    <script src="${pageContext.request.getContextPath()}/jquery-ui/jquery-ui.js"></script>
-    <link href="${pageContext.request.getContextPath()}/jquery-ui/jquery-ui.min.css" rel="stylesheet">
-
     <!-- Bootstrap -->
     <link href="${pageContext.request.getContextPath()}/css/bootstrap.min.css" rel="stylesheet">
     <script src="${pageContext.request.getContextPath()}/js/bootstrap.min.js" type="text/javascript"></script>
+
+    <!-- jQuery UI Autocomplete -->
+    <script src="${pageContext.request.getContextPath()}/jquery-ui/jquery-ui.js"></script>
+    <link href="${pageContext.request.getContextPath()}/jquery-ui/jquery-ui.min.css" rel="stylesheet">
 
     <!--SemT CSS -->
     <link href="${pageContext.request.getContextPath()}/css/semtpp-style.css" rel="stylesheet">
@@ -52,7 +52,7 @@
     <script src="${pageContext.request.getContextPath()}/js/object-of-discourse.js" type="text/javascript"></script>
     <script src="${pageContext.request.getContextPath()}/js/widgets.js" type="text/javascript"></script>
 
-    
+
 
     <style>
         .ui-autocomplete-loading {
@@ -123,11 +123,17 @@
                 rightclickMenu.hide();
             });
 
-            setup1();
-            
+            /*setup1();*/
+/*
             $("#autosugestobj").autosugest({
-                appendTo: "#wardrobeList"
-            });
+                appendTo: "#wardrobeList",
+                URL: $.URLs.tableManagerURL + "/get-obj-candidates",
+                responseObject: {
+                    value: "value",
+                    label: "value",
+                    id: "id"
+                }
+            });*/
         });
     </script>
 

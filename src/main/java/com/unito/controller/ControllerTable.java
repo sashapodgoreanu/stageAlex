@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +32,17 @@ public class ControllerTable {
     public String getTags(@PathVariable String place, @PathVariable String idObject) {
         LOG.info("Received idObject:" + idObject+" place:"+place);
         return gson.toJson(tableManager.toPlace(place, idObject) );
+
+    }
+    
+    @RequestMapping(value = "get-obj-candidates")
+    public String getObjCandidates() {
+        LOG.info("Received candidate string:");
+        Propertie a = new Propertie();
+        a.setId(2);
+        a.setValue("AAAA");
+        
+        return gson.toJson( a );
 
     }
     
