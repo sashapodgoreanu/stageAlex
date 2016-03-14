@@ -7,7 +7,6 @@ package com.unito.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.unito.UserDetailsRepository;
 import com.unito.model.Propertie;
 import com.unito.model.SemTElem;
 import com.unito.model.Table;
@@ -16,9 +15,7 @@ import com.unito.model.TableManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
-import javax.ejb.EJB;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,16 +39,14 @@ public class ControllerAjaxRequests {
     @Autowired
     private TableManager tableManager;
 
-    
     /*@Autowired
     AuthenticationManager authenticationManager;*/
-
     @RequestMapping(value = "tag", method = RequestMethod.POST)
     public String getShopInJSON(@RequestBody String data) {
 
         Gson gson = new Gson();
         Tag myTag = gson.fromJson(data, Tag.class);
-/*
+        /*
         String json = gson.toJson(tagRep.getChilds(myTag.getValue()));
         System.out.println(tagRep.getChilds(myTag.getValue()).toString() + "   " + json);*/
         return null;
@@ -59,20 +54,20 @@ public class ControllerAjaxRequests {
 
     @RequestMapping(value = "getPersonalTagsForObj", method = RequestMethod.POST)
     public String getPersonalTagsForObjJSON(@RequestBody String data) {
-        LOG.info("received "+data);
+        LOG.info("received " + data);
         Gson gson = new Gson();
-        HashMap<String,String> myTag = gson.fromJson(data, HashMap.class);
+        HashMap<String, String> myTag = gson.fromJson(data, HashMap.class);
         List<Propertie> retVal = tableManager.getPersonalTagsForObj(myTag.get("id"));
 
         LOG.info("Personal Tags:" + myTag.toString());
         return gson.toJson(retVal);
     }
-    
+
     @RequestMapping(value = "getSharedTagsForObj", method = RequestMethod.POST)
     public String getSharedTagsForObjJSON(@RequestBody String data) {
-        LOG.info("received "+data);
+        LOG.info("received " + data);
         Gson gson = new Gson();
-        HashMap<String,String> myTag = gson.fromJson(data, HashMap.class);
+        HashMap<String, String> myTag = gson.fromJson(data, HashMap.class);
         List<Propertie> retVal = tableManager.getSharedTagsForObj(myTag.get("id"));
 
         System.out.println(myTag.toString());
