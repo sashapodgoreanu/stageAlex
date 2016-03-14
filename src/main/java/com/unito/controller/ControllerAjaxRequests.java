@@ -42,6 +42,7 @@ public class ControllerAjaxRequests {
     @Autowired
     private TableManager tableManager;
 
+    
     /*@Autowired
     AuthenticationManager authenticationManager;*/
 
