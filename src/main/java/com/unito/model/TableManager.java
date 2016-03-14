@@ -6,9 +6,9 @@
 package com.unito.model;
 
 import com.unito.model.UserDetails.UserDetails;
-import com.unito.model.repository.SemTElemRepository;
-import com.unito.model.repository.TableRepository;
-import com.unito.model.repository.UserDetailsRepositoryJDBC;
+import com.unito.repository.SemTElemRepository;
+import com.unito.repository.TableRepository;
+import com.unito.repository.UserDetailsRepositoryJDBC;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

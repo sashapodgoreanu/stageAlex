@@ -14,6 +14,14 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 /**
  *
  * @author Alexandru Podgoreanu
+ * 
+ *  @Configuration  
+ *   Indicates that a class declares one or more @Bean methods and may be processed
+ *   by the Spring container to generate bean definitions and service requests for those
+ *   beans at runtime.
+ * 
+ *   @ComponentScan
+ *   An equivalent for Spring XML's <context:component-scan/>
  */
 @Configuration
 @ComponentScan(

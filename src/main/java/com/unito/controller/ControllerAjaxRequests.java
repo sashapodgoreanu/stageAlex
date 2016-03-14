@@ -42,8 +42,8 @@ public class ControllerAjaxRequests {
     @Autowired
     private TableManager tableManager;
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    /*@Autowired
+    AuthenticationManager authenticationManager;*/
 
     @RequestMapping(value = "tag", method = RequestMethod.POST)
     public String getShopInJSON(@RequestBody String data) {

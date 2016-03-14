@@ -5,7 +5,7 @@
  */
 package com.unito.controller;
 
-import com.unito.repository.JDBCDbInit;
+import com.unito.repository.config.JDBCDbInit;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;

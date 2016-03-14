@@ -7,7 +7,7 @@ package com.unito.model;
 
 import com.unito.model.Propertie;
 import com.unito.model.TableManager;
-import com.unito.model.repository.PropertyRepository;
+import com.unito.repository.PropertyRepository;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

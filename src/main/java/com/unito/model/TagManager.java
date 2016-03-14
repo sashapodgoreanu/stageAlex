@@ -5,7 +5,7 @@
  */
 package com.unito.model;
 
-import com.unito.model.repository.PropertyRepository;
+import com.unito.repository.PropertyRepository;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

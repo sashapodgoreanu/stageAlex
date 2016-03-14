@@ -5,7 +5,7 @@
  */
 package com.unito.model;
 
-import com.unito.model.repository.PropertyRepository;
+import com.unito.repository.PropertyRepository;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;

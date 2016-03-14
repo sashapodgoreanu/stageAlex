@@ -1,0 +1,2 @@
+La classe RootConfig non deve essere inclusa in un package che è stato dichiarato nel basePackages con @ComponentScan 
+perche Spring Container prova ad inizializzare questa classe come un bean ed entra in un ciclo. 

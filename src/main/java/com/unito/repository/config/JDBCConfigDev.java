@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.unito.repository;
+package com.unito.repository.config;
 
-import com.unito.model.repository.UserDetailsRepositoryJDBC;
 import com.unito.UserDetailsRepository;
+import com.unito.repository.UserDetailsRepositoryJDBC;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,18 +19,14 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
  * @author Alexandru Podgoreanu
  */
 @Configuration
-@Profile("production")
-public class JDBCConfig {
+@Profile("development")
+public class JDBCConfigDev {
 
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource driverManager = new DriverManagerDataSource();
-        //driverManager.setDriverClassName("org.apache.derby.jdbc.EmbeddedDriver");
-        //driverManager.setDriverClassName(new org.apache.derby.jdbc.EmbeddedDriver());
-        //driverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
         driverManager.setDriverClassName("com.mysql.jdbc.Driver");
-        //create=true - start db derby server
-        driverManager.setUrl("jdbc:mysql://podgoreanu.dlinkddns.com:3306/stage01");
+        driverManager.setUrl("jdbc:mysql://localhost:3306/stage01");
         driverManager.setUsername("root");
         driverManager.setPassword("645128");
         return driverManager;
