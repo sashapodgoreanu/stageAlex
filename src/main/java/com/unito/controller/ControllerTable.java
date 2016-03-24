@@ -8,11 +8,11 @@ package com.unito.controller;
 import com.google.gson.Gson;
 import com.unito.model.Propertie;
 import com.unito.model.TableManager;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,9 +41,8 @@ public class ControllerTable {
         Propertie a = new Propertie();
         a.setId(2);
         a.setValue("AAAA");
-        List b = new ArrayList<>();
-        b.add(a);
-        return gson.toJson( b );
+        
+        return gson.toJson( a );
 
     }
     

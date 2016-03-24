@@ -123,19 +123,17 @@
                 rightclickMenu.hide();
             });
 
-            setup1();
-
+            /*setup1();*/
+/*
             $("#autosugestobj").autosugest({
-                appendTo: "#wardrobeList1",
+                appendTo: "#wardrobeList",
                 URL: $.URLs.tableManagerURL + "/get-obj-candidates",
                 responseObject: {
                     value: "value",
                     label: "value",
                     id: "id"
-                },
-                helperClassesItem: "btn btn-default draggable",
-                callbacks: initDrag
-            });
+                }
+            });*/
         });
     </script>
 
